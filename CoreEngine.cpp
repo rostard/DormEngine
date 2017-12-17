@@ -7,6 +7,7 @@
 #include "Mesh.h"
 #include "resource_management/ShaderLoader.h"
 #include "resource_management/ResourceManager.h"
+#include "resource_management/TextureLoader.h"
 
 CoreEngine::CoreEngine(unsigned int width, unsigned int height, unsigned int framerate, Game &game) : width(width), height(height), game(game){
     isRunning = false;
@@ -49,18 +50,19 @@ void CoreEngine::run() {
     double framesCounter = 0;
 
     Shader shader =  *ResourceManager::loadShader("simple_shader", "SimpleVertex.vs", "SimpleFragment.fs");
-//        Shader shader;
-//        shader.addShader(util::loadStrFromFile("SimpleVertex.vs"), GL_VERTEX_SHADER);
-//        shader.addShader(util::loadStrFromFile("SimpleFragment.fs"), GL_FRAGMENT_SHADER);
-//        shader.linkProgram();
-    shader.Bind();
+    shader.bind();
+
+    Texture texture = *ResourceManager::loadTexture("test", "test.png");
+    texture.bind();
+
+    shader.setInt("tex", 0);
 
     Mesh mesh;
     std::vector<Vertex> vertices;
-    vertices.emplace_back(glm::vec3(-1.0, -1.0, 0.0));
-    vertices.emplace_back(glm::vec3(-1.0,  1.0, 0.0));
-    vertices.emplace_back(glm::vec3( 1.0, 1.0, 0.0));
-    vertices.emplace_back(glm::vec3( 1.0, -1.0, 0.0));
+    vertices.emplace_back(glm::vec3(-1.0, -1.0, 0.0), glm::vec2(0.0, 0.0));
+    vertices.emplace_back(glm::vec3(-1.0,  1.0, 0.0), glm::vec2(0.0, 1.0));
+    vertices.emplace_back(glm::vec3( 1.0, 1.0, 0.0), glm::vec2(1.0, 1.0));
+    vertices.emplace_back(glm::vec3( 1.0, -1.0, 0.0), glm::vec2(1.0, 0.0));
     std::vector<unsigned int> indices;
     indices.push_back(0);
     indices.push_back(1);

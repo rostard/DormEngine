@@ -49,7 +49,7 @@ void Shader::linkProgram() {
     }
 }
 
-void Shader::Bind() {
+void Shader::bind() {
     glUseProgram(program);
 }
 
@@ -65,4 +65,7 @@ void Shader::addGeometryShader(const std::string &shaderSource) {
     addShader(shaderSource, GL_GEOMETRY_SHADER);
 }
 
-
+void Shader::setInt(const std::string &name, int value) const
+{
+    glUniform1i(glGetUniformLocation(program, name.c_str()), value);
+}

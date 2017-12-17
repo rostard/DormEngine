@@ -9,6 +9,7 @@
 class Texture {
 public:
     Texture(int id);
+    Texture();
 
     void bind();
 

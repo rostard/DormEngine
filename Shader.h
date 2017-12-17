@@ -19,12 +19,14 @@ public:
 
     void linkProgram();
 
-    void Bind();
+    void bind();
 
+    void setInt(const std::string &name, int value) const;
 private:
     void addShader(const std::string& shaderSource, int shaderType);
 
     unsigned int program;
+
 };
 
 

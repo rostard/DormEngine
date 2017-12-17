@@ -24,10 +24,15 @@ void Mesh::addVertices(const std::vector<Vertex> &vertices, const std::vector<un
 
 void Mesh::render() {
     glBindVertexArray (vao);
+
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
     glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, 0);
 
     glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
 }
