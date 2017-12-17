@@ -45,6 +45,7 @@ bool Window::getMouseButton(const int button) {
 
 void Window::dispose() {
     glfwDestroyWindow(window);
+    glfwTerminate();
 }
 
 void Window::initGLFW() {

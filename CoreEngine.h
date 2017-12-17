@@ -13,7 +13,7 @@
 class CoreEngine {
 public:
     CoreEngine(unsigned int width, unsigned int height, unsigned int framerate, Game& game);
-
+    ~CoreEngine();
     void start();
 
     void stop();

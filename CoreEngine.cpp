@@ -13,6 +13,10 @@ CoreEngine::CoreEngine(unsigned int width, unsigned int height, unsigned int fra
     frameTime = 1.0 / framerate;
 }
 
+CoreEngine::~CoreEngine() {
+    delete renderingEngine;
+}
+
 void CoreEngine::cleanUp() {
     Window::dispose();
 }
@@ -102,5 +106,6 @@ void CoreEngine::run() {
 //                std::this_thread::sleep_for(std::chrono::seconds(1));
         }
     }
-    Window::dispose();
+    cleanUp();
 }
+
