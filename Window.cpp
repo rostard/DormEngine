@@ -4,7 +4,7 @@
 #include <glad/glad.h>
 #include <iostream>
 #include "Window.h"
-#include "Log.h"
+#include "utility/Log.h"
 
 GLFWwindow* Window::window = nullptr;
 bool Window::initialized = false;

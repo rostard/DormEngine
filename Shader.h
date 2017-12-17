@@ -7,17 +7,23 @@
 
 #include <string>
 
+
 class Shader {
 public:
     Shader();
 
-    void addShader(const std::string& shaderSource, GLenum shaderType);
+
+    void addVertexShader(const std::string& shaderSource);
+    void addFragmentShader(const std::string& shaderSource);
+    void addGeometryShader(const std::string& shaderSource);
 
     void linkProgram();
 
     void Bind();
 
 private:
+    void addShader(const std::string& shaderSource, int shaderType);
+
     unsigned int program;
 };
 

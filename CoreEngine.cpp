@@ -5,7 +5,8 @@
 #include "CoreEngine.h"
 #include "Shader.h"
 #include "Mesh.h"
-#include "Util.h"
+#include "resource_management/ShaderLoader.h"
+#include "resource_management/ResourceManager.h"
 
 CoreEngine::CoreEngine(unsigned int width, unsigned int height, unsigned int framerate, Game &game) : width(width), height(height), game(game){
     isRunning = false;
@@ -43,28 +44,29 @@ void CoreEngine::run() {
     int frames = 0;
     double framesCounter = 0;
 
-        Shader shader;
-        shader.addShader(util::loadStrFromFile("SimpleVertex.vs"), GL_VERTEX_SHADER);
-        shader.addShader(util::loadStrFromFile("SimpleFragment.fs"), GL_FRAGMENT_SHADER);
-        shader.linkProgram();
-        shader.Bind();
+    Shader shader =  *ResourceManager::loadShader("simple_shader", "SimpleVertex.vs", "SimpleFragment.fs");
+//        Shader shader;
+//        shader.addShader(util::loadStrFromFile("SimpleVertex.vs"), GL_VERTEX_SHADER);
+//        shader.addShader(util::loadStrFromFile("SimpleFragment.fs"), GL_FRAGMENT_SHADER);
+//        shader.linkProgram();
+    shader.Bind();
 
-        Mesh mesh;
-        std::vector<Vertex> vertices;
-        vertices.emplace_back(glm::vec3(-1.0, -1.0, 0.0));
-        vertices.emplace_back(glm::vec3(-1.0,  1.0, 0.0));
-        vertices.emplace_back(glm::vec3( 1.0, 1.0, 0.0));
-        vertices.emplace_back(glm::vec3( 1.0, -1.0, 0.0));
-        std::vector<unsigned int> indices;
-        indices.push_back(0);
-        indices.push_back(1);
-        indices.push_back(2);
+    Mesh mesh;
+    std::vector<Vertex> vertices;
+    vertices.emplace_back(glm::vec3(-1.0, -1.0, 0.0));
+    vertices.emplace_back(glm::vec3(-1.0,  1.0, 0.0));
+    vertices.emplace_back(glm::vec3( 1.0, 1.0, 0.0));
+    vertices.emplace_back(glm::vec3( 1.0, -1.0, 0.0));
+    std::vector<unsigned int> indices;
+    indices.push_back(0);
+    indices.push_back(1);
+    indices.push_back(2);
 
-        indices.push_back(0);
-        indices.push_back(2);
-        indices.push_back(3);
+    indices.push_back(0);
+    indices.push_back(2);
+    indices.push_back(3);
 
-        mesh.addVertices(vertices, indices);
+    mesh.addVertices(vertices, indices);
 
     while(this->isRunning){
         double curTime = glfwGetTime();
@@ -100,4 +102,5 @@ void CoreEngine::run() {
 //                std::this_thread::sleep_for(std::chrono::seconds(1));
         }
     }
+    Window::dispose();
 }
