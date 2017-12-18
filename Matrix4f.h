@@ -51,6 +51,26 @@ public:
         return *this;
     }
 
+    Matrix4f initScale(float x, float y, float z){
+        m[0][0] = x; m[0][1] = 0; m[0][2] = 0; m[0][3] = 0;
+        m[1][0] = 0; m[1][1] = y; m[1][2] = 0; m[1][3] = 0;
+        m[2][0] = 0; m[2][1] = 0; m[2][2] = z; m[2][3] = 0;
+        m[3][0] = 0; m[3][1] = 0; m[3][2] = 0; m[3][3] = 1;
+        return *this;
+    }
+
+    Matrix4f initProjection(float fov, float width, float height, float zNear, float zFar){
+        float tanHalfFOV = (float)tan((fov/2.0f) * ((float)M_PI /180.0f));
+        float ar = width / height;
+        float zRange = zNear - zFar;
+
+        m[0][0] = 1.0f / (tanHalfFOV * ar); m[0][1] = 0;                    m[0][2] = 0;                        m[0][3] = 0;
+        m[1][0] = 0;                        m[1][1] = 1.0f / tanHalfFOV;    m[1][2] = 0;                        m[1][3] = 0;
+        m[2][0] = 0;                        m[2][1] = 0;                    m[2][2] = (-zNear - zFar) / zRange; m[2][3] = 2 * zFar * zNear / zRange;
+        m[3][0] = 0;                        m[3][1] = 0;                    m[3][2] = 1;                        m[3][3] = 0;
+        return *this;
+    }
+
     Matrix4f operator*(const Matrix4f& m2){
         Matrix4f ret;
         for(int i=0; i<4; ++i){

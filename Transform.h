@@ -12,47 +12,42 @@
 
 class Transform {
 public:
-    Transform(){
-        translation = glm::vec3(0.0, 0.0, 0.0);
-        rotation = glm::vec3(0.0, 0.0, 0.0);
-    }
+    Transform();
 
-    const glm::vec3 &getTranslation() const {
-        return translation;
-    }
+    Matrix4f getTransformation();
 
-    void setTranslation(const glm::vec3 &translation) {
-        Transform::translation = translation;
-    }
+    Matrix4f getProjectedTransformation();
 
-    void setTranslation(float x, float y, float z) {
-        Transform::translation = glm::vec3(x, y, z);
-    }
+    const glm::vec3 &getTranslation() const;
 
-    Matrix4f getTransformation(){
-        Matrix4f translationMatrix;
-        Matrix4f rotationMatrix;
-        translationMatrix = translationMatrix.initTranslation(getTranslation().x, getTranslation().y, getTranslation().z);
-        rotationMatrix = rotationMatrix.initRotation(getRotation().x, getRotation().y, getRotation().z);
+    void setTranslation(const glm::vec3 &translation);
 
-        return translationMatrix * rotationMatrix;
-    }
+    void setTranslation(float x, float y, float z);
 
-    const glm::vec3 &getRotation() const {
-        return rotation;
-    }
+    const glm::vec3 &getRotation() const;
 
-    void setRotation(const glm::vec3 &rotation) {
-        Transform::rotation = rotation;
-    }
+    void setRotation(const glm::vec3 &rotation);
 
-    void setRotation(float x, float y, float z) {
-        Transform::rotation = glm::vec3(x, y, z);
-    }
+    void setRotation(float x, float y, float z);
+
+    const glm::vec3 &getScale() const;
+
+    void setScale(const glm::vec3 &scale);
+
+    void setScale(float x, float y, float z);
+
+    static void setProjection(float fov, float width, float height, float zNear, float zFar);
 
 private:
     glm::vec3 translation;
     glm::vec3 rotation;
+    glm::vec3 scale;
+
+    static float zNear;
+    static float zFar;
+    static float fov;
+    static float width;
+    static float height;
 };
 
 
