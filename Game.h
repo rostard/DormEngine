@@ -8,9 +8,13 @@
 
 class Game {
 public:
-    void input(float d_time);
+    virtual void input(float d_time);
 
-    void update(float d_time);
+    virtual void update(float d_time);
+
+    virtual void init();
+
+    virtual void render();
 };
 
 

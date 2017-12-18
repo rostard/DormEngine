@@ -12,7 +12,7 @@
 
 class CoreEngine {
 public:
-    CoreEngine(unsigned int width, unsigned int height, unsigned int framerate, Game& game);
+    CoreEngine(unsigned int width, unsigned int height, unsigned int framerate, Game *game);
     ~CoreEngine();
     void start();
 
@@ -24,7 +24,7 @@ private:
 
     void run();
 
-    Game game;
+    Game *game;
     RenderingEngine* renderingEngine;
 
     unsigned int width;
