@@ -8,6 +8,7 @@
 #include "resource_management/ShaderLoader.h"
 #include "resource_management/ResourceManager.h"
 #include "resource_management/TextureLoader.h"
+#include "Transform.h"
 
 CoreEngine::CoreEngine(unsigned int width, unsigned int height, unsigned int framerate, Game &game) : width(width), height(height), game(game){
     isRunning = false;
@@ -56,13 +57,16 @@ void CoreEngine::run() {
     texture.bind();
 
     shader.setInt("tex", 0);
+    Transform transform;
 
+    //transform.setRotation(90.0f, 0.0f, 0.0f);
+//    transform.getTransformation();
     Mesh mesh;
     std::vector<Vertex> vertices;
-    vertices.emplace_back(glm::vec3(-1.0, -1.0, 0.0), glm::vec2(0.0, 0.0));
-    vertices.emplace_back(glm::vec3(-1.0,  1.0, 0.0), glm::vec2(0.0, 1.0));
-    vertices.emplace_back(glm::vec3( 1.0, 1.0, 0.0), glm::vec2(1.0, 1.0));
-    vertices.emplace_back(glm::vec3( 1.0, -1.0, 0.0), glm::vec2(1.0, 0.0));
+    vertices.emplace_back(glm::vec3(-0.5, -0.5, 0.0), glm::vec2(0.0, 0.0));
+    vertices.emplace_back(glm::vec3(-0.5,  0.5, 0.0), glm::vec2(0.0, 1.0));
+    vertices.emplace_back(glm::vec3( 0.5, 0.5, 0.0), glm::vec2(1.0, 1.0));
+    vertices.emplace_back(glm::vec3( 0.5, -0.5, 0.0), glm::vec2(1.0, 0.0));
     std::vector<unsigned int> indices;
     indices.push_back(0);
     indices.push_back(1);
@@ -84,7 +88,8 @@ void CoreEngine::run() {
         framesCounter += deltaTime;
 
         while(passedTime > frameTime){
-
+            transform.setRotation(0,0,curTime*1000.0f);
+            transform.setTranslation(sin(curTime),0,0);
             render = true;
             passedTime-=frameTime;
 
@@ -102,6 +107,7 @@ void CoreEngine::run() {
         }
         if(render){
             frames++;
+            shader.setMat4("transform", transform.getTransformation());
             mesh.render();
             Window::render();
         } else{
