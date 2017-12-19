@@ -6,12 +6,13 @@
 #define DORMENGINE_GAMECOMPONENT_H
 
 
+#include "Transform.h"
+
 class GameComponent {
 public:
-    virtual void init() = 0;
-    virtual void input() = 0;
-    virtual void render() = 0;
-    virtual void update() = 0;
+    virtual void input(Transform &transform) = 0;
+    virtual void render(Transform &transform) = 0;
+    virtual void update(Transform &transform) = 0;
 };
 
 

@@ -6,8 +6,11 @@
 #define DORMENGINE_GAME_H
 
 
+#include "GameObject.h"
+
 class Game {
 public:
+
     virtual void input(float d_time);
 
     virtual void update(float d_time);
@@ -15,6 +18,13 @@ public:
     virtual void init();
 
     virtual void render();
+
+    GameObject* getRoot(){
+        return root;
+    }
+
+protected:
+    GameObject* root;
 };
 
 

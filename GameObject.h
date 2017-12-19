@@ -7,11 +7,12 @@
 
 #include <vector>
 #include "GameComponent.h"
+#include "Transform.h"
 
 class GameObject {
 public:
 
-    void addChild(GameObject& child){
+    void addChild(GameObject* child){
         children.push_back(child);
     }
 
@@ -21,37 +22,39 @@ public:
 
     void input(){
         for(auto component : components){
-            component->input();
+            component->input(transform);
         }
 
         for(auto child : children){
-            child.input();
+            child->input();
         }
     }
 
     void update(){
         for(auto component : components){
-            component->update();
+            component->update(transform);
         }
 
         for(auto child : children){
-            child.update();
+            child->update();
         }
     }
 
     void render(){
         for(auto component : components){
-            component->render();
+            component->render(transform);
         }
 
         for(auto child : children){
-            child.render();
+            child->render();
         }
     }
 
 private:
-    std::vector<GameObject> children;
+    std::vector<GameObject*> children;
     std::vector<GameComponent*> components;
+
+    Transform transform;
 };
 
 
