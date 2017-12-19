@@ -8,6 +8,7 @@
 #include <vector>
 #include "GameComponent.h"
 #include "Transform.h"
+#include "Shader.h"
 
 class GameObject {
 public:
@@ -40,16 +41,19 @@ public:
         }
     }
 
-    void render(){
+    void render(Shader shader){
         for(auto component : components){
-            component->render(transform);
+            component->render(transform, shader);
         }
 
         for(auto child : children){
-            child->render();
+            child->render(shader);
         }
     }
 
+    Transform* getTransform(){
+        return &transform;
+    }
 private:
     std::vector<GameObject*> children;
     std::vector<GameComponent*> components;

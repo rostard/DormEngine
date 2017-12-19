@@ -17,7 +17,6 @@ public:
 
     virtual void init();
 
-    virtual void render();
 
     GameObject* getRoot(){
         return root;

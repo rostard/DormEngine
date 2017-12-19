@@ -8,9 +8,8 @@
 
 MeshRenderer::MeshRenderer(const Mesh &mesh, const Material &material) : mesh(mesh), material(material) {}
 
-void MeshRenderer::render(Transform &transform) {
-    Shader* shader = ResourceManager::getShader("simple_shader");
-    shader->setMat4("transform", transform.getProjectedTransformation());
+void MeshRenderer::render(Transform &transform, Shader shader) {
+    shader.setMat4("transform", transform.getProjectedTransformation());
     mesh.render();
 }
 

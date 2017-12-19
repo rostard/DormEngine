@@ -13,16 +13,12 @@ void MyGame::init() {
     Game::init();
 
 
-    GameObject* plane = new GameObject();
+    plane = new GameObject();
     root->addChild(plane);
 
-    shader =  ResourceManager::loadShader("simple_shader", "SimpleVertex.vs", "SimpleFragment.fs");
-    shader->bind();
 
     texture = ResourceManager::loadTexture("test", "test.png");
     texture->bind();
-
-    shader->setInt("tex", 0);
 
     mesh = new Mesh();
 
@@ -48,16 +44,14 @@ void MyGame::init() {
 
 }
 
-void MyGame::render() {
-    Game::render();
-}
+
 
 void MyGame::update(float d_time) {
     static float allTime = 0;
     allTime += d_time;
     Game::update(d_time);
 
-    transform->setRotation(0,0,allTime * 10.0f);
-    transform->setTranslation(sin(allTime),0,0);
-    transform->setScale(sin(allTime)*2, sin(allTime)*2, 1);
+    plane->getTransform()->setRotation(0,0,allTime * 10.0f);
+    plane->getTransform()->setTranslation(sin(allTime),0,0);
+    plane->getTransform()->setScale(sin(allTime)*2, sin(allTime)*2, 1);
 }

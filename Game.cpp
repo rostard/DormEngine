@@ -15,7 +15,3 @@ void Game::update(float d_time) {
 void Game::init() {
 
 }
-
-void Game::render() {
-    root->render();
-}

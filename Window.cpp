@@ -33,7 +33,6 @@ bool Window::isShouldClose() {
 
 void Window::render() {
     glfwSwapBuffers(window);
-    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 bool Window::getKey(const int key) {

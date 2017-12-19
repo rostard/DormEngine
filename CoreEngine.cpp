@@ -2,6 +2,8 @@
 // Created by rostard on 14.12.17.
 //
 
+#include <chrono>
+#include <thread>
 #include "CoreEngine.h"
 #include "Shader.h"
 #include "Mesh.h"
@@ -80,7 +82,7 @@ void CoreEngine::run() {
         }
         if(render){
             frames++;
-            game->render();
+            renderingEngine->render(*game->getRoot(), *ResourceManager::loadShader("simple_shader", "SimpleVertex.vs", "SimpleFragment.fs"));
             Window::render();
         } else{
 //                std::this_thread::sleep_for(std::chrono::seconds(1));

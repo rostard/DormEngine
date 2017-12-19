@@ -16,8 +16,6 @@ class MyGame : public Game{
 public:
     void init() override;
 
-    void render() override;
-
     void update(float d_time) override;
 
 private:
@@ -25,6 +23,7 @@ private:
     Mesh* mesh;
     Transform* transform;
     Texture* texture;
+    GameObject* plane;
 };
 
 
