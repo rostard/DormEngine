@@ -9,6 +9,7 @@
 #include <map>
 #include "../Shader.h"
 #include "../Texture.h"
+#include "../Mesh.h"
 
 class ResourceManager {
 public:
@@ -21,10 +22,13 @@ public:
     //TODO: cubemap loader
     //TODO: mesh loader
 
+    static Mesh* loadMesh(const std::string& name, const std::string& filename);
+    static Mesh* getMesh(const std::string& name);
+
 private:
     static std::map<unsigned int, Shader> shaders;
     static std::map<unsigned int, Texture> textures;
-
+    static std::map<unsigned int, Mesh> meshes;
 };
 
 

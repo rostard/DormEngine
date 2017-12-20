@@ -6,9 +6,11 @@
 #include "../utility/SID.h"
 #include "ShaderLoader.h"
 #include "TextureLoader.h"
+#include "SimpleMeshLoader.h"
 
 std::map<unsigned int, Shader> ResourceManager::shaders = std::map<unsigned int, Shader>();
 std::map<unsigned int, Texture> ResourceManager::textures = std::map<unsigned int, Texture>();
+std::map<unsigned int, Mesh> ResourceManager::meshes = std::map<unsigned int, Mesh>();
 
 
 Shader *
@@ -40,4 +42,18 @@ Texture *ResourceManager::loadTexture(const std::string &name, const std::string
 Texture *ResourceManager::getTexture(const std::string &name) {
     unsigned int id = SID(name);
     return &textures.at(id);
+}
+
+Mesh *ResourceManager::loadMesh(const std::string &name, const std::string &filename) {
+    unsigned int id = SID(name);
+    if(meshes.find(id) != meshes.end()){
+        return getMesh(name);
+    }
+    meshes[id] = SimpleMeshLoader::loadMesh(filename);
+    return &meshes.at(id);
+}
+
+Mesh *ResourceManager::getMesh(const std::string &name) {
+    unsigned int id = SID(name);
+    return &meshes.at(id);
 }
