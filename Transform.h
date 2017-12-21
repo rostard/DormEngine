@@ -9,6 +9,8 @@
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include "Matrix4f.h"
+#include "Vector3f.h"
+#include "Camera.h"
 
 class Transform {
 public:
@@ -18,30 +20,36 @@ public:
 
     Matrix4f getProjectedTransformation();
 
-    const glm::vec3 &getTranslation() const;
+    const Vector3f &getTranslation() const;
 
-    void setTranslation(const glm::vec3 &translation);
+    void setTranslation(const Vector3f &translation);
 
     void setTranslation(float x, float y, float z);
 
-    const glm::vec3 &getRotation() const;
+    const Vector3f &getRotation() const;
 
-    void setRotation(const glm::vec3 &rotation);
+    void setRotation(const Vector3f &rotation);
 
     void setRotation(float x, float y, float z);
 
-    const glm::vec3 &getScale() const;
+    const Vector3f &getScale() const;
 
-    void setScale(const glm::vec3 &scale);
+    void setScale(const Vector3f &scale);
 
     void setScale(float x, float y, float z);
+
+    Camera *getCamera() const;
+
+    void setCamera(Camera *camera);
 
     static void setProjection(float fov, float width, float height, float zNear, float zFar);
 
 private:
-    glm::vec3 translation;
-    glm::vec3 rotation;
-    glm::vec3 scale;
+    Camera* camera;
+
+    Vector3f translation;
+    Vector3f rotation;
+    Vector3f scale;
 
     static float zNear;
     static float zFar;

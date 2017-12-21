@@ -35,7 +35,7 @@ Mesh SimpleMeshLoader::loadMesh(const std::string& filename) {
             tokens.push_back(word);
         }
         if(line.empty())continue;
-        if(tokens[0] == "v")vertices.push_back(Vertex(glm::vec3(std::atof(tokens[1].c_str()), std::atof(tokens[2].c_str()), std::atof(tokens[3].c_str()))));
+        if(tokens[0] == "v")vertices.push_back(Vertex(Vector3f(std::atof(tokens[1].c_str()), std::atof(tokens[2].c_str()), std::atof(tokens[3].c_str()))));
         if(tokens[0] == "f") {
             indices.push_back(std::atoi(tokens[1].c_str())-1);
             indices.push_back(std::atoi(tokens[2].c_str())-1);

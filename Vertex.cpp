@@ -3,23 +3,24 @@
 //
 
 #include "Vertex.h"
+#include "Vector2f.h"
 
-Vertex::Vertex(const glm::vec3 &position) : position(position), texCoord(glm::vec2(0, 0)) {}
+Vertex::Vertex(const Vector3f &position) : position(position), texCoord(Vector2f(0, 0)) {}
 
-const glm::vec3 &Vertex::getPosition() const {
+const Vector3f &Vertex::getPosition() const {
     return position;
 }
 
-void Vertex::setPosition(const glm::vec3 &position) {
+void Vertex::setPosition(const Vector3f &position) {
     Vertex::position = position;
 }
 
-Vertex::Vertex(const glm::vec3 &position, const glm::vec2 &texCoord) : position(position), texCoord(texCoord){}
+Vertex::Vertex(const Vector3f &position, const Vector2f &texCoord) : position(position), texCoord(texCoord){}
 
-const glm::vec2 &Vertex::getTexCoord() const {
+const Vector2f &Vertex::getTexCoord() const {
     return texCoord;
 }
 
-void Vertex::setTexCoord(const glm::vec2 &texCoord) {
+void Vertex::setTexCoord(const Vector2f &texCoord) {
     Vertex::texCoord = texCoord;
 }

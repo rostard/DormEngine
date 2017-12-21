@@ -11,7 +11,7 @@ void MyGame::init() {
     root =  new GameObject();
 
     Game::init();
-
+    camera = new Camera();
 
     plane = new GameObject();
     root->addChild(plane);
@@ -19,14 +19,19 @@ void MyGame::init() {
 
     texture = ResourceManager::loadTexture("test", "test.png");
     texture->bind();
-    mesh = ResourceManager::loadMesh("test", "cube/cube.obj");
+    mesh = ResourceManager::loadMesh("test", "rock/rock.obj");
 
     Material material;
     plane->addComponent(new MeshRenderer(*mesh, material));
-
+    plane->getTransform()->setCamera(camera);
 }
 
 
+void MyGame::input(float d_time) {
+    Game::input(d_time);
+    camera->input(d_time);
+    Input::update();
+}
 
 void MyGame::update(float d_time) {
     static float allTime = 0;

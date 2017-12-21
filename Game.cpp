@@ -15,3 +15,7 @@ void Game::update(float d_time) {
 void Game::init() {
 
 }
+
+GameObject *Game::getRoot() {
+    return root;
+}

@@ -18,10 +18,12 @@ public:
 
     void update(float d_time) override;
 
+    void input(float d_time) override;
+
 private:
     Shader* shader;
     Mesh* mesh;
-    Transform* transform;
+    Camera* camera;
     Texture* texture;
     GameObject* plane;
 };

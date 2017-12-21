@@ -18,9 +18,7 @@ public:
     virtual void init();
 
 
-    GameObject* getRoot(){
-        return root;
-    }
+    GameObject* getRoot();
 
 protected:
     GameObject* root;

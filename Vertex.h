@@ -6,22 +6,24 @@
 #define ENGINE_VERTEX_H
 
 #include <glm/glm.hpp>
+#include "Vector2f.h"
+#include "Vector3f.h"
 
 class Vertex {
 public:
-    Vertex(const glm::vec3 &position);
+    Vertex(const Vector3f &position);
 
-    Vertex(const glm::vec3 &position, const glm::vec2 &texCoord);
+    Vertex(const Vector3f &position, const Vector2f &texCoord);
 
-    const glm::vec3 &getPosition() const;
-    void setPosition(const glm::vec3 &position);
+    const Vector3f &getPosition() const;
+    void setPosition(const Vector3f &position);
 
-    const glm::vec2 &getTexCoord() const;
-    void setTexCoord(const glm::vec2 &texCoord);
+    const Vector2f &getTexCoord() const;
+    void setTexCoord(const Vector2f &texCoord);
 
 private:
-    glm::vec3 position;
-    glm::vec2 texCoord;
+    Vector3f position;
+    Vector2f texCoord;
 
 };
 
