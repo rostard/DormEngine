@@ -73,3 +73,13 @@ void Shader::setInt(const std::string &name, int value) const
 void Shader::setMat4(const std::string &name, Matrix4f matrix) const {
     glUniformMatrix4fv(glGetUniformLocation(program, name.c_str()), 1, GL_TRUE, matrix.getM());
 }
+
+void Shader::setRenderingEngine(RenderingEngine *engine) {
+    renderingEngine = engine;
+}
+
+void Shader::updateMatrices(const Transform &transform) {
+    setMat4("haha", transform.getTransformation());
+    setMat4("transform", transform.getProjectedTransformation(*renderingEngine->getMainCamera()));
+
+}

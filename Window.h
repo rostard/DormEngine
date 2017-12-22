@@ -8,6 +8,7 @@
 
 #include <GLFW/glfw3.h>
 #include <string>
+#include "Vector2f.h"
 
 class Window {
 public:
@@ -23,6 +24,8 @@ public:
     static void render();
 
     static bool getKey(int key);
+
+    static Vector2f getSize();
 
     static bool getMouseButton(int button);
 

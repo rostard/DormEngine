@@ -4,21 +4,13 @@
 
 #include "Transform.h"
 
-float Transform::fov = 0.0f;
-float Transform::width = 0.0f;
-float Transform::height = 0.0f;
-float Transform::zNear = 0.0f;
-float Transform::zFar = 0.0f;
-
 Transform::Transform() {
     translation = Vector3f(0.0, 0.0, 0.0);
     rotation = Vector3f(0.0, 0.0, 0.0);
     scale = Vector3f(1.0, 1.0, 1.0);
-
-    camera = new Camera();
 }
 
-Matrix4f Transform::getTransformation() {
+Matrix4f Transform::getTransformation() const{
     Matrix4f translationMatrix;
     Matrix4f rotationMatrix;
     Matrix4f scaleMatrix;
@@ -29,17 +21,8 @@ Matrix4f Transform::getTransformation() {
     return translationMatrix * rotationMatrix * scaleMatrix;
 }
 
-Matrix4f Transform::getProjectedTransformation() {
-    Matrix4f transformationMatrix = getTransformation();
-    Matrix4f projectionMatrix;
-    Matrix4f cameraRotation;
-    Matrix4f cameraTranslation;
-
-    projectionMatrix = projectionMatrix.initProjection(fov, width, height, zNear, zFar);
-    cameraRotation.initCamera(camera->getForward(), camera->getUp());
-    cameraTranslation.initTranslation(-camera->getPos().getX(), -camera->getPos().getY(), -camera->getPos().getZ());
-
-    return projectionMatrix * cameraRotation * cameraTranslation * transformationMatrix;
+Matrix4f Transform::getProjectedTransformation(const Camera& camera) const{
+    return camera.getViewProjection() * getTransformation();
 }
 
 const Vector3f &Transform::getTranslation() const {
@@ -76,22 +59,5 @@ void Transform::setScale(const Vector3f &scale) {
 
 void Transform::setScale(float x, float y, float z) {
     Transform::scale = Vector3f(x, y, z);
-}
-
-Camera *Transform::getCamera() const {
-    return camera;
-}
-
-void Transform::setCamera(Camera *camera) {
-
-    Transform::camera = camera;
-}
-
-void Transform::setProjection(float fov, float width, float height, float zNear, float zFar) {
-    Transform::fov = fov;
-    Transform::width = width;
-    Transform::height = height;
-    Transform::zNear = zNear;
-    Transform::zFar = zFar;
 }
 

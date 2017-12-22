@@ -16,11 +16,11 @@ public:
 
     Matrix4f initScale(float x, float y, float z);
 
-    Matrix4f initProjection(float fov, float width, float height, float zNear, float zFar);
+    Matrix4f initPerspective(float fov, float aspectRatio, float zNear, float zFar);
 
-    Matrix4f initCamera(const Vector3f& forward,const Vector3f& up);
+    Matrix4f initRotation(const Vector3f &forward, const Vector3f &up);
 
-    Matrix4f operator*(const Matrix4f& m2);
+    Matrix4f operator*(const Matrix4f& m2) const;
 
     float get(int i, int j) const;
 

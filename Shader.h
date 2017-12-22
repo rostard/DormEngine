@@ -6,8 +6,10 @@
 #define ENGINE_SHADER_H
 
 #include <string>
-#include "Matrix4f.h"
+#include "Transform.h"
+#include "RenderingEngine.h"
 
+class RenderingEngine;
 
 class Shader {
 public:
@@ -25,11 +27,15 @@ public:
     void setInt(const std::string &name, int value) const;
     void setMat4(const std::string &name, Matrix4f matrix) const;
 
+    void setRenderingEngine(RenderingEngine* engine);
+
+    void updateMatrices(const Transform &transform);
+
 private:
     void addShader(const std::string& shaderSource, int shaderType);
 
     unsigned int program;
-
+    RenderingEngine* renderingEngine;
 };
 
 

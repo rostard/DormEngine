@@ -23,7 +23,6 @@ public:
 private:
     Shader* shader;
     Mesh* mesh;
-    Camera* camera;
     Texture* texture;
     GameObject* plane;
 };

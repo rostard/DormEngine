@@ -6,19 +6,16 @@
 #define DORMENGINE_TRANSFORM_H
 
 
-#include <glm/vec3.hpp>
-#include <glm/mat4x4.hpp>
 #include "Matrix4f.h"
-#include "Vector3f.h"
 #include "Camera.h"
 
 class Transform {
 public:
     Transform();
 
-    Matrix4f getTransformation();
+    Matrix4f getTransformation() const;
 
-    Matrix4f getProjectedTransformation();
+    Matrix4f getProjectedTransformation(const Camera& camera) const;
 
     const Vector3f &getTranslation() const;
 
@@ -38,24 +35,13 @@ public:
 
     void setScale(float x, float y, float z);
 
-    Camera *getCamera() const;
-
-    void setCamera(Camera *camera);
-
-    static void setProjection(float fov, float width, float height, float zNear, float zFar);
 
 private:
-    Camera* camera;
 
     Vector3f translation;
     Vector3f rotation;
     Vector3f scale;
 
-    static float zNear;
-    static float zFar;
-    static float fov;
-    static float width;
-    static float height;
 };
 
 

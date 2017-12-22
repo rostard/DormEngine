@@ -6,8 +6,9 @@
 #define DORMENGINE_GAMECOMPONENT_H
 
 
-#include "Transform.h"
 #include "Shader.h"
+
+class Shader;
 
 class GameComponent {
 public:

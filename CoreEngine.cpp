@@ -43,7 +43,7 @@ void CoreEngine::createWindow(const std::string &title) {
 }
 
 void CoreEngine::run() {
-    Transform::setProjection(70.0, width, height, 0.1f, 1000.0f);
+//    Transform::setProjection(70.0, width, height, 0.1f, 1000.0f);
     this->isRunning = true;
     double lastTime = glfwGetTime();
 
@@ -54,7 +54,8 @@ void CoreEngine::run() {
     double framesCounter = 0;
 
     game->init();
-
+    Shader * shader = ResourceManager::loadShader("simple_shader", "SimpleVertex.vs", "SimpleFragment.fs");
+    shader->setRenderingEngine(renderingEngine);
     while(this->isRunning){
         double curTime = glfwGetTime();
         double deltaTime = curTime - lastTime;
@@ -82,7 +83,7 @@ void CoreEngine::run() {
         }
         if(render){
             frames++;
-            renderingEngine->render(*game->getRoot(), *ResourceManager::loadShader("simple_shader", "SimpleVertex.vs", "SimpleFragment.fs"));
+            renderingEngine->render(*game->getRoot(), *shader);
             Window::render();
         } else{
 //                std::this_thread::sleep_for(std::chrono::seconds(1));

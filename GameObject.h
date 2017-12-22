@@ -7,53 +7,24 @@
 
 #include <vector>
 #include "GameComponent.h"
-#include "Transform.h"
-#include "Shader.h"
+
+class GameComponent;
+class Shader;
 
 class GameObject {
 public:
 
-    void addChild(GameObject* child){
-        children.push_back(child);
-    }
+    void addChild(GameObject* child);
 
-    void addComponent(GameComponent *component){
-        components.push_back(component);
-    }
+    void addComponent(GameComponent *component);
 
-    void input(){
-        for(auto component : components){
-            component->input(transform);
-        }
+    void input();
 
-        for(auto child : children){
-            child->input();
-        }
-    }
+    void update();
 
-    void update(){
-        for(auto component : components){
-            component->update(transform);
-        }
+    void render(Shader shader);
 
-        for(auto child : children){
-            child->update();
-        }
-    }
-
-    void render(Shader shader){
-        for(auto component : components){
-            component->render(transform, shader);
-        }
-
-        for(auto child : children){
-            child->render(shader);
-        }
-    }
-
-    Transform* getTransform(){
-        return &transform;
-    }
+    Transform* getTransform();
 private:
     std::vector<GameObject*> children;
     std::vector<GameComponent*> components;

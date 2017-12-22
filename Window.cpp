@@ -39,6 +39,13 @@ bool Window::getKey(const int key) {
     return glfwGetKey(window, key) == GLFW_PRESS;
 }
 
+Vector2f Window::getSize() {
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
+    return {width, height};
+}
+
+
 bool Window::getMouseButton(const int button) {
     return static_cast<bool>(glfwGetMouseButton(window, button));
 }

@@ -3,14 +3,13 @@
 //
 
 #include <glm/geometric.hpp>
+#include <GLFW/glfw3.h>
 #include "Camera.h"
 #include "Vector3f.h"
+#include "Input.h"
 
 const Vector3f Camera::yAxis = Vector3f(0.0f, 1.0f, 0.0f);
 
-Camera::Camera(const Vector3f &pos, const Vector3f &forward, const Vector3f &up) : pos(pos), forward(forward.normalized()),
-                                                                                      up(up.normalized()) {
-}
 
 const Vector3f &Camera::getPos() const {
     return pos;
@@ -97,4 +96,21 @@ void Camera::input(float d_time) {
         rotateY(rotAmt);
     if(Input::isKeyPress(GLFW_KEY_LEFT))
         rotateY(-rotAmt);
+}
+
+Camera::Camera(float fov, float aspect, float zNear, float zFar) {
+    pos = Vector3f(0.0f, 0.0f, 0.0f);
+    up = Vector3f(0.0f, 1.0f, 0.0f);
+    forward = Vector3f(0.0f, 0.0f, 1.0f);
+    projection = projection.initPerspective(fov, aspect, zNear, zFar);
+}
+
+Matrix4f Camera::getViewProjection() const {
+    Matrix4f cameraRotation;
+    Matrix4f cameraTranslation;
+
+    cameraRotation.initRotation(forward, up);
+    cameraTranslation.initTranslation(-pos.getX(), -pos.getY(), -pos.getZ());
+
+    return projection * cameraRotation * cameraTranslation;
 }

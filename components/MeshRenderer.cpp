@@ -9,7 +9,8 @@
 MeshRenderer::MeshRenderer(const Mesh &mesh, const Material &material) : mesh(mesh), material(material) {}
 
 void MeshRenderer::render(Transform &transform, Shader shader) {
-    shader.setMat4("transform", transform.getProjectedTransformation());
+    shader.bind();
+    shader.updateMatrices(transform);
     mesh.render();
 }
 

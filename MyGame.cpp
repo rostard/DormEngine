@@ -5,13 +5,14 @@
 #include "MyGame.h"
 #include "resource_management/ResourceManager.h"
 #include "components/MeshRenderer.h"
+#include "Input.h"
 
 void MyGame::init() {
 
     root =  new GameObject();
 
     Game::init();
-    camera = new Camera();
+//    camera = new Camera();
 
     plane = new GameObject();
     root->addChild(plane);
@@ -23,13 +24,12 @@ void MyGame::init() {
 
     Material material;
     plane->addComponent(new MeshRenderer(*mesh, material));
-    plane->getTransform()->setCamera(camera);
+//    plane->getTransform()->setCamera(camera);
 }
 
 
 void MyGame::input(float d_time) {
     Game::input(d_time);
-    camera->input(d_time);
     Input::update();
 }
 
