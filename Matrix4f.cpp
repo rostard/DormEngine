@@ -67,6 +67,18 @@ Matrix4f Matrix4f::initPerspective(float fov, float aspectRatio, float zNear, fl
     return *this;
 }
 
+Matrix4f Matrix4f::initOrtographic(float left, float right, float top, float bottom, float zNear, float zFar) {
+    float width = right - left;
+    float height = top - bottom;
+    float depth = zFar - zNear;
+
+    m[0][0] = 2.0f / width; m[0][1] = 0;                m[0][2] = 0;            m[0][3] = -(right + left)/width;
+    m[1][0] = 0;            m[1][1] = 2.0f / height;    m[1][2] = 0;            m[1][3] = -(top + bottom)/height;
+    m[2][0] = 0;            m[2][1] = 0;                m[2][2] = -2.0f / depth;m[2][3] = -(zFar + zNear)/depth;
+    m[3][0] = 0;            m[3][1] = 0;                m[3][2] = 1;            m[3][3] = 1;
+    return *this;
+}
+
 Matrix4f Matrix4f::initRotation(const Vector3f &forward, const Vector3f &up) {
     Vector3f f = forward.normalized();
     Vector3f r = up.normalized().cross(f).normalized();
@@ -104,3 +116,4 @@ void Matrix4f::set(int i, int j, float val) {
 float *Matrix4f::getM() const {
     return (float*)m;
 }
+

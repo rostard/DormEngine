@@ -19,6 +19,10 @@ float Vector2f::dot(const Vector2f& r) {
     return x * r.x + y * r.y;
 }
 
+Vector2f Vector2f::lerp(const Vector2f &dest, float lerpFactor) const {
+    return (dest - *this) * lerpFactor + *this;
+}
+
 Vector2f Vector2f::rotate(const float angle) {
     double rad = angle * (M_PI / 180.0);
     double cos = std::cos(rad);
@@ -43,28 +47,30 @@ void Vector2f::setY(float y) {
     Vector2f::y = y;
 }
 
-Vector2f Vector2f::operator+(const Vector2f &r) {
+Vector2f Vector2f::operator+(const Vector2f &r) const{
     return Vector2f(x+r.x, y+r.y);
 }
 
-Vector2f Vector2f::operator+(float val) {
+Vector2f Vector2f::operator+(float val) const{
     return Vector2f(x+val, y+val);
 }
 
-Vector2f Vector2f::operator-(const Vector2f &r) {
+Vector2f Vector2f::operator-(const Vector2f &r) const{
     return Vector2f(x-r.x, y-r.y);
 }
 
-Vector2f Vector2f::operator-(float val) {
+Vector2f Vector2f::operator-(float val) const{
     return Vector2f(x-val, y-val);
 }
 
-Vector2f Vector2f::operator*(const float val) {
+Vector2f Vector2f::operator*(const float val) const{
     return Vector2f(x*val, y*val);
 }
 
-Vector2f Vector2f::operator/(float val) {
+Vector2f Vector2f::operator/(float val) const{
     return Vector2f(x/val, y/val);
 }
 
-
+bool Vector2f::operator==(const Vector2f &r) const {
+    return x == r.x && y == r.y;
+}

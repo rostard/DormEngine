@@ -12,23 +12,23 @@ void GameObject::addComponent(GameComponent *component) {
     components.push_back(component);
 }
 
-void GameObject::input() {
+void GameObject::input(float d_time) {
     for(auto component : components){
-        component->input(transform);
+        component->input(transform, d_time);
     }
 
     for(auto child : children){
-        child->input();
+        child->input(d_time);
     }
 }
 
-void GameObject::update() {
+void GameObject::update(float d_time) {
     for(auto component : components){
-        component->update(transform);
+        component->update(transform, d_time);
     }
 
     for(auto child : children){
-        child->update();
+        child->update(d_time);
     }
 }
 

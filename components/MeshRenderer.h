@@ -16,9 +16,9 @@ public:
 
     void render(Transform &transform, Shader shader) override;
 
-    void input(Transform &transform) override;
+    void input(Transform &transform, float d_time) override;
 
-    void update(Transform &transform) override;
+    void update(Transform &transform, float d_time) override;
 
 private:
     Mesh mesh;

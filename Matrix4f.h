@@ -18,6 +18,8 @@ public:
 
     Matrix4f initPerspective(float fov, float aspectRatio, float zNear, float zFar);
 
+    Matrix4f initOrtographic(float left, float right, float top, float bottom, float zNear, float zFar);
+
     Matrix4f initRotation(const Vector3f &forward, const Vector3f &up);
 
     Matrix4f operator*(const Matrix4f& m2) const;

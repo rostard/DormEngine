@@ -19,6 +19,8 @@ public:
 
     Vector3f cross(const Vector3f& r) const;
 
+    Vector3f lerp(const Vector3f& dest, float lerpFactor) const;
+
     float dot(Vector3f r);
 
     float getX() const;
@@ -34,16 +36,17 @@ public:
     void setZ(float z);
 
 
-    Vector3f operator+(const Vector3f& r);
-    Vector3f operator+(float val);
+    Vector3f operator+(const Vector3f& r) const;
+    Vector3f operator+(float val) const;
 
-    Vector3f operator-(const Vector3f& r);
-    Vector3f operator-(float val);
+    Vector3f operator-(const Vector3f& r) const;
+    Vector3f operator-(float val) const;
 
-    Vector3f operator*(float val);
-    Vector3f operator/(float val);
+    Vector3f operator*(float val) const;
+    Vector3f operator/(float val) const;
 
     void operator+=(const Vector3f& r);
+    bool operator==(const Vector3f& r);
 
     Vector3f rotate(const Vector3f &axis, float angle);
 

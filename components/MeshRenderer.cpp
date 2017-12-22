@@ -14,10 +14,10 @@ void MeshRenderer::render(Transform &transform, Shader shader) {
     mesh.render();
 }
 
-void MeshRenderer::input(Transform &transform) {
+void MeshRenderer::input(Transform &transform, float d_time) {
 
 }
 
-void MeshRenderer::update(Transform &transform) {
+void MeshRenderer::update(Transform &transform, float d_time) {
 
 }

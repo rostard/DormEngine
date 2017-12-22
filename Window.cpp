@@ -67,3 +67,8 @@ void Window::initGLFW() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 }
+
+Vector2f Window::getCenter() {
+    Vector2f size = getSize();
+    return Vector2f(size.getX() / 2.0f, size.getY() / 2.0f);
+}

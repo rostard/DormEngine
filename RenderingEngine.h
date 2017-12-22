@@ -27,6 +27,7 @@ public:
     void setMainCamera(Camera *mainCamera);
 
 private:
+    Vector3f ambientLighting;
     Camera* mainCamera;
 };
 

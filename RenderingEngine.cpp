@@ -16,8 +16,9 @@ RenderingEngine::RenderingEngine() {
     glEnable(GL_DEPTH_CLAMP);
     glEnable(GL_TEXTURE_2D);
 
-
+    //Temporary
     mainCamera = new Camera(70.0f * (M_PI / 180.0f), Window::getSize().getX() / Window::getSize().getY(), 0.01f, 1000.0f);
+    ambientLighting = Vector3f(0.2f, 0.2f, 0.2f);
 }
 
 void RenderingEngine::render(GameObject& object, Shader& shader) {

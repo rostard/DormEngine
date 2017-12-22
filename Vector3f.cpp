@@ -28,6 +28,12 @@ Vector3f Vector3f::cross(const Vector3f &r) const{
     return Vector3f(x, y, z);
 }
 
+
+Vector3f Vector3f::lerp(const Vector3f &dest, float lerpFactor) const {
+    return (dest - *this) * lerpFactor + *this;
+}
+
+
 float Vector3f::getX() const {
     return x;
 }
@@ -52,27 +58,27 @@ void Vector3f::setZ(float z) {
     Vector3f::z = z;
 }
 
-Vector3f Vector3f::operator+(const Vector3f &r) {
+Vector3f Vector3f::operator+(const Vector3f &r) const{
     return Vector3f(x + r.x, y + r.y, z + r.z);
 }
 
-Vector3f Vector3f::operator+(float val) {
+Vector3f Vector3f::operator+(float val) const{
     return Vector3f(x + val, y + val, z + val);
 }
 
-Vector3f Vector3f::operator-(const Vector3f &r) {
+Vector3f Vector3f::operator-(const Vector3f &r) const{
     return Vector3f(x - r.x, y - r.y, z - r.z);
 }
 
-Vector3f Vector3f::operator-(float val) {
+Vector3f Vector3f::operator-(float val) const{
     return Vector3f(x - val, y - val, z - val);
 }
 
-Vector3f Vector3f::operator*(float val) {
+Vector3f Vector3f::operator*(float val) const{
     return Vector3f(x * val, y * val, z * val);
 }
 
-Vector3f Vector3f::operator/(float val) {
+Vector3f Vector3f::operator/(float val) const{
     return Vector3f(x / val, y / val, z / val);
 }
 
@@ -103,5 +109,9 @@ void Vector3f::operator+=(const Vector3f &r) {
     x += r.x;
     y += r.y;
     z += r.z;
+}
+
+bool Vector3f::operator==(const Vector3f &r) {
+    return x == r.x && y == r.y && z == r.z;;
 }
 

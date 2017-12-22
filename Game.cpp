@@ -5,11 +5,11 @@
 #include "Game.h"
 
 void Game::input(float d_time) {
-    root->input();
+    root->input(d_time);
 }
 
 void Game::update(float d_time) {
-    root->update();
+    root->update(d_time);
 }
 
 void Game::init() {

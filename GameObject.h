@@ -18,9 +18,9 @@ public:
 
     void addComponent(GameComponent *component);
 
-    void input();
+    void input(float d_time);
 
-    void update();
+    void update(float d_time);
 
     void render(Shader shader);
 

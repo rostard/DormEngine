@@ -27,6 +27,8 @@ public:
 
     static Vector2f getSize();
 
+    static Vector2f getCenter();
+
     static bool getMouseButton(int button);
 
     static void dispose();
