@@ -32,7 +32,7 @@ void GameObject::update(float d_time) {
     }
 }
 
-void GameObject::render(Shader shader) {
+void GameObject::render(Shader &shader) {
     for(auto component : components){
         component->render(transform, shader);
     }

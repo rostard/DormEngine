@@ -22,7 +22,7 @@ public:
 
     void update(float d_time);
 
-    void render(Shader shader);
+    void render(Shader &shader);
 
     Transform* getTransform();
 private:

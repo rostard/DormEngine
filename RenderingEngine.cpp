@@ -5,6 +5,9 @@
 #include <glad/glad.h>
 #include "RenderingEngine.h"
 #include "Window.h"
+#include "resource_management/ResourceManager.h"
+#include "ForwardAmbient.h"
+#include "ForwardDirectional.h"
 
 RenderingEngine::RenderingEngine() {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -18,13 +21,30 @@ RenderingEngine::RenderingEngine() {
 
     //Temporary
     mainCamera = new Camera(70.0f * (M_PI / 180.0f), Window::getSize().getX() / Window::getSize().getY(), 0.01f, 1000.0f);
-    ambientLighting = Vector3f(0.2f, 0.2f, 0.2f);
+    ambientLight = Vector3f(0.2f, 0.2f, 0.2f);
 }
 
-void RenderingEngine::render(GameObject& object, Shader& shader) {
+void RenderingEngine::render(GameObject& object) {
     clearScreen();
 
-    object.render(shader);
+    ForwardAmbient * ambientShader = new ForwardAmbient(*ResourceManager::loadShader("forward-ambient_shader", "forward-ambient.vs.glsl", "forward-ambient.fs.glsl"));
+    ambientShader->setRenderingEngine(this);
+    ForwardDirectional * directionalShader = new ForwardDirectional(*ResourceManager::loadShader("forward-directional_shader", "forward-directional.vs.glsl", "forward-directional.fs.glsl"));
+    ambientShader->setRenderingEngine(this);
+
+    object.render(*ambientShader);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE);
+    glDepthMask(static_cast<GLboolean>(false));
+    glDepthFunc(GL_EQUAL);
+
+    object.render(*directionalShader);
+
+    glDepthFunc(GL_LESS);
+    glDepthMask(static_cast<GLboolean>(true));
+    glDisable(GL_BLEND);
+
 }
 
 void RenderingEngine::clearScreen() {
@@ -41,6 +61,14 @@ Camera *RenderingEngine::getMainCamera() const {
 
 void RenderingEngine::setMainCamera(Camera *mainCamera) {
     RenderingEngine::mainCamera = mainCamera;
+}
+
+Vector3f RenderingEngine::getAmbientLight() {
+    return ambientLight;
+}
+
+const DirectionalLight &RenderingEngine::getDirectionalLight() const {
+    return directionalLight;
 }
 
 

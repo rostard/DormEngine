@@ -42,9 +42,6 @@ Mesh SimpleMeshLoader::loadMesh(const std::string& filename) {
             indices.push_back(std::atoi(tokens[3].c_str())-1);
         }
 
-        for(auto i:tokens)std::cout<<i<<" ";
-        std::cout<<std::endl;
-
         std::atoi(tokens[1].c_str());
     }
     ifstream.close();

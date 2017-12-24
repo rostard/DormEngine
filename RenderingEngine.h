@@ -9,6 +9,8 @@
 #include "Camera.h"
 #include "Shader.h"
 #include "GameObject.h"
+#include "DirectionalLight.h"
+
 class Shader;
 class GameObject;
 
@@ -16,7 +18,7 @@ class RenderingEngine {
 public:
     RenderingEngine();
 
-    void render(GameObject& object, Shader& shader);
+    void render(GameObject& object);
 
     void clearScreen();
 
@@ -26,8 +28,13 @@ public:
 
     void setMainCamera(Camera *mainCamera);
 
+    Vector3f getAmbientLight();
+
+    const DirectionalLight &getDirectionalLight() const;
+
 private:
-    Vector3f ambientLighting;
+    Vector3f ambientLight;
+    DirectionalLight directionalLight;
     Camera* mainCamera;
 };
 

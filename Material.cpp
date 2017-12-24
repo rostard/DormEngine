@@ -3,3 +3,11 @@
 //
 
 #include "Material.h"
+
+const Vector3f &Material::getColor() const {
+    return color;
+}
+
+void Material::setColor(const Vector3f &color) {
+    Material::color = color;
+}

@@ -12,9 +12,9 @@ class Shader;
 
 class GameComponent {
 public:
-    virtual void input(Transform &transform, float d_time) = 0;
-    virtual void render(Transform &transform, Shader shader) = 0;
-    virtual void update(Transform &transform, float d_time) = 0;
+    virtual void input(const Transform &transform, float d_time) = 0;
+    virtual void render(const Transform &transform, Shader& shader) = 0;
+    virtual void update(const Transform &transform, float d_time) = 0;
 };
 
 

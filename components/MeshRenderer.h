@@ -14,11 +14,11 @@ class MeshRenderer : public GameComponent {
 public:
     MeshRenderer(const Mesh &mesh, const Material &material);
 
-    void render(Transform &transform, Shader shader) override;
+    void render(const Transform &transform, Shader& shader) override;
 
-    void input(Transform &transform, float d_time) override;
+    void input(const Transform &transform, float d_time) override;
 
-    void update(Transform &transform, float d_time) override;
+    void update(const Transform &transform, float d_time) override;
 
 private:
     Mesh mesh;

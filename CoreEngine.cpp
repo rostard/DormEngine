@@ -5,12 +5,7 @@
 #include <chrono>
 #include <thread>
 #include "CoreEngine.h"
-#include "Shader.h"
 #include "Mesh.h"
-#include "resource_management/ShaderLoader.h"
-#include "resource_management/ResourceManager.h"
-#include "resource_management/TextureLoader.h"
-#include "Transform.h"
 
 CoreEngine::CoreEngine(unsigned int width, unsigned int height, unsigned int framerate, Game *game) : width(width), height(height), game(game){
     isRunning = false;
@@ -54,8 +49,7 @@ void CoreEngine::run() {
     double framesCounter = 0;
 
     game->init();
-    Shader * shader = ResourceManager::loadShader("simple_shader", "SimpleVertex.vs", "SimpleFragment.fs");
-    shader->setRenderingEngine(renderingEngine);
+
     while(this->isRunning){
         double curTime = glfwGetTime();
         double deltaTime = curTime - lastTime;
@@ -83,7 +77,7 @@ void CoreEngine::run() {
         }
         if(render){
             frames++;
-            renderingEngine->render(*game->getRoot(), *shader);
+            renderingEngine->render(*game->getRoot());
             Window::render();
         } else{
 //                std::this_thread::sleep_for(std::chrono::seconds(1));

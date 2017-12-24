@@ -8,16 +8,16 @@
 
 MeshRenderer::MeshRenderer(const Mesh &mesh, const Material &material) : mesh(mesh), material(material) {}
 
-void MeshRenderer::render(Transform &transform, Shader shader) {
+void MeshRenderer::render(const Transform &transform, Shader& shader) {
     shader.bind();
-    shader.updateMatrices(transform);
+    shader.updateUniforms(transform, material);
     mesh.render();
 }
 
-void MeshRenderer::input(Transform &transform, float d_time) {
+void MeshRenderer::input(const Transform &transform, float d_time) {
 
 }
 
-void MeshRenderer::update(Transform &transform, float d_time) {
+void MeshRenderer::update(const Transform &transform, float d_time) {
 
 }

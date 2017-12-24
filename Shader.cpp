@@ -5,6 +5,7 @@
 #include <glad/glad.h>
 #include "Shader.h"
 #include "utility/Log.h"
+#include "Material.h"
 
 Shader::Shader() {
     program = glCreateProgram();
@@ -70,16 +71,38 @@ void Shader::setInt(const std::string &name, int value) const
     glUniform1i(glGetUniformLocation(program, name.c_str()), value);
 }
 
+void Shader::setFloat(const std::string &name, float value) const {
+    glUniform1f(glGetUniformLocation(program, name.c_str()), value);
+}
+
 void Shader::setMat4(const std::string &name, Matrix4f matrix) const {
     glUniformMatrix4fv(glGetUniformLocation(program, name.c_str()), 1, GL_TRUE, matrix.getM());
 }
 
+
+void Shader::setVec3(const std::string &name, Vector3f vector) const {
+    glUniform3f(glGetUniformLocation(program, name.c_str()), vector.getX(), vector.getY(), vector.getZ());
+}
 void Shader::setRenderingEngine(RenderingEngine *engine) {
     renderingEngine = engine;
 }
 
-void Shader::updateMatrices(const Transform &transform) {
+RenderingEngine *Shader::getRenderingEngine() const {
+    return renderingEngine;
+}
+
+
+void Shader::updateUniforms(const Transform &transform, const Material &matrerial) {
     setMat4("haha", transform.getTransformation());
     setMat4("transform", transform.getProjectedTransformation(*renderingEngine->getMainCamera()));
 
 }
+
+unsigned int Shader::getProgram() const {
+    return program;
+}
+
+void Shader::setProgram(unsigned int program) {
+    Shader::program = program;
+}
+
