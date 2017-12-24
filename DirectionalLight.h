@@ -10,7 +10,7 @@
 
 class DirectionalLight : public BaseLight{
 public:
-    DirectionalLight(const Vector3f &color = Vector3f(1.0f, 1.0f, 1.0f), float intensity = 1.0f, const Vector3f &direction = Vector3f(1.0f, -1.0f, 0.0f));
+    DirectionalLight(const Vector3f &color = Vector3f(1.0f, 1.0f, 1.0f), float intensity = 0.7f, const Vector3f &direction = Vector3f(0.0f, -1.0f, 1.0f));
 
     const Vector3f &getDirection() const;
 

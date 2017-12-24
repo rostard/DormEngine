@@ -8,7 +8,7 @@ void ForwardDirectional::updateUniforms(const Transform &transform, const Materi
     this->setMat4("model", transform.getTransformation());
     this->setMat4("MVP", transform.getProjectedTransformation(*getRenderingEngine()->getMainCamera()));
     this->setVec3("viewPos", getRenderingEngine()->getMainCamera()->getPos());
-    this->setFloat("specularIntesity", 0.1);
+    this->setFloat("specularIntensity", 0.1);
     this->setFloat("specularPower", 1.0);
 
     this->setVec3("dirLight.base.color", getRenderingEngine()->getDirectionalLight().getColor());

@@ -11,9 +11,7 @@
 
 class Vertex {
 public:
-    Vertex(const Vector3f &position);
-
-    Vertex(const Vector3f &position, const Vector2f &texCoord);
+    Vertex(const Vector3f &position, const Vector2f &texCoord = Vector2f(0.0f, 0.0f), const Vector3f& normal = Vector3f(0.0f, 1.0f, 0.0f));
 
     const Vector3f &getPosition() const;
     void setPosition(const Vector3f &position);
@@ -21,9 +19,13 @@ public:
     const Vector2f &getTexCoord() const;
     void setTexCoord(const Vector2f &texCoord);
 
+    const Vector3f &getNormal() const;
+    void setNormal(const Vector3f &normal);
+
 private:
     Vector3f position;
     Vector2f texCoord;
+    Vector3f normal;
 
 };
 

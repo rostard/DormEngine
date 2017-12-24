@@ -45,7 +45,6 @@ Mesh SimpleMeshLoader::loadMesh(const std::string& filename) {
         std::atoi(tokens[1].c_str());
     }
     ifstream.close();
-    Mesh ret;
-    ret.addVertices(vertices, indices);
-    return ret;
+
+    return  Mesh(vertices, indices);
 }

@@ -7,6 +7,7 @@
 #include "ShaderLoader.h"
 #include "TextureLoader.h"
 #include "SimpleMeshLoader.h"
+#include "MeshLoader.h"
 
 std::map<unsigned int, Shader> ResourceManager::shaders = std::map<unsigned int, Shader>();
 std::map<unsigned int, Texture> ResourceManager::textures = std::map<unsigned int, Texture>();
@@ -49,7 +50,7 @@ Mesh *ResourceManager::loadMesh(const std::string &name, const std::string &file
     if(meshes.find(id) != meshes.end()){
         return getMesh(name);
     }
-    meshes[id] = SimpleMeshLoader::loadMesh(filename);
+    meshes[id] = MeshLoader::Load(filename);
     return &meshes.at(id);
 }
 

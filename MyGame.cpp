@@ -18,9 +18,9 @@ void MyGame::init() {
     root->addChild(plane);
 
 
-    texture = ResourceManager::loadTexture("test", "test.png");
+    texture = ResourceManager::loadTexture("rock", "Rock-Texture-Surface.jpg");
     texture->bind();
-    mesh = ResourceManager::loadMesh("test", "rock/rock.obj");
+    mesh = ResourceManager::loadMesh("rock", "rock/rock.obj");
 
     Material material;
     plane->addComponent(new MeshRenderer(*mesh, material));

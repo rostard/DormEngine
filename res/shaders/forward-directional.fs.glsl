@@ -46,5 +46,6 @@ void main() {
     vec3 viewDir = normalize(worldPos0 - viewPos);
     totalColor += CalcDirLight(dirLight, normal, viewDir);
 
-    gl_FragColor = vec4(totalColor, 1.0) * color;
+//    gl_FragColor = vec4(totalColor, 1.0) * color;
+    gl_FragColor = vec4(normal, 1.0);
 }

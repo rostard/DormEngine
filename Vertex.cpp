@@ -5,7 +5,8 @@
 #include "Vertex.h"
 #include "Vector2f.h"
 
-Vertex::Vertex(const Vector3f &position) : position(position), texCoord(Vector2f(0, 0)) {}
+
+Vertex::Vertex(const Vector3f &position, const Vector2f &texCoord, const Vector3f &normal) : position(position), texCoord(texCoord), normal(normal) {}
 
 const Vector3f &Vertex::getPosition() const {
     return position;
@@ -15,7 +16,6 @@ void Vertex::setPosition(const Vector3f &position) {
     Vertex::position = position;
 }
 
-Vertex::Vertex(const Vector3f &position, const Vector2f &texCoord) : position(position), texCoord(texCoord){}
 
 const Vector2f &Vertex::getTexCoord() const {
     return texCoord;
@@ -24,3 +24,12 @@ const Vector2f &Vertex::getTexCoord() const {
 void Vertex::setTexCoord(const Vector2f &texCoord) {
     Vertex::texCoord = texCoord;
 }
+
+const Vector3f &Vertex::getNormal() const {
+    return normal;
+}
+
+void Vertex::setNormal(const Vector3f &normal) {
+    Vertex::normal = normal;
+}
+
