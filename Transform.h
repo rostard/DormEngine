@@ -7,7 +7,7 @@
 
 
 #include "Matrix4f.h"
-#include "Camera.h"
+#include "components/Camera.h"
 #include "Quaternion.h"
 
 class Transform {

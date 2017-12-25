@@ -53,6 +53,8 @@ void MyGame::init() {
     spotLightObject->getTransform()->setScale(0.1f, 0.1f, 0.1f);
     root->addChild(spotLightObject);
 
+    Camera* camera = new Camera(70.0f * (M_PI / 180.0f), Window::getSize().getX() / Window::getSize().getY(), 0.01f, 1000.0f);
+    root->addComponent(camera);
 }
 
 
@@ -66,7 +68,7 @@ void MyGame::update(float d_time) {
     allTime += d_time;
     Game::update(d_time);
     pointLightObject->getTransform()->setPos(sin(allTime) * 10.0f, 0.0f, cos(allTime) * 10.0f);
-    spotLightObject->getTransform()->setRot(Quaternion().initRotation(Vector3f(1.0f, 0.0, 0.0), allTime));
+    spotLightObject->getTransform()->setRot(Quaternion(Vector3f(1.0f, 0.0, 0.0), allTime));
 //    plane->getTransform()->setRotation(allTime * 2.0f,allTime * 20.0f,allTime * 10.0f);
 //    plane->getTransform()->setTranslation(sin(allTime),0,5.0f);
 //    plane->getTransform()->setScale(sin(allTime)*2, sin(allTime)*2, 1);

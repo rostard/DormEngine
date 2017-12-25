@@ -9,7 +9,7 @@
 void ForwardDirectional::updateUniforms(const Transform &transform, const Material &material) {
     setMat4("model", transform.getTransformation());
     setMat4("MVP", transform.getProjectedTransformation(*getRenderingEngine()->getMainCamera()));
-    setVec3("viewPos", getRenderingEngine()->getMainCamera()->getPos());
+    setVec3("viewPos", getRenderingEngine()->getMainCamera()->getTransform().getPos());
     setFloat("specularIntensity", 0.5);
     setFloat("shininess", 20.0);
 

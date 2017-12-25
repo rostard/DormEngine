@@ -14,7 +14,7 @@ public:
 
     Quaternion(float x, float y, float z, float w);
 
-    Quaternion initRotation(const Vector3f& axis, float angle);
+    Quaternion(const Vector3f &axis, float angle);
 
     float length() const;
 
@@ -26,7 +26,7 @@ public:
 
     Vector3f getForward() const;
 
-    Vector3f getBack();
+    Vector3f getBack() const;
 
     Vector3f getUp() const;
 

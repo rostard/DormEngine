@@ -10,8 +10,7 @@ Quaternion::Quaternion() : x(0), y(0), z(0), w(1) {}
 
 Quaternion::Quaternion(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 
-
-Quaternion Quaternion::initRotation(const Vector3f &axis, float angle) {
+Quaternion::Quaternion(const Vector3f &axis, float angle) {
     auto sinHalfAngle = static_cast<float>(std::sin(angle / 2.0));
     auto cosHalfAngle = static_cast<float>(std::cos(angle / 2.0));
 
@@ -19,9 +18,8 @@ Quaternion Quaternion::initRotation(const Vector3f &axis, float angle) {
     y = axis.getY() * sinHalfAngle;
     z = axis.getZ() * sinHalfAngle;
     w = cosHalfAngle;
-
-    return *this;
 }
+
 
 float Quaternion::length() const {
     return std::sqrt(x*x +y*y + z*z + w*w);
@@ -50,7 +48,7 @@ Vector3f Quaternion::getForward() const {
     return Vector3f(0.0f, 0.0f, 1.0f).rotate(*this);
 }
 
-Vector3f Quaternion::getBack() {
+Vector3f Quaternion::getBack() const{
     return Vector3f(0.0f, 0.0f, -1.0f).rotate(*this);
 }
 

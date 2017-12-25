@@ -60,7 +60,6 @@ void CoreEngine::run() {
         framesCounter += deltaTime;
 
         while(passedTime > frameTime){
-            renderingEngine->getMainCamera()->input(deltaTime);
             render = true;
             passedTime-=frameTime;
 

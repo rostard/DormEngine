@@ -34,6 +34,8 @@ public:
     BaseLight *getActiveLight() const;
 
     void addLight(BaseLight* light);
+
+    void addCamera(Camera* camera);
 private:
     std::vector<BaseLight*> lights;
     Vector3f ambientLight;

@@ -5,7 +5,7 @@
 #include <glad/glad.h>
 #include "RenderingEngine.h"
 #include "Window.h"
-#include "Camera.h"
+#include "components/Camera.h"
 #include "ForwardAmbient.h"
 #include "ForwardDirectional.h"
 #include "ForwardPoint.h"
@@ -24,7 +24,6 @@ RenderingEngine::RenderingEngine() {
     glEnable(GL_TEXTURE_2D);
 
     //Temporary
-    mainCamera = new Camera(70.0f * (M_PI / 180.0f), Window::getSize().getX() / Window::getSize().getY(), 0.01f, 1000.0f);
     ambientLight = Vector3f(0.2f, 0.2f, 0.2f);
 }
 
@@ -83,6 +82,10 @@ BaseLight *RenderingEngine::getActiveLight() const {
 
 void RenderingEngine::addLight(BaseLight *light) {
     lights.push_back(light);
+}
+
+void RenderingEngine::addCamera(Camera *camera) {
+    mainCamera = camera;
 }
 
 
