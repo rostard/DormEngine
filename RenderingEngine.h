@@ -6,12 +6,13 @@
 #define DORMENGINE_RENDERINGENGINE_H
 
 #include <string>
-#include "Camera.h"
-#include "Shader.h"
-#include "GameObject.h"
-#include "DirectionalLight.h"
+#include <vector>
 
-class Shader;
+#include "Vector3f.h"
+
+
+class BaseLight;
+class Camera;
 class GameObject;
 
 class RenderingEngine {
@@ -30,11 +31,13 @@ public:
 
     Vector3f getAmbientLight();
 
-    const DirectionalLight &getDirectionalLight() const;
+    BaseLight *getActiveLight() const;
 
+    void addLight(BaseLight* light);
 private:
+    std::vector<BaseLight*> lights;
     Vector3f ambientLight;
-    DirectionalLight directionalLight;
+    BaseLight* activeLight;
     Camera* mainCamera;
 };
 

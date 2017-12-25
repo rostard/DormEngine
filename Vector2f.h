@@ -19,6 +19,7 @@ public:
 
     float dot(const Vector2f& r);
 
+    float max() const;
     float getX() const;
 
     void setX(float x);

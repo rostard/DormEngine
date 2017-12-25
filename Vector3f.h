@@ -23,6 +23,8 @@ public:
 
     float dot(Vector3f r);
 
+    float max() const;
+
     float getX() const;
 
     void setX(float x);

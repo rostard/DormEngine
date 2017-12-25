@@ -6,10 +6,12 @@
 #define DORMENGINE_GAMEOBJECT_H
 
 #include <vector>
-#include "GameComponent.h"
+
+#include "Transform.h"
 
 class GameComponent;
 class Shader;
+class RenderingEngine;
 
 class GameObject {
 public:
@@ -24,6 +26,7 @@ public:
 
     void render(Shader &shader);
 
+    void addToRenderingEngine(RenderingEngine&  engine);
     Transform* getTransform();
 private:
     std::vector<GameObject*> children;

@@ -21,6 +21,7 @@ public:
     void input(float d_time) override;
 
 private:
+    GameObject* pointLightObject;
     Shader* shader;
     Mesh* mesh;
     Texture* texture;

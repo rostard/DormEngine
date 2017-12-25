@@ -4,20 +4,20 @@
 
 #include "MeshRenderer.h"
 #include "../Shader.h"
-#include "../resource_management/ResourceManager.h"
+#include "../GameObject.h"
 
 MeshRenderer::MeshRenderer(const Mesh &mesh, const Material &material) : mesh(mesh), material(material) {}
 
-void MeshRenderer::render(const Transform &transform, Shader& shader) {
+void MeshRenderer::render(Shader& shader) {
     shader.bind();
-    shader.updateUniforms(transform, material);
+    shader.updateUniforms(*getParent()->getTransform(), material);
     mesh.render();
 }
 
-void MeshRenderer::input(const Transform &transform, float d_time) {
+void MeshRenderer::input(float d_time) {
 
 }
 
-void MeshRenderer::update(const Transform &transform, float d_time) {
+void MeshRenderer::update(float d_time) {
 
 }

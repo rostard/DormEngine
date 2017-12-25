@@ -6,6 +6,7 @@
 #include <thread>
 #include "CoreEngine.h"
 #include "Mesh.h"
+#include "Window.h"
 
 CoreEngine::CoreEngine(unsigned int width, unsigned int height, unsigned int framerate, Game *game) : width(width), height(height), game(game){
     isRunning = false;
@@ -38,7 +39,6 @@ void CoreEngine::createWindow(const std::string &title) {
 }
 
 void CoreEngine::run() {
-//    Transform::setProjection(70.0, width, height, 0.1f, 1000.0f);
     this->isRunning = true;
     double lastTime = glfwGetTime();
 
@@ -60,6 +60,7 @@ void CoreEngine::run() {
         framesCounter += deltaTime;
 
         while(passedTime > frameTime){
+            renderingEngine->getMainCamera()->input(deltaTime);
             render = true;
             passedTime-=frameTime;
 

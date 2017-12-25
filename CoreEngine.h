@@ -6,9 +6,7 @@
 #define DORMENGINE_COREENGINE_H
 
 
-#include "Game.h"
-#include "Window.h"
-#include "RenderingEngine.h"
+#include "ProjectHeaders.h"
 
 class CoreEngine {
 public:

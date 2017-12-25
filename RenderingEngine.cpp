@@ -5,9 +5,13 @@
 #include <glad/glad.h>
 #include "RenderingEngine.h"
 #include "Window.h"
-#include "resource_management/ResourceManager.h"
+#include "Camera.h"
 #include "ForwardAmbient.h"
 #include "ForwardDirectional.h"
+#include "ForwardPoint.h"
+#include "GameObject.h"
+#include "resource_management/ResourceManager.h"
+#include "components/BaseLight.h"
 
 RenderingEngine::RenderingEngine() {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -25,11 +29,13 @@ RenderingEngine::RenderingEngine() {
 }
 
 void RenderingEngine::render(GameObject& object) {
+
     clearScreen();
 
+    lights.clear();
+    object.addToRenderingEngine(*this);
+
     ForwardAmbient * ambientShader = new ForwardAmbient(*ResourceManager::loadShader("forward-ambient_shader", "forward-ambient.vs.glsl", "forward-ambient.fs.glsl"));
-    ambientShader->setRenderingEngine(this);
-    ForwardDirectional * directionalShader = new ForwardDirectional(*ResourceManager::loadShader("forward-directional_shader", "forward-directional.vs.glsl", "forward-directional.fs.glsl"));
     ambientShader->setRenderingEngine(this);
 
     object.render(*ambientShader);
@@ -39,7 +45,11 @@ void RenderingEngine::render(GameObject& object) {
     glDepthMask(static_cast<GLboolean>(false));
     glDepthFunc(GL_EQUAL);
 
-    object.render(*directionalShader);
+    for(auto light : lights){
+        activeLight = light;
+        light->getShader()->setRenderingEngine(this);
+        object.render(*light->getShader());
+    }
 
     glDepthFunc(GL_LESS);
     glDepthMask(static_cast<GLboolean>(true));
@@ -67,8 +77,12 @@ Vector3f RenderingEngine::getAmbientLight() {
     return ambientLight;
 }
 
-const DirectionalLight &RenderingEngine::getDirectionalLight() const {
-    return directionalLight;
+BaseLight *RenderingEngine::getActiveLight() const {
+    return activeLight;
+}
+
+void RenderingEngine::addLight(BaseLight *light) {
+    lights.push_back(light);
 }
 
 

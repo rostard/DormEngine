@@ -3,15 +3,18 @@
 //
 
 #include "ForwardDirectional.h"
+#include "components/DirectionalLight.h"
+
 
 void ForwardDirectional::updateUniforms(const Transform &transform, const Material &material) {
-    this->setMat4("model", transform.getTransformation());
-    this->setMat4("MVP", transform.getProjectedTransformation(*getRenderingEngine()->getMainCamera()));
-    this->setVec3("viewPos", getRenderingEngine()->getMainCamera()->getPos());
-    this->setFloat("specularIntensity", 0.1);
-    this->setFloat("specularPower", 1.0);
+    setMat4("model", transform.getTransformation());
+    setMat4("MVP", transform.getProjectedTransformation(*getRenderingEngine()->getMainCamera()));
+    setVec3("viewPos", getRenderingEngine()->getMainCamera()->getPos());
+    setFloat("specularIntensity", 0.5);
+    setFloat("shininess", 20.0);
 
-    this->setVec3("dirLight.base.color", getRenderingEngine()->getDirectionalLight().getColor());
-    this->setFloat("dirLight.base.intensity", getRenderingEngine()->getDirectionalLight().getIntensity());
-    this->setVec3("dirLight.direction", getRenderingEngine()->getDirectionalLight().getDirection());
+    DirectionalLight* dirLight = (DirectionalLight*)getRenderingEngine()->getActiveLight();
+    setVec3("dirLight.base.color", dirLight->getColor());
+    setFloat("dirLight.base.intensity", dirLight->getIntensity());
+    setVec3("dirLight.direction", dirLight->getDirection());
 }

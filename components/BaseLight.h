@@ -6,9 +6,11 @@
 #define DORMENGINE_BASELIGHT_H
 
 
-#include "Vector3f.h"
+#include "GameComponent.h"
+#include "../Vector3f.h"
+#include "../Shader.h"
 
-class BaseLight {
+class BaseLight : public GameComponent {
 public:
     BaseLight(const Vector3f &color, float intensity);
 
@@ -20,7 +22,14 @@ public:
 
     void setIntensity(float intensity);
 
+    void addToRenderingEngine(RenderingEngine& renderingEngine);
+
+    Shader* getShader();
+
+    void setShader(Shader *shader);
+
 private:
+    Shader* shader;
     Vector3f color;
     float intensity;
 };

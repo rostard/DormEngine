@@ -2,6 +2,7 @@
 // Created by rostard on 20.12.17.
 //
 
+#include <algorithm>
 #include "Vector3f.h"
 #include "Quaternion.h"
 
@@ -33,6 +34,10 @@ Vector3f Vector3f::lerp(const Vector3f &dest, float lerpFactor) const {
     return (dest - *this) * lerpFactor + *this;
 }
 
+
+float Vector3f::max() const{
+    return std::max(x, std::max(y, z));
+}
 
 float Vector3f::getX() const {
     return x;
@@ -114,4 +119,5 @@ void Vector3f::operator+=(const Vector3f &r) {
 bool Vector3f::operator==(const Vector3f &r) {
     return x == r.x && y == r.y && z == r.z;;
 }
+
 

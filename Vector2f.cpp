@@ -31,6 +31,11 @@ Vector2f Vector2f::rotate(const float angle) {
     return Vector2f(float(x * cos - y * sin), float(x * sin + y * cos));
 }
 
+
+float Vector2f::max() const {
+    return x > y ? x : y;
+}
+
 float Vector2f::getX() const {
     return x;
 }
@@ -74,3 +79,4 @@ Vector2f Vector2f::operator/(float val) const{
 bool Vector2f::operator==(const Vector2f &r) const {
     return x == r.x && y == r.y;
 }
+
