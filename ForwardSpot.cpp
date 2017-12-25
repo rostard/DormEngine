@@ -15,7 +15,7 @@ void ForwardSpot::updateUniforms(const Transform &transform, const Material &mat
     SpotLight* spotLight = (SpotLight*)getRenderingEngine()->getActiveLight();
     setVec3("spotLight.base.color", spotLight->getColor());
     setFloat("spotLight.base.intensity", spotLight->getIntensity());
-    setVec3("spotLight.position", spotLight->getTransform().getTranslation());
+    setVec3("spotLight.position", spotLight->getTransform().getPos());
     setFloat("spotLight.range", spotLight->getRange());
     setFloat("spotLight.attenuation.constant", spotLight->getConstant());
     setFloat("spotLight.attenuation.linear", spotLight->getLinear());

@@ -4,19 +4,15 @@
 
 #include "Transform.h"
 
-Transform::Transform() {
-    translation = Vector3f(0.0, 0.0, 0.0);
-    rotation = Vector3f(0.0, 0.0, 0.0);
-    scale = Vector3f(1.0, 1.0, 1.0);
-}
+Transform::Transform() :  pos(0.0f, 0.0f, 0.0f), rot(0.0f, 0.0f, 0.0f, 1.0f), scale(1.0f, 1.0f, 1.0f){}
 
 Matrix4f Transform::getTransformation() const{
     Matrix4f translationMatrix;
     Matrix4f rotationMatrix;
     Matrix4f scaleMatrix;
 
-    translationMatrix = translationMatrix.initTranslation(getTranslation().getX(), getTranslation().getY(), getTranslation().getZ());
-    rotationMatrix = rotationMatrix.initRotation(getRotation().getX(), getRotation().getY(), getRotation().getZ());
+    translationMatrix = translationMatrix.initTranslation(getPos().getX(), getPos().getY(), getPos().getZ());
+    rotationMatrix = rot.toRotationMatrix();//rotationMatrix.initRotation(getRotation().getX(), getRotation().getY(), getRotation().getZ());
     scaleMatrix = scaleMatrix.initScale(getScale().getX(), getScale().getY(), getScale().getZ());
     return translationMatrix * rotationMatrix * scaleMatrix;
 }
@@ -25,28 +21,28 @@ Matrix4f Transform::getProjectedTransformation(const Camera& camera) const{
     return camera.getViewProjection() * getTransformation();
 }
 
-const Vector3f &Transform::getTranslation() const {
-    return translation;
+const Vector3f &Transform::getPos() const {
+    return pos;
 }
 
-void Transform::setTranslation(const Vector3f &translation) {
-    Transform::translation = translation;
+void Transform::setPos(const Vector3f &translation) {
+    Transform::pos = translation;
 }
 
-void Transform::setTranslation(float x, float y, float z) {
-    Transform::translation = Vector3f(x, y, z);
+void Transform::setPos(float x, float y, float z) {
+    Transform::pos = Vector3f(x, y, z);
 }
 
-const Vector3f &Transform::getRotation() const {
-    return rotation;
+const Quaternion &Transform::getRot() const {
+    return rot;
 }
 
-void Transform::setRotation(const Vector3f &rotation) {
-    Transform::rotation = rotation;
+void Transform::setRot(const Quaternion &rotation) {
+    Transform::rot = rotation;
 }
 
-void Transform::setRotation(float x, float y, float z) {
-    Transform::rotation = Vector3f(x, y, z);
+void Transform::setRot(float x, float y, float z, float w) {
+    Transform::rot = Quaternion(x, y, z, w);
 }
 
 const Vector3f &Transform::getScale() const {

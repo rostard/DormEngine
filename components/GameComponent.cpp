@@ -13,6 +13,6 @@ GameObject *GameComponent::getParent() const {
     return parent;
 }
 
-Transform &GameComponent::getTransform() {
+Transform &GameComponent::getTransform() const{
     return *parent->getTransform();
 }

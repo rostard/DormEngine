@@ -15,7 +15,7 @@ void ForwardPoint::updateUniforms(const Transform &transform, const Material &ma
     PointLight* pointLight = (PointLight*)getRenderingEngine()->getActiveLight();
     setVec3("pointLight.base.color", pointLight->getColor());
     setFloat("pointLight.base.intensity", pointLight->getIntensity());
-    setVec3("pointLight.position", pointLight->getTransform().getTranslation());
+    setVec3("pointLight.position", pointLight->getTransform().getPos());
     setFloat("pointLight.range", pointLight->getRange());
     setFloat("pointLight.attenuation.constant", pointLight->getConstant());
     setFloat("pointLight.attenuation.linear", pointLight->getLinear());

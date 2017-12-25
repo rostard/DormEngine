@@ -87,6 +87,16 @@ Vector3f Vector3f::operator/(float val) const{
     return Vector3f(x / val, y / val, z / val);
 }
 
+void Vector3f::operator+=(const Vector3f &r) {
+    x += r.x;
+    y += r.y;
+    z += r.z;
+}
+
+bool Vector3f::operator==(const Vector3f &r) {
+    return x == r.x && y == r.y && z == r.z;;
+}
+
 Vector3f Vector3f::rotate(const Vector3f &axis, float angle) {
     double sinHalfAngle = std::sin(angle * (180.0 * M_PI) / 2.0);
     double cosHalfAngle = std::cos(angle * (180.0 * M_PI) / 2.0);
@@ -106,18 +116,14 @@ Vector3f Vector3f::rotate(const Vector3f &axis, float angle) {
     z = w.getZ();
 
     return *this;
-
-
 }
 
-void Vector3f::operator+=(const Vector3f &r) {
-    x += r.x;
-    y += r.y;
-    z += r.z;
-}
+Vector3f Vector3f::rotate(const Quaternion &rotation) {
+    Quaternion conjugate = rotation.conjugate();
 
-bool Vector3f::operator==(const Vector3f &r) {
-    return x == r.x && y == r.y && z == r.z;;
+    Quaternion w = rotation * (*this) * conjugate;
+
+    return Vector3f(w.getX(), w.getY(), w.getZ());
 }
 
 

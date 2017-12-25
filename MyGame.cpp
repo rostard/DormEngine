@@ -47,7 +47,7 @@ void MyGame::init() {
 
 
     GameObject* spotLightObject = new GameObject();
-    SpotLight* spotLight = new SpotLight(Vector3f(0.0f, 1.0f, 0.0f), 1.0f, Vector3f(0, 0, 1), Vector3f(1.0f, -0.3f, 0.0f), 0.7f);
+    SpotLight* spotLight = new SpotLight(Vector3f(0.0f, 1.0f, 0.0f), 1.0f, Vector3f(0, 0, 1), 0.7f);
     spotLightObject->addComponent(spotLight);
     spotLightObject->addComponent(new MeshRenderer(*cube, material));
     spotLightObject->getTransform()->setScale(0.1f, 0.1f, 0.1f);
@@ -65,7 +65,7 @@ void MyGame::update(float d_time) {
     static float allTime = 0;
     allTime += d_time;
     Game::update(d_time);
-    pointLightObject->getTransform()->setTranslation(sin(allTime) * 10.0f, 0.0f, cos(allTime) * 10.0f);
+    pointLightObject->getTransform()->setPos(sin(allTime) * 10.0f, 0.0f, cos(allTime) * 10.0f);
 //    plane->getTransform()->setRotation(allTime * 2.0f,allTime * 20.0f,allTime * 10.0f);
 //    plane->getTransform()->setTranslation(sin(allTime),0,5.0f);
 //    plane->getTransform()->setScale(sin(allTime)*2, sin(allTime)*2, 1);

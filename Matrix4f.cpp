@@ -3,6 +3,7 @@
 //
 
 #include "Matrix4f.h"
+#include "Vector3f.h"
 
 Matrix4f Matrix4f::initIdentity() {
     m[0][0] = 1; m[0][1] = 0; m[0][2] = 0; m[0][3] = 0;
@@ -83,6 +84,14 @@ Matrix4f Matrix4f::initRotation(const Vector3f &forward, const Vector3f &up) {
     Vector3f f = forward.normalized();
     Vector3f r = up.normalized().cross(f).normalized();
     Vector3f u = f.cross(r).normalized();
+
+    return initRotation(f, u, r);
+}
+
+Matrix4f Matrix4f::initRotation(const Vector3f &forward, const Vector3f &up, const Vector3f &right) {
+    Vector3f f = forward;
+    Vector3f r = right;
+    Vector3f u = up;
 
     m[0][0] = r.getX(); m[0][1] = r.getY(); m[0][2] = r.getZ(); m[0][3] = 0;
     m[1][0] = u.getX(); m[1][1] = u.getY(); m[1][2] = u.getZ(); m[1][3] = 0;

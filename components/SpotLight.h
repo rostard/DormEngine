@@ -11,19 +11,16 @@
 class SpotLight : public PointLight {
 
 public:
-    SpotLight(const Vector3f& color, float intensity, const Vector3f& attenuation, const Vector3f& direction, float cutoff);
+    SpotLight(const Vector3f& color, float intensity, const Vector3f& attenuation, float cutoff);
 
     float getCutoff() const;
 
     void setCutoff(float cutoff);
 
-    const Vector3f &getDirection() const;
-
-    void setDirection(const Vector3f &direction);
+    const Vector3f getDirection() const;
 
 private:
     float cutoff;
-    Vector3f direction;
 };
 
 

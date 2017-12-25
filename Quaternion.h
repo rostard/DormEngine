@@ -6,6 +6,7 @@
 #define DORMENGINE_QUATERNION_H
 
 #include "Vector3f.h"
+#include "Matrix4f.h"
 
 class Quaternion {
 public:
@@ -31,8 +32,36 @@ public:
         return Quaternion(-x, -y, -z, w);
     }
 
+    Matrix4f toRotationMatrix() const{
+        return Matrix4f().initRotation(getForward(), getUp(), getRight());
+    }
 
-    Quaternion operator*(const Quaternion& r){
+
+    Vector3f getForward() const{
+        return Vector3f(0.0f, 0.0f, 1.0f).rotate(*this);
+    }
+
+    Vector3f getBack(){
+        return Vector3f(0.0f, 0.0f, -1.0f).rotate(*this);
+    }
+
+    Vector3f getUp() const{
+        return Vector3f(0.0f, 1.0f, 0.0f).rotate(*this);
+    }
+
+    Vector3f getDown() const{
+        return Vector3f(0.0f, -1.0f, 0.0f).rotate(*this);
+    }
+
+    Vector3f getLeft() const{
+        return Vector3f(-1.0f, 0.0f, 0.0f).rotate(*this);
+    }
+
+    Vector3f getRight() const{
+        return Vector3f(1.0f, 0.0f, 0.0f).rotate(*this);
+    }
+
+    Quaternion operator*(const Quaternion& r) const{
         float x = this->x * r.w + this->w * r.x + this->y * r.z - this->z * r.y;
         float y = this->y * r.w + this->w * r.y + this->z * r.x - this->x * r.z;
         float z = this->z * r.w + this->w * r.z + this->x * r.y - this->y * r.x;
@@ -41,7 +70,7 @@ public:
         return Quaternion(x, y, z, w);
     }
 
-    Quaternion operator*(const Vector3f& r){
+    Quaternion operator*(const Vector3f& r) const{
         float w = -this->x * r.getX() - this->y * r.getY() - this->z * r.getZ();
         float x = this->w * r.getX() + this->y * r.getZ()  - this->z * r.getY();
         float y = this->w * r.getY() + this->z * r.getX() - this->x * r.getZ();

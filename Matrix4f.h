@@ -3,7 +3,8 @@
 
 #include <math.h>
 #include <cstring>
-#include "Vector3f.h"
+
+class Vector3f;
 
 class Matrix4f {
 public:
@@ -21,6 +22,8 @@ public:
     Matrix4f initOrtographic(float left, float right, float top, float bottom, float zNear, float zFar);
 
     Matrix4f initRotation(const Vector3f &forward, const Vector3f &up);
+
+    Matrix4f initRotation(const Vector3f &forward, const Vector3f &up, const Vector3f &right);
 
     Matrix4f operator*(const Matrix4f& m2) const;
 

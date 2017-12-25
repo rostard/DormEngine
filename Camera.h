@@ -6,6 +6,7 @@
 #define DORMENGINE_CAMERA_H
 
 #include "Matrix4f.h"
+#include "Vector3f.h"
 
 class Camera {
 public:

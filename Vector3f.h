@@ -8,6 +8,8 @@
 
 #include <cmath>
 
+class Quaternion;
+
 class Vector3f {
 public:
     Vector3f();
@@ -51,7 +53,7 @@ public:
     bool operator==(const Vector3f& r);
 
     Vector3f rotate(const Vector3f &axis, float angle);
-
+    Vector3f rotate(const Quaternion& rotation);
 private:
     float x;
     float y;

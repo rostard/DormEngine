@@ -22,7 +22,7 @@ public:
 
     GameObject *getParent() const;
 
-    Transform& getTransform();
+    Transform& getTransform() const;
 private:
     GameObject* parent;
 

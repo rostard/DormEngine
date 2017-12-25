@@ -8,6 +8,7 @@
 
 #include "Matrix4f.h"
 #include "Camera.h"
+#include "Quaternion.h"
 
 class Transform {
 public:
@@ -17,17 +18,17 @@ public:
 
     Matrix4f getProjectedTransformation(const Camera& camera) const;
 
-    const Vector3f &getTranslation() const;
+    const Vector3f &getPos() const;
 
-    void setTranslation(const Vector3f &translation);
+    void setPos(const Vector3f &translation);
 
-    void setTranslation(float x, float y, float z);
+    void setPos(float x, float y, float z);
 
-    const Vector3f &getRotation() const;
+    const Quaternion &getRot() const;
 
-    void setRotation(const Vector3f &rotation);
+    void setRot(const Quaternion &rotation);
 
-    void setRotation(float x, float y, float z);
+    void setRot(float x, float y, float z, float w);
 
     const Vector3f &getScale() const;
 
@@ -38,8 +39,8 @@ public:
 
 private:
 
-    Vector3f translation;
-    Vector3f rotation;
+    Vector3f pos;
+    Quaternion rot;
     Vector3f scale;
 
 };
