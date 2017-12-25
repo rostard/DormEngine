@@ -8,6 +8,7 @@
 #include "Input.h"
 #include "components/DirectionalLight.h"
 #include "components/PointLight.h"
+#include "components/SpotLight.h"
 
 void MyGame::init() {
 
@@ -20,26 +21,37 @@ void MyGame::init() {
     root->addChild(plane);
 
 
-    texture = ResourceManager::loadTexture("rock", "test.png");
+    texture = ResourceManager::loadTexture("test", "test.png");
     texture->bind();
-    mesh = ResourceManager::loadMesh("rock", "plane/plane.obj");
+    mesh = ResourceManager::loadMesh("plane", "plane/plane.obj");
 
     Material material;
     plane->addComponent(new MeshRenderer(*mesh, material));
 
-    GameObject* dirLightObject = new GameObject();
-    DirectionalLight* dirLight = new DirectionalLight(Vector3f(1.0f, 0.0f, 0.0f), 0.5f, Vector3f(-1.0f, -1.0f, -1.0f));
-    DirectionalLight* dirLight2 = new DirectionalLight(Vector3f(0.0f, 0.0f, 1.0f), 0.5f, Vector3f(1.0f, -1.0f, 1.0f));
-    dirLightObject->addComponent(dirLight);
-    dirLightObject->addComponent(dirLight2);
-    root->addChild(dirLightObject);
-//
+//    GameObject* dirLightObject = new GameObject();
+//    DirectionalLight* dirLight = new DirectionalLight(Vector3f(1.0f, 0.0f, 0.0f), 0.5f, Vector3f(-1.0f, -1.0f, -1.0f));
+//    DirectionalLight* dirLight2 = new DirectionalLight(Vector3f(0.0f, 0.0f, 1.0f), 0.5f, Vector3f(1.0f, -1.0f, 1.0f));
+//    dirLightObject->addComponent(dirLight);
+//    dirLightObject->addComponent(dirLight2);
+//    root->addChild(dirLightObject);
+
+
+    Mesh * cube = ResourceManager::loadMesh("cube", "cube/cube.obj");
+
     pointLightObject = new GameObject();
     PointLight* pointLight = new PointLight(Vector3f(0.0f, 1.0f, 0.0f), 1.0f, Vector3f(0, 0, 1));
-//    PointLight* pointLight2 = new PointLight(Vector3f(1.0f, 0.0f, 0.0f), 2.0f);
     pointLightObject->addComponent(pointLight);
-//    pointLightObject->addComponent(pointLight2);
+    pointLightObject->addComponent(new MeshRenderer(*cube, material));
+    pointLightObject->getTransform()->setScale(0.1f, 0.1f, 0.1f);
     root->addChild(pointLightObject);
+
+
+    GameObject* spotLightObject = new GameObject();
+    SpotLight* spotLight = new SpotLight(Vector3f(0.0f, 1.0f, 0.0f), 1.0f, Vector3f(0, 0, 1), Vector3f(1.0f, -0.3f, 0.0f), 0.7f);
+    spotLightObject->addComponent(spotLight);
+    spotLightObject->addComponent(new MeshRenderer(*cube, material));
+    spotLightObject->getTransform()->setScale(0.1f, 0.1f, 0.1f);
+    root->addChild(spotLightObject);
 
 }
 

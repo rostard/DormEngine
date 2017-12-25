@@ -35,11 +35,12 @@ void Mesh::addVertices(const std::vector<Vertex> &vertices, const std::vector<un
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, size * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
+//    glBindVertexArray(0);
 }
 
 void Mesh::render() {
     glBindVertexArray (vao);
-
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
     glEnableVertexAttribArray(0);
 

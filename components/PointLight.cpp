@@ -13,13 +13,14 @@ PointLight::PointLight(const Vector3f &color, float intensity, const Vector3f &a
         BaseLight(color, intensity),
         constant(attenuation.getX()), linear(attenuation.getY()),
         quadratic(attenuation.getZ()){
-    setShader(new ForwardPoint(*ResourceManager::loadShader("forward-point_shader", "forward-point.vs.glsl", "forward-point.fs.glsl")));
 
     float a = attenuation.getZ();
     float b = attenuation.getY();
     float c = attenuation.getX() - intensity * color.max() * COLOR_DEPTH;
 
     range = (-b + std::sqrt(b * b - 4 * a * c)) / (2 * a);
+
+    setShader(new ForwardPoint(*ResourceManager::loadShader("forward-point_shader", "forward-point.vs.glsl", "forward-point.fs.glsl")));
 }
 
 
