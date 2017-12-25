@@ -48,7 +48,7 @@ Camera::Camera() {
 void Camera::rotateY(float angle) {
     Vector3f haxis = yAxis.cross(forward).normalized();
 
-    forward.rotate(yAxis, angle);
+    forward = forward.rotate(yAxis, angle);
     forward = forward.normalized();
 
     up = forward.cross(haxis);
@@ -57,7 +57,7 @@ void Camera::rotateY(float angle) {
 
 void Camera::rotateX(float angle) {
     Vector3f haxis = yAxis.cross(forward).normalized();
-    forward.rotate(haxis, angle);
+    forward = forward.rotate(haxis, angle);
     forward = forward.normalized();
 
     up = forward.cross(haxis);
@@ -76,7 +76,7 @@ Vector3f Camera::getRight() {
 
 void Camera::input(float d_time) {
     float movAmt = d_time * 10.0f;
-    float rotAmt = d_time / 180.0f;
+    float rotAmt = d_time;
 
     if(Input::isKeyPress(GLFW_KEY_W))
         move(forward, movAmt);

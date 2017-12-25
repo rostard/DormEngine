@@ -22,6 +22,7 @@ public:
 
 private:
     GameObject* pointLightObject;
+    GameObject* spotLightObject;
     Shader* shader;
     Mesh* mesh;
     Texture* texture;

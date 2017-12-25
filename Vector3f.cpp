@@ -98,15 +98,13 @@ bool Vector3f::operator==(const Vector3f &r) {
 }
 
 Vector3f Vector3f::rotate(const Vector3f &axis, float angle) {
-    double sinHalfAngle = std::sin(angle * (180.0 * M_PI) / 2.0);
-    double cosHalfAngle = std::cos(angle * (180.0 * M_PI) / 2.0);
+    float sinAngle = std::sin(-angle);
+    float cosAngle = std::cos(-angle);
 
-    double rX = axis.getX() * sinHalfAngle;
-    double rY = axis.getY() * sinHalfAngle;
-    double rZ = axis.getZ() * sinHalfAngle;
-    double rW = cosHalfAngle;
+    return this->cross(axis * sinAngle) + *this * cosAngle + axis * this->dot(axis * (1 - cosAngle));
+}
 
-    Quaternion rotation(rX, rY, rZ, rW);
+Vector3f Vector3f::rotate(const Quaternion &rotation) {
     Quaternion conjugate = rotation.conjugate();
 
     Quaternion w = (rotation * *this) * conjugate;
@@ -116,14 +114,6 @@ Vector3f Vector3f::rotate(const Vector3f &axis, float angle) {
     z = w.getZ();
 
     return *this;
-}
-
-Vector3f Vector3f::rotate(const Quaternion &rotation) {
-    Quaternion conjugate = rotation.conjugate();
-
-    Quaternion w = rotation * (*this) * conjugate;
-
-    return Vector3f(w.getX(), w.getY(), w.getZ());
 }
 
 

@@ -10,74 +10,33 @@
 
 class Quaternion {
 public:
+    Quaternion();
+
     Quaternion(float x, float y, float z, float w);
 
+    Quaternion initRotation(const Vector3f& axis, float angle);
 
-    float length() const{
-        return std::sqrt(x*x +y*y + z*z + w*w);
-    }
+    float length() const;
 
-    Quaternion normalized(){
-        float length = this->length();
+    Quaternion normalized();
 
-        float x = this->x / length;
-        float y = this->y / length;
-        float z = this->z / length;
-        float w = this->w / length;
+    Quaternion conjugate() const;
 
-        return Quaternion(x, y, z, w);
-    }
+    Matrix4f toRotationMatrix() const;
 
-    Quaternion conjugate() const{
-        return Quaternion(-x, -y, -z, w);
-    }
+    Vector3f getForward() const;
 
-    Matrix4f toRotationMatrix() const{
-        return Matrix4f().initRotation(getForward(), getUp(), getRight());
-    }
+    Vector3f getBack();
 
+    Vector3f getUp() const;
 
-    Vector3f getForward() const{
-        return Vector3f(0.0f, 0.0f, 1.0f).rotate(*this);
-    }
+    Vector3f getLeft() const;
 
-    Vector3f getBack(){
-        return Vector3f(0.0f, 0.0f, -1.0f).rotate(*this);
-    }
+    Vector3f getRight() const;
 
-    Vector3f getUp() const{
-        return Vector3f(0.0f, 1.0f, 0.0f).rotate(*this);
-    }
+    Quaternion operator*(const Quaternion& r) const;
 
-    Vector3f getDown() const{
-        return Vector3f(0.0f, -1.0f, 0.0f).rotate(*this);
-    }
-
-    Vector3f getLeft() const{
-        return Vector3f(-1.0f, 0.0f, 0.0f).rotate(*this);
-    }
-
-    Vector3f getRight() const{
-        return Vector3f(1.0f, 0.0f, 0.0f).rotate(*this);
-    }
-
-    Quaternion operator*(const Quaternion& r) const{
-        float x = this->x * r.w + this->w * r.x + this->y * r.z - this->z * r.y;
-        float y = this->y * r.w + this->w * r.y + this->z * r.x - this->x * r.z;
-        float z = this->z * r.w + this->w * r.z + this->x * r.y - this->y * r.x;
-        float w = this->w * r.w - this->x * r.x - this->y * r.y - this->z * r.z;
-
-        return Quaternion(x, y, z, w);
-    }
-
-    Quaternion operator*(const Vector3f& r) const{
-        float w = -this->x * r.getX() - this->y * r.getY() - this->z * r.getZ();
-        float x = this->w * r.getX() + this->y * r.getZ()  - this->z * r.getY();
-        float y = this->w * r.getY() + this->z * r.getX() - this->x * r.getZ();
-        float z = this->w * r.getZ() + this->x * r.getY() - this->y * r.getX();
-
-        return Quaternion(x, y, z, w);
-    }
+    Quaternion operator*(const Vector3f& r) const;
 
     float getX() const;
 
