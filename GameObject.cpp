@@ -35,13 +35,13 @@ void GameObject::update(float d_time) {
     }
 }
 
-void GameObject::render(Shader &shader) {
+void GameObject::render(Shader &shader, RenderingEngine* renderingEngine) {
     for(auto component : components){
-        component->render(shader);
+        component->render(shader, renderingEngine);
     }
 
     for(auto child : children){
-        child->render(shader);
+        child->render(shader, renderingEngine);
     }
     transform.update();
 }

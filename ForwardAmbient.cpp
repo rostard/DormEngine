@@ -4,7 +4,7 @@
 
 #include "ForwardAmbient.h"
 
-void ForwardAmbient::updateUniforms(Transform &transform, const Material &material) {
-    this->setMat4("MVP", transform.getProjectedTransformation(*getRenderingEngine()->getMainCamera()));
-    this->setVec3("ambientIntensity", getRenderingEngine()->getAmbientLight());
+void ForwardAmbient::updateUniforms(Transform &transform, const Material &material, RenderingEngine* renderingEngine) {
+    this->setMat4("MVP", transform.getProjectedTransformation(*renderingEngine->getMainCamera()));
+    this->setVec3("ambientIntensity", renderingEngine->getAmbientLight());
 }

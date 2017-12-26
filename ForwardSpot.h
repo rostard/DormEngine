@@ -11,11 +11,10 @@
 class ForwardSpot : public Shader {
 public:
     ForwardSpot(const Shader& shader){
-        setRenderingEngine(shader.getRenderingEngine());
         setProgram(shader.getProgram());
     }
 
-    void updateUniforms(Transform &transform, const Material &material) override;
+    void updateUniforms(Transform &transform, const Material &material, RenderingEngine* renderingEngine) override;
 };
 
 

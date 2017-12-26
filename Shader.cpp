@@ -83,16 +83,9 @@ void Shader::setMat4(const std::string &name, Matrix4f matrix) const {
 void Shader::setVec3(const std::string &name, Vector3f vector) const {
     glUniform3f(glGetUniformLocation(program, name.c_str()), vector.getX(), vector.getY(), vector.getZ());
 }
-void Shader::setRenderingEngine(RenderingEngine *engine) {
-    renderingEngine = engine;
-}
-
-RenderingEngine *Shader::getRenderingEngine() const {
-    return renderingEngine;
-}
 
 
-void Shader::updateUniforms(Transform &transform, const Material &matrerial) {
+void Shader::updateUniforms(Transform &transform, const Material &matrerial, RenderingEngine* renderingEngine) {
     setMat4("haha", transform.getTransformation());
     setMat4("transform", transform.getProjectedTransformation(*renderingEngine->getMainCamera()));
 

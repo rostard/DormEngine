@@ -17,10 +17,13 @@ public:
 
     virtual void init();
 
+    void render(RenderingEngine* renderingEngine);
 
+    void addObject(GameObject* gameObject);
+
+
+private:
     GameObject* getRoot();
-
-protected:
     GameObject* root;
 };
 

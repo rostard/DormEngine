@@ -29,11 +29,8 @@ public:
     void setFloat(const std::string &name, float value) const;
     void setMat4(const std::string &name, Matrix4f matrix) const;
     void setVec3(const std::string &name, Vector3f vector) const;
-    void setRenderingEngine(RenderingEngine* engine);
 
-    RenderingEngine *getRenderingEngine() const;
-
-    virtual void updateUniforms(Transform &transform, const Material &matrerial);
+    virtual void updateUniforms(Transform &transform, const Material &matrerial, RenderingEngine* renderingEngine);
 
 protected:
 public:
@@ -45,7 +42,6 @@ private:
     void addShader(const std::string& shaderSource, int shaderType);
 
     unsigned int program;
-    RenderingEngine* renderingEngine;
 };
 
 

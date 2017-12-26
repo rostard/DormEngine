@@ -77,7 +77,7 @@ void CoreEngine::run() {
         }
         if(render){
             frames++;
-            renderingEngine->render(*game->getRoot());
+            game->render(renderingEngine);
             Window::render();
         } else{
 //                std::this_thread::sleep_for(std::chrono::seconds(1));

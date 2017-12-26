@@ -8,9 +8,9 @@
 
 MeshRenderer::MeshRenderer(const Mesh &mesh, const Material &material) : mesh(mesh), material(material) {}
 
-void MeshRenderer::render(Shader& shader) {
+void MeshRenderer::render(Shader& shader, RenderingEngine* renderingEngine) {
     shader.bind();
-    shader.updateUniforms(*getParent()->getTransform(), material);
+    shader.updateUniforms(*getParent()->getTransform(), material, renderingEngine);
     mesh.render();
 }
 

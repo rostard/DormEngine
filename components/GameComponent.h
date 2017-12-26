@@ -14,7 +14,7 @@ class GameObject;
 class GameComponent {
 public:
     virtual void input(float d_time) {}
-    virtual void render(Shader& shader){}
+    virtual void render(Shader& shader, RenderingEngine* renderingEngine){}
     virtual void update(float d_time){}
     virtual void addToRenderingEngine(RenderingEngine& renderingEngine){}
 

@@ -14,7 +14,7 @@ class MeshRenderer : public GameComponent {
 public:
     MeshRenderer(const Mesh &mesh, const Material &material);
 
-    void render(Shader& shader) override;
+    void render(Shader& shader, RenderingEngine* renderingEngine) override;
 
     void input(float d_time) override;
 

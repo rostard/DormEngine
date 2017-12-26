@@ -11,14 +11,11 @@
 #include "components/SpotLight.h"
 
 void MyGame::init() {
-
-    root =  new GameObject();
-
     Game::init();
 //    camera = new Camera();
 
     plane = new GameObject();
-    root->addChild(plane);
+    addObject(plane);
 
 
     texture = ResourceManager::loadTexture("test", "test.png");
@@ -34,9 +31,9 @@ void MyGame::init() {
     DirectionalLight* dirLight2 = new DirectionalLight(Vector3f(0.0f, 0.0f, 1.0f), 0.5f);
     dirLightObject->addComponent(dirLight);
     dirLightObject2->addComponent(dirLight2);
-    root->addChild(dirLightObject);
+    addObject(dirLightObject);
     dirLightObject2->getTransform()->setRot(Quaternion(Vector3f(0,1,0), M_PI));
-    root->addChild(dirLightObject2);
+   addObject(dirLightObject2);
 
 
     Mesh * cube = ResourceManager::loadMesh("cube", "cube/cube.obj");
@@ -57,12 +54,12 @@ void MyGame::init() {
     spotLightObject->getTransform()->setPos(0.0f, 1.0f, 0.0f);
     spotLightObject->addChild(pointLightObject);
 
-    root->addChild(spotLightObject);
+    addObject(spotLightObject);
     GameObject* cameraObject = new GameObject();
     Camera* camera = new Camera(70.0f * (M_PI / 180.0f), Window::getSize().getX() / Window::getSize().getY(), 0.01f, 1000.0f);
     cameraObject->addComponent(camera);
 
-    root->addChild(cameraObject);
+    addObject(cameraObject);
 }
 
 

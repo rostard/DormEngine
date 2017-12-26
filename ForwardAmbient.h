@@ -11,10 +11,9 @@
 class ForwardAmbient : public Shader{
 public:
     ForwardAmbient(const Shader& shader){
-        setRenderingEngine(shader.getRenderingEngine());
         setProgram(shader.getProgram());
     }
-    void updateUniforms(Transform &transform, const Material &material) override;
+    void updateUniforms(Transform &transform, const Material &material, RenderingEngine* renderingEngine) override;
 };
 
 
