@@ -41,7 +41,11 @@ Quaternion Quaternion::conjugate() const {
 }
 
 Matrix4f Quaternion::toRotationMatrix() const {
-    return Matrix4f().initRotation(getForward(), getUp(), getRight());
+    Vector3f forward(2.0f * (x * z - w * y), 2.0f * (y * z + w * x), 1.0f - 2.0f * (x * x + y * y));
+    Vector3f up(2.0f * (x * y + w * z), 1.0f - 2.0f * (x * x + z * z), 2.0f * (y * z - w * x));
+    Vector3f right(1.0f - 2.0f * (y * y + z * z), 2.0f * (x * y - w * z), 2.0f * (x * z + w * y));
+
+    return Matrix4f().initRotation(forward, up, right);
 }
 
 Vector3f Quaternion::getForward() const {
@@ -54,6 +58,10 @@ Vector3f Quaternion::getBack() const{
 
 Vector3f Quaternion::getUp() const {
     return Vector3f(0.0f, 1.0f, 0.0f).rotate(*this);
+}
+
+Vector3f Quaternion::getDown() const {
+    return Vector3f(0.0f, -1.0f, 0.0f).rotate(*this);
 }
 
 Vector3f Quaternion::getLeft() const {
@@ -112,6 +120,14 @@ Quaternion Quaternion::operator*(const Vector3f &r) const {
     float z = this->w * r.getZ() + this->x * r.getY() - this->y * r.getX();
 
     return Quaternion(x, y, z, w);
+}
+
+bool Quaternion::operator==(const Quaternion &r) const{
+    return x == r.x && y == r.y && z == r.z && w == r.w;
+}
+
+bool Quaternion::operator!=(const Quaternion &r) const{
+    return x != r.x || y != r.y || z != r.z || w != r.w;
 }
 
 

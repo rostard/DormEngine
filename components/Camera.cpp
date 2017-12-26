@@ -20,11 +20,11 @@ void Camera::move(Vector3f direction, float amt) {
 Camera::Camera() {}
 
 void Camera::rotateY(float angle) {
-    getTransform().setRot(Quaternion(yAxis, angle).normalized() * getTransform().getRot());
+    getTransform().rotate(yAxis, angle);
 }
 
 void Camera::rotateX(float angle) {
-    getTransform().setRot(Quaternion(getTransform().getRot().getRight(), angle) * getTransform().getRot());
+    getTransform().rotate(getTransform().getRot().getRight(), angle);
 }
 
 void Camera::input(float d_time) {
@@ -56,12 +56,12 @@ Camera::Camera(float fov, float aspect, float zNear, float zFar) {
 }
 
 Matrix4f Camera::getViewProjection() const {
-    Matrix4f cameraRotation = getTransform().getRot().toRotationMatrix();
-    Matrix4f cameraTranslation;
+    Matrix4f cameraRotation = getTransform().getTransformedRot().conjugate().toRotationMatrix();
+    Matrix4f cameraPosition ;
 
-    cameraTranslation.initTranslation(-getTransform().getPos().getX(), -getTransform().getPos().getY(), -getTransform().getPos().getZ());
+    cameraPosition.initTranslation(-getTransform().getTransformedPos().getX(), -getTransform().getTransformedPos().getY(), -getTransform().getTransformedPos().getZ());
 
-    return projection * cameraRotation * cameraTranslation;
+    return projection * cameraRotation * cameraPosition;
 }
 
 void Camera::addToRenderingEngine(RenderingEngine &renderingEngine) {

@@ -50,10 +50,11 @@ public:
     Vector3f operator/(float val) const;
 
     void operator+=(const Vector3f& r);
-    bool operator==(const Vector3f& r);
+    bool operator==(const Vector3f& r) const;
+    bool operator!=(const Vector3f& r) const;
 
     Vector3f rotate(const Vector3f &axis, float angle);
-    Vector3f rotate(const Quaternion& rotation);
+    Vector3f& rotate(const Quaternion& rotation);
 private:
     float x;
     float y;

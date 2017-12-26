@@ -28,12 +28,15 @@ void MyGame::init() {
     Material material;
     plane->addComponent(new MeshRenderer(*mesh, material));
 
-//    GameObject* dirLightObject = new GameObject();
-//    DirectionalLight* dirLight = new DirectionalLight(Vector3f(1.0f, 0.0f, 0.0f), 0.5f, Vector3f(-1.0f, -1.0f, -1.0f));
-//    DirectionalLight* dirLight2 = new DirectionalLight(Vector3f(0.0f, 0.0f, 1.0f), 0.5f, Vector3f(1.0f, -1.0f, 1.0f));
-//    dirLightObject->addComponent(dirLight);
-//    dirLightObject->addComponent(dirLight2);
-//    root->addChild(dirLightObject);
+    GameObject* dirLightObject = new GameObject();
+    GameObject* dirLightObject2 = new GameObject();
+    DirectionalLight* dirLight = new DirectionalLight(Vector3f(1.0f, 0.0f, 0.0f), 0.5f);
+    DirectionalLight* dirLight2 = new DirectionalLight(Vector3f(0.0f, 0.0f, 1.0f), 0.5f);
+    dirLightObject->addComponent(dirLight);
+    dirLightObject2->addComponent(dirLight2);
+    root->addChild(dirLightObject);
+    dirLightObject2->getTransform()->setRot(Quaternion(Vector3f(0,1,0), M_PI));
+    root->addChild(dirLightObject2);
 
 
     Mesh * cube = ResourceManager::loadMesh("cube", "cube/cube.obj");
@@ -42,8 +45,8 @@ void MyGame::init() {
     PointLight* pointLight = new PointLight(Vector3f(0.0f, 1.0f, 0.0f), 1.0f, Vector3f(0, 0, 1));
     pointLightObject->addComponent(pointLight);
     pointLightObject->addComponent(new MeshRenderer(*cube, material));
-    pointLightObject->getTransform()->setScale(0.1f, 0.1f, 0.1f);
-    root->addChild(pointLightObject);
+//    pointLightObject->getTransform()->setScale(0.1f, 0.1f, 0.1f);
+    pointLightObject->getTransform()->setPos(4.0f, 0.0f, 0.0f);
 
 
     spotLightObject = new GameObject();
@@ -51,10 +54,15 @@ void MyGame::init() {
     spotLightObject->addComponent(spotLight);
     spotLightObject->addComponent(new MeshRenderer(*cube, material));
     spotLightObject->getTransform()->setScale(0.1f, 0.1f, 0.1f);
-    root->addChild(spotLightObject);
+    spotLightObject->getTransform()->setPos(0.0f, 1.0f, 0.0f);
+    spotLightObject->addChild(pointLightObject);
 
+    root->addChild(spotLightObject);
+    GameObject* cameraObject = new GameObject();
     Camera* camera = new Camera(70.0f * (M_PI / 180.0f), Window::getSize().getX() / Window::getSize().getY(), 0.01f, 1000.0f);
-    root->addComponent(camera);
+    cameraObject->addComponent(camera);
+
+    root->addChild(cameraObject);
 }
 
 
@@ -67,7 +75,7 @@ void MyGame::update(float d_time) {
     static float allTime = 0;
     allTime += d_time;
     Game::update(d_time);
-    pointLightObject->getTransform()->setPos(sin(allTime) * 10.0f, 0.0f, cos(allTime) * 10.0f);
+//    pointLightObject->getTransform()->setPos(sin(allTime) * 10.0f, 0.0f, cos(allTime) * 10.0f);
     spotLightObject->getTransform()->setRot(Quaternion(Vector3f(1.0f, 0.0, 0.0), allTime));
 //    plane->getTransform()->setRotation(allTime * 2.0f,allTime * 20.0f,allTime * 10.0f);
 //    plane->getTransform()->setTranslation(sin(allTime),0,5.0f);

@@ -3,6 +3,7 @@
 
 #include <math.h>
 #include <cstring>
+#include "Vector3f.h"
 
 class Vector3f;
 
@@ -26,6 +27,8 @@ public:
     Matrix4f initRotation(const Vector3f &forward, const Vector3f &up, const Vector3f &right);
 
     Matrix4f operator*(const Matrix4f& m2) const;
+
+    Vector3f transform(const Vector3f& vector) const;
 
     float get(int i, int j) const;
 

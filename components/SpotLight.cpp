@@ -19,5 +19,5 @@ void SpotLight::setCutoff(float cutoff) {
 }
 
 const Vector3f SpotLight::getDirection() const {
-    return getTransform().getRot().getForward();
+    return getTransform().getTransformedRot().getForward();
 }

@@ -30,6 +30,8 @@ public:
 
     Vector3f getUp() const;
 
+    Vector3f getDown() const;
+
     Vector3f getLeft() const;
 
     Vector3f getRight() const;
@@ -54,6 +56,8 @@ public:
 
     void setW(float w);
 
+    bool operator==(const Quaternion& r) const;
+    bool operator!=(const Quaternion& r) const;
 private:
     float x;
     float y;

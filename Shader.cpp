@@ -92,7 +92,7 @@ RenderingEngine *Shader::getRenderingEngine() const {
 }
 
 
-void Shader::updateUniforms(const Transform &transform, const Material &matrerial) {
+void Shader::updateUniforms(Transform &transform, const Material &matrerial) {
     setMat4("haha", transform.getTransformation());
     setMat4("transform", transform.getProjectedTransformation(*renderingEngine->getMainCamera()));
 

@@ -4,9 +4,9 @@
 
 #include "Transform.h"
 
-Transform::Transform() :  pos(0.0f, 0.0f, 0.0f), rot(0.0f, 0.0f, 0.0f, 1.0f), scale(1.0f, 1.0f, 1.0f){}
+Transform::Transform() :  pos(0.0f, 0.0f, 0.0f), rot(0.0f, 0.0f, 0.0f, 1.0f), scale(1.0f, 1.0f, 1.0f), parent(nullptr){parentMatrix.initIdentity();}
 
-Matrix4f Transform::getTransformation() const{
+Matrix4f Transform::getTransformation(){
     Matrix4f translationMatrix;
     Matrix4f rotationMatrix;
     Matrix4f scaleMatrix;
@@ -14,10 +14,11 @@ Matrix4f Transform::getTransformation() const{
     translationMatrix = translationMatrix.initTranslation(getPos().getX(), getPos().getY(), getPos().getZ());
     rotationMatrix = rot.toRotationMatrix();//rotationMatrix.initRotation(getRotation().getX(), getRotation().getY(), getRotation().getZ());
     scaleMatrix = scaleMatrix.initScale(getScale().getX(), getScale().getY(), getScale().getZ());
-    return translationMatrix * rotationMatrix * scaleMatrix;
+
+    return getParentMatrix() * translationMatrix * rotationMatrix * scaleMatrix;
 }
 
-Matrix4f Transform::getProjectedTransformation(const Camera& camera) const{
+Matrix4f Transform::getProjectedTransformation(const Camera& camera){
     return camera.getViewProjection() * getTransformation();
 }
 
@@ -55,5 +56,48 @@ void Transform::setScale(const Vector3f &scale) {
 
 void Transform::setScale(float x, float y, float z) {
     Transform::scale = Vector3f(x, y, z);
+}
+
+void Transform::setParent(Transform *transform) {
+    parent = transform;
+    parentMatrix = parent->getTransformation();
+}
+
+bool Transform::hasChanged(){
+    bool ret  = pos != oldPos || rot != oldRot || scale != oldScale || (parent && parent->hasChanged());
+
+
+    return ret;
+}
+
+Matrix4f Transform::getParentMatrix() {
+    if(parent && hasChanged()){
+        parentMatrix = parent->getTransformation();
+    }
+
+    return parentMatrix;
+}
+
+Vector3f Transform::getTransformedPos(){
+    return getParentMatrix().transform(pos);
+}
+
+Quaternion Transform::getTransformedRot() {
+    Quaternion parentRotation(0, 0, 0, 1);
+    if(parent){
+        parentRotation = parent->getTransformedRot();
+    }
+
+    return parentRotation * rot;
+}
+
+void Transform::update() {
+    oldPos = pos;
+    oldRot = rot;
+    oldScale = scale;
+}
+
+void Transform::rotate(const Vector3f &axis, float angle) {
+    rot = (Quaternion(axis, angle) * rot).normalized();
 }
 

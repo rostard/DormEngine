@@ -7,6 +7,7 @@
 
 void GameObject::addChild(GameObject *child) {
     children.push_back(child);
+    child->getTransform()->setParent(&transform);
 }
 
 void GameObject::addComponent(GameComponent *component) {
@@ -42,6 +43,7 @@ void GameObject::render(Shader &shader) {
     for(auto child : children){
         child->render(shader);
     }
+    transform.update();
 }
 
 Transform *GameObject::getTransform() {

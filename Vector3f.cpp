@@ -93,8 +93,13 @@ void Vector3f::operator+=(const Vector3f &r) {
     z += r.z;
 }
 
-bool Vector3f::operator==(const Vector3f &r) {
+bool Vector3f::operator==(const Vector3f &r) const{
     return x == r.x && y == r.y && z == r.z;;
+}
+
+
+bool Vector3f::operator!=(const Vector3f &r) const{
+    return x != r.x || y != r.y || z != r.z;
 }
 
 Vector3f Vector3f::rotate(const Vector3f &axis, float angle) {
@@ -104,7 +109,7 @@ Vector3f Vector3f::rotate(const Vector3f &axis, float angle) {
     return this->cross(axis * sinAngle) + *this * cosAngle + axis * this->dot(axis * (1 - cosAngle));
 }
 
-Vector3f Vector3f::rotate(const Quaternion &rotation) {
+Vector3f& Vector3f::rotate(const Quaternion &rotation) {
     Quaternion conjugate = rotation.conjugate();
 
     Quaternion w = (rotation * *this) * conjugate;
@@ -115,5 +120,6 @@ Vector3f Vector3f::rotate(const Quaternion &rotation) {
 
     return *this;
 }
+
 
 

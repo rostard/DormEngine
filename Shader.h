@@ -33,7 +33,7 @@ public:
 
     RenderingEngine *getRenderingEngine() const;
 
-    virtual void updateUniforms(const Transform &transform, const Material &matrerial);
+    virtual void updateUniforms(Transform &transform, const Material &matrerial);
 
 protected:
 public:

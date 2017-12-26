@@ -14,7 +14,7 @@ public:
         setRenderingEngine(shader.getRenderingEngine());
         setProgram(shader.getProgram());
     }
-    void updateUniforms(const Transform &transform, const Material &material) override;
+    void updateUniforms(Transform &transform, const Material &material) override;
 };
 
 
