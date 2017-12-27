@@ -4,10 +4,8 @@
 
 #include "Material.h"
 
-const Vector3f &Material::getColor() const {
-    return color;
-}
+#include "resource_management/ResourceManager.h"
 
-void Material::setColor(const Vector3f &color) {
-    Material::color = color;
+Material::Material() {
+    textures[SID("none")] = ResourceManager::loadTexture("none", "none.png");
 }

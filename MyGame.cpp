@@ -19,10 +19,10 @@ void MyGame::init() {
 
 
     texture = ResourceManager::loadTexture("test", "test.png");
-    texture->bind();
     mesh = ResourceManager::loadMesh("plane", "plane/plane.obj");
 
     Material material;
+    material.addTexture("diffuse", texture);
     plane->addComponent(new MeshRenderer(*mesh, material));
 
     GameObject* dirLightObject = new GameObject();
@@ -33,7 +33,7 @@ void MyGame::init() {
     dirLightObject2->addComponent(dirLight2);
     addObject(dirLightObject);
     dirLightObject2->getTransform()->setRot(Quaternion(Vector3f(0,1,0), M_PI));
-   addObject(dirLightObject2);
+    addObject(dirLightObject2);
 
 
     Mesh * cube = ResourceManager::loadMesh("cube", "cube/cube.obj");

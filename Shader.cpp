@@ -11,6 +11,30 @@ Shader::Shader() {
     program = glCreateProgram();
 }
 
+
+Shader::Shader(const Shader &shader) {
+    setProgram(shader.getProgram());
+}
+
+
+std::string shaderTypeToStr(int shaderType){
+    std::string ret;
+    switch (shaderType){
+        case GL_VERTEX_SHADER:
+            ret = "VERTEX_SHADER";
+            break;
+        case GL_FRAGMENT_SHADER:
+            ret = "FRAGMENT_SHADER";
+            break;
+        case GL_GEOMETRY_SHADER:
+            ret = "GEOMETRY_SHADER";
+            break;
+        default:
+            ret = "UNKNOWN_SHADER";
+    }
+    return ret;
+}
+
 void Shader::addShader(const std::string &shaderSource, int shaderType) {
     unsigned int shader = glCreateShader(shaderType);
     const char* shaderCode = shaderSource.c_str();
@@ -23,7 +47,7 @@ void Shader::addShader(const std::string &shaderSource, int shaderType) {
     
     if(!success){
         glGetShaderInfoLog(shader, 512, nullptr, &infoLog[0]);
-        Log::log("ERROR::SHADER::COMPILATION_FAILED\n" + std::string(infoLog));
+        Log::log("ERROR::"+ shaderTypeToStr(shaderType) +"::COMPILATION_FAILED\n" + std::string(infoLog));
     }
 
     glAttachShader(program, shader);
@@ -98,4 +122,3 @@ unsigned int Shader::getProgram() const {
 void Shader::setProgram(unsigned int program) {
     Shader::program = program;
 }
-

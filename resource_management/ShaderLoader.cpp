@@ -3,7 +3,7 @@
 //
 
 #include <glad/glad.h>
-
+#include <algorithm>>
 #include "ShaderLoader.h"
 
 
@@ -29,7 +29,7 @@ Shader ShaderLoader::Load(const std::string &vsFilename, const std::string &fsFi
 }
 
 std::string ShaderLoader::ReadFile(const std::string &filename) {
-    std::stringstream shaderStream;
+    const std::string INCLUDE_DIRECTIVE = "#include";
     std::ifstream file;
 
     file.open("res/shaders/" + filename);
@@ -38,10 +38,17 @@ std::string ShaderLoader::ReadFile(const std::string &filename) {
         Log::log("error loading file " + filename);
         exit(1);
     }
-
-    shaderStream<<file.rdbuf();
+    std::string res;
+    while(!file.eof()){
+        std::string string;
+        std::getline(file, string);
+        if(string.empty())continue;
+        if(string.substr(0, INCLUDE_DIRECTIVE.size()) == INCLUDE_DIRECTIVE){
+            string = ReadFile(string.substr(string.find_first_of("\"")+1, string.find_last_of("\"") - string.find_first_of("\"")-1));
+        }
+        res += string + "\n";
+    }
     file.close();
 
-    return shaderStream.str();
-
+    return res;
 }

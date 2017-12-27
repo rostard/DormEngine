@@ -4,7 +4,6 @@ layout(location = 0) in vec3 pos;
 layout(location = 1) in vec2 texCoords;
 layout(location = 2) in vec3 normal;
 
-
 out vec2 texCoords0;
 out vec3 normal0;
 out vec3 worldPos0;

@@ -16,6 +16,7 @@ class Shader {
 public:
     Shader();
 
+    Shader(const Shader& shader);
 
     void addVertexShader(const std::string& shaderSource);
     void addFragmentShader(const std::string& shaderSource);

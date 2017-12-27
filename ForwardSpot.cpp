@@ -13,13 +13,13 @@ void ForwardSpot::updateUniforms(Transform &transform, const Material &material,
     setFloat("shininess", 64.0);
 
     SpotLight* spotLight = (SpotLight*)renderingEngine->getActiveLight();
-    setVec3("spotLight.base.color", spotLight->getColor());
-    setFloat("spotLight.base.intensity", spotLight->getIntensity());
-    setVec3("spotLight.position", spotLight->getTransform().getTransformedPos());
-    setFloat("spotLight.range", spotLight->getRange());
-    setFloat("spotLight.attenuation.constant", spotLight->getConstant());
-    setFloat("spotLight.attenuation.linear", spotLight->getLinear());
-    setFloat("spotLight.attenuation.quadratic", spotLight->getQuadratic());
+    setVec3("spotLight.base.base.color", spotLight->getColor());
+    setFloat("spotLight.base.base.intensity", spotLight->getIntensity());
+    setVec3("spotLight.base.position", spotLight->getTransform().getTransformedPos());
+    setFloat("spotLight.base.range", spotLight->getRange());
+    setFloat("spotLight.base.attenuation.constant", spotLight->getConstant());
+    setFloat("spotLight.base.attenuation.linear", spotLight->getLinear());
+    setFloat("spotLight.base.attenuation.quadratic", spotLight->getQuadratic());
     setFloat("spotLight.cutOff", spotLight->getCutoff());
     setVec3("spotLight.direction", spotLight->getDirection());
 }
