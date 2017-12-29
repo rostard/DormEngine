@@ -33,10 +33,13 @@ public:
     void addLight(BaseLight* light);
 
     void addCamera(Camera* camera);
+
+    unsigned int getSamplerSlot(const std::string& samplerName);
 private:
     std::vector<BaseLight*> lights;
     BaseLight* activeLight;
     Camera* mainCamera;
+    std::vector<unsigned int> samplers;
 };
 
 

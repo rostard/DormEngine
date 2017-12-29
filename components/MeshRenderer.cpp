@@ -11,7 +11,6 @@ MeshRenderer::MeshRenderer(const Mesh &mesh, const Material &material) : mesh(me
 void MeshRenderer::render(Shader& shader, RenderingEngine* renderingEngine) {
     shader.bind();
     shader.updateUniforms(*getParent()->getTransform(), material, renderingEngine);
-    material.getTexture("diffuse")->bind();
     mesh.render();
 }
 

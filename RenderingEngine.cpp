@@ -27,7 +27,6 @@ RenderingEngine::RenderingEngine() {
 
 
 void RenderingEngine::render(GameObject& object) {
-
     clearScreen();
 
     lights.clear();
@@ -75,6 +74,18 @@ void RenderingEngine::addLight(BaseLight *light) {
 
 void RenderingEngine::addCamera(Camera *camera) {
     mainCamera = camera;
+}
+
+unsigned int RenderingEngine::getSamplerSlot(const std::string &samplerName) {
+    unsigned int id = SID(samplerName);
+
+    for(unsigned int i = 0; i < samplers.size(); ++i){
+        if(id == samplers[i])
+            return i;
+    }
+
+    samplers.push_back(id);
+    return samplers.size()-1;
 }
 
 

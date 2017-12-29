@@ -7,8 +7,8 @@
 
 Texture::Texture(int id) : id(id) {}
 
-void Texture::bind() {
-    glActiveTexture(GL_TEXTURE0);
+void Texture::bind(unsigned int slot) {
+    glActiveTexture(GL_TEXTURE0 + slot);
     glBindTexture(GL_TEXTURE_2D, id);
 }
 

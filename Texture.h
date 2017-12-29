@@ -11,7 +11,7 @@ public:
     Texture(int id);
     Texture();
 
-    void bind();
+    void bind(unsigned int slot);
 
     int getId(){
         return id;

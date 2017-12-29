@@ -3,6 +3,8 @@ uniform vec3 viewPos;
 struct Material{
     float shininess;
     float specularIntensity;
+    sampler2D diffuse;
+    sampler2D specular;
 };
 
 uniform Material material;

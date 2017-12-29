@@ -218,7 +218,11 @@ void Shader::updateUniforms(Transform &transform, const Material &material, Rend
     for(auto u : uniforms){
         if(u.type == "sampler2D"){
             //TODO: textureBinding
-            setInt(u.name, 0);
+            std::string lastName = u.name.substr(u.name.find_last_of('.')+1);
+            unsigned int samplerSlot = renderingEngine->getSamplerSlot(lastName);
+            material.getTexture(lastName)->bind(samplerSlot);
+
+            setInt(u.name, samplerSlot);
         }
         else if(u.name == "viewPos")
             setVec3(u.name, renderingEngine->getMainCamera()->getTransform().getTransformedPos());
@@ -239,7 +243,6 @@ void Shader::updateUniforms(Transform &transform, const Material &material, Rend
             if(u.type == "vec3")
                 setVec3(u.name, material.getVector3f(lastName));
         } else{
-            Log::log(u.name);
             if(u.type == "float")
                 setFloat(u.name, renderingEngine->getFloat(u.name));
             if(u.type == "vec3")
