@@ -5,7 +5,6 @@
 #include <iostream>
 #include "PointLight.h"
 #include "../resource_management/ResourceManager.h"
-#include "../ForwardPoint.h"
 #include "../GameObject.h"
 #include "../utility/Log.h"
 
@@ -20,7 +19,7 @@ PointLight::PointLight(const Vector3f &color, float intensity, const Vector3f &a
 
     range = (-b + std::sqrt(b * b - 4 * a * c)) / (2 * a);
 
-    setShader(new ForwardPoint(*ResourceManager::loadShader("forward-point_shader", "forward-point.vs.glsl", "forward-point.fs.glsl")));
+    setShader(ResourceManager::loadShader("forward-point_shader", "forward-point.vs.glsl", "forward-point.fs.glsl"));
 }
 
 

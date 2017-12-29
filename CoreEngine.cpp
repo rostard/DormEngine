@@ -8,7 +8,9 @@
 #include "Mesh.h"
 #include "Window.h"
 
-CoreEngine::CoreEngine(unsigned int width, unsigned int height, unsigned int framerate, Game *game) : width(width), height(height), game(game){
+CoreEngine::CoreEngine(unsigned int width, unsigned int height, unsigned int framerate, Game *game) : width(width),
+                                                                                                      height(height),
+                                                                                                      game(game) {
     isRunning = false;
     frameTime = 1.0 / framerate;
 }
@@ -22,7 +24,7 @@ void CoreEngine::cleanUp() {
 }
 
 void CoreEngine::start() {
-    if(isRunning)
+    if (isRunning)
         return;
 
     run();
@@ -50,7 +52,7 @@ void CoreEngine::run() {
 
     game->init();
 
-    while(this->isRunning){
+    while (this->isRunning) {
         double curTime = glfwGetTime();
         double deltaTime = curTime - lastTime;
         lastTime = curTime;
@@ -59,27 +61,27 @@ void CoreEngine::run() {
         passedTime += deltaTime;
         framesCounter += deltaTime;
 
-        while(passedTime > frameTime){
+        while (passedTime > frameTime) {
             render = true;
-            passedTime-=frameTime;
+            passedTime -= frameTime;
 
             glfwPollEvents();
-            if(Window::isShouldClose())this->isRunning = false;
+            if (Window::isShouldClose())this->isRunning = false;
 
             game->update(deltaTime);
             game->input(deltaTime);
 
-            if(framesCounter >= 1.0){
+            if (framesCounter >= 1.0) {
                 //TODO: print number of frames
                 frames = 0;
-                framesCounter =0;
+                framesCounter = 0;
             }
         }
-        if(render){
+        if (render) {
             frames++;
             game->render(renderingEngine);
             Window::render();
-        } else{
+        } else {
 //                std::this_thread::sleep_for(std::chrono::seconds(1));
         }
     }

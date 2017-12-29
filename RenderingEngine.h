@@ -9,13 +9,14 @@
 #include <vector>
 
 #include "Vector3f.h"
+#include "MappedValues.h"
 
 
 class BaseLight;
 class Camera;
 class GameObject;
 
-class RenderingEngine {
+class RenderingEngine : public MappedValues{
 public:
     RenderingEngine();
 
@@ -27,10 +28,6 @@ public:
 
     Camera *getMainCamera() const;
 
-    void setMainCamera(Camera *mainCamera);
-
-    Vector3f getAmbientLight();
-
     BaseLight *getActiveLight() const;
 
     void addLight(BaseLight* light);
@@ -38,7 +35,6 @@ public:
     void addCamera(Camera* camera);
 private:
     std::vector<BaseLight*> lights;
-    Vector3f ambientLight;
     BaseLight* activeLight;
     Camera* mainCamera;
 };

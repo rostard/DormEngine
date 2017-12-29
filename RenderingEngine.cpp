@@ -6,9 +6,6 @@
 #include "RenderingEngine.h"
 #include "Window.h"
 #include "components/Camera.h"
-#include "ForwardAmbient.h"
-#include "ForwardDirectional.h"
-#include "ForwardPoint.h"
 #include "GameObject.h"
 #include "resource_management/ResourceManager.h"
 #include "components/BaseLight.h"
@@ -23,9 +20,11 @@ RenderingEngine::RenderingEngine() {
     glEnable(GL_DEPTH_CLAMP);
     glEnable(GL_TEXTURE_2D);
 
-    //Temporary
-    ambientLight = Vector3f(0.2f, 0.2f, 0.2f);
+    Vector3f ambientLight =  Vector3f(0.2f, 0.2f, 0.2f);
+    addVector3f("ambientLight", ambientLight);
+
 }
+
 
 void RenderingEngine::render(GameObject& object) {
 
@@ -34,7 +33,7 @@ void RenderingEngine::render(GameObject& object) {
     lights.clear();
     object.addToRenderingEngine(*this);
 
-    ForwardAmbient * ambientShader = new ForwardAmbient(*ResourceManager::loadShader("forward-ambient_shader", "forward-ambient.vs.glsl", "forward-ambient.fs.glsl"));
+    Shader * ambientShader = ResourceManager::loadShader("forward-ambient_shader", "forward-ambient.vs.glsl", "forward-ambient.fs.glsl");
 
     object.render(*ambientShader, this);
 
@@ -64,14 +63,6 @@ std::string RenderingEngine::getOpenGLVersion() {
 
 Camera *RenderingEngine::getMainCamera() const {
     return mainCamera;
-}
-
-void RenderingEngine::setMainCamera(Camera *mainCamera) {
-    RenderingEngine::mainCamera = mainCamera;
-}
-
-Vector3f RenderingEngine::getAmbientLight() {
-    return ambientLight;
 }
 
 BaseLight *RenderingEngine::getActiveLight() const {

@@ -3,9 +3,9 @@
 in vec2 texCoords0;
 
 uniform sampler2D sampler;
-uniform vec3 ambientIntensity;
+uniform vec3 ambientLight;
 
 void main(){
 
-    gl_FragColor = texture2D(sampler, texCoords0) * vec4(ambientIntensity, 1.0);
+    gl_FragColor = texture2D(sampler, texCoords0) * vec4(ambientLight, 1.0);
 }

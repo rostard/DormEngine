@@ -3,7 +3,7 @@
 //
 
 #include <glad/glad.h>
-#include <algorithm>>
+#include <algorithm>
 #include "ShaderLoader.h"
 
 

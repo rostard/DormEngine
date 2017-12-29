@@ -11,6 +11,14 @@
 #include "Material.h"
 
 class RenderingEngine;
+class DirectionalLight;
+class PointLight;
+class SpotLight;
+
+struct uniformStruct{
+    std::string type;
+    std::string name;
+};
 
 class Shader {
 public:
@@ -31,7 +39,7 @@ public:
     void setMat4(const std::string &name, Matrix4f matrix) const;
     void setVec3(const std::string &name, Vector3f vector) const;
 
-    virtual void updateUniforms(Transform &transform, const Material &matrerial, RenderingEngine* renderingEngine);
+    virtual void updateUniforms(Transform &transform, const Material &material, RenderingEngine* renderingEngine);
 
 protected:
 public:
@@ -40,9 +48,16 @@ public:
     void setProgram(unsigned int program);
 
 private:
+    void setUniformBaseLight(const uniformStruct &uniform, const BaseLight &light);
+    void setUniformDirectionalLight(const uniformStruct &uniform, const DirectionalLight &light);
+    void setUniformPointLight(const uniformStruct &uniform, const PointLight &light);
+    void setUniformSpotLight(const uniformStruct &uniform, const SpotLight &light);
+
     void addShader(const std::string& shaderSource, int shaderType);
 
     unsigned int program;
+
+    std::vector<uniformStruct> uniforms;
 };
 
 

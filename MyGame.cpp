@@ -23,6 +23,8 @@ void MyGame::init() {
 
     Material material;
     material.addTexture("diffuse", texture);
+    material.addFloat("shininess", 20);
+    material.addFloat("specularIntensity", 1);
     plane->addComponent(new MeshRenderer(*mesh, material));
 
     GameObject* dirLightObject = new GameObject();
@@ -35,6 +37,11 @@ void MyGame::init() {
     dirLightObject2->getTransform()->setRot(Quaternion(Vector3f(0,1,0), M_PI));
     addObject(dirLightObject2);
 
+    GameObject* wolfObject = new GameObject();
+    Mesh* wolfMesh = ResourceManager::loadMesh("wolf", "wolf/wolf.obj");
+    wolfObject->addComponent(new MeshRenderer(*wolfMesh, material));
+    addObject(wolfObject);
+    wolfObject->getTransform()->setPos(0, 2.5, 10);
 
     Mesh * cube = ResourceManager::loadMesh("cube", "cube/cube.obj");
 
@@ -47,7 +54,7 @@ void MyGame::init() {
 
 
     spotLightObject = new GameObject();
-    SpotLight* spotLight = new SpotLight(Vector3f(0.0f, 1.0f, 0.0f), 1.0f, Vector3f(0, 0, 1), 0.7f);
+    SpotLight* spotLight = new SpotLight(Vector3f(0.0f, 1.0f, 0.0f), 1.0f, Vector3f(0, 0, 1), 0.7f, 0.7f);
     spotLightObject->addComponent(spotLight);
     spotLightObject->addComponent(new MeshRenderer(*cube, material));
     spotLightObject->getTransform()->setScale(0.1f, 0.1f, 0.1f);

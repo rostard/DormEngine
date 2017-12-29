@@ -4,10 +4,9 @@
 
 #include "SpotLight.h"
 #include "../resource_management/ResourceManager.h"
-#include "../ForwardSpot.h"
 
-SpotLight::SpotLight(const Vector3f& color, float intensity, const Vector3f& attenuation, float cutoff) : PointLight(color, intensity, attenuation), cutoff(cutoff) {
-    setShader(new ForwardSpot(*ResourceManager::loadShader("forward-spot_shader", "forward-spot.vs.glsl", "forward-spot.fs.glsl")));
+SpotLight::SpotLight(const Vector3f& color, float intensity, const Vector3f& attenuation, float cutoff, float outerCutoff) : PointLight(color, intensity, attenuation), cutoff(cutoff), outerCutoff(outerCutoff) {
+    setShader(ResourceManager::loadShader("forward-spot_shader", "forward-spot.vs.glsl", "forward-spot.fs.glsl"));
 }
 
 float SpotLight::getCutoff() const {
@@ -20,4 +19,12 @@ void SpotLight::setCutoff(float cutoff) {
 
 const Vector3f SpotLight::getDirection() const {
     return getTransform().getTransformedRot().getForward();
+}
+
+float SpotLight::getOuterCutoff() const {
+    return outerCutoff;
+}
+
+void SpotLight::setOuterCutoff(float outerCutoff) {
+    SpotLight::outerCutoff = outerCutoff;
 }
