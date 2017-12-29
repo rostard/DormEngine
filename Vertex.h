@@ -6,8 +6,8 @@
 #define ENGINE_VERTEX_H
 
 #include <glm/glm.hpp>
-#include "Vector2f.h"
-#include "Vector3f.h"
+#include "math/Vector2f.h"
+#include "math/Vector3f.h"
 
 class Vertex {
 public:

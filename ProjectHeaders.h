@@ -11,7 +11,7 @@
 #include "GameObject.h"
 #include "CoreEngine.h"
 #include "RenderingEngine.h"
-#include "Vector3f.h"
+#include "math/Vector3f.h"
 #include "Shader.h"
 
 #endif //DORMENGINE_PROJECTHEADERS_H

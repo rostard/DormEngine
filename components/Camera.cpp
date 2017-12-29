@@ -4,10 +4,11 @@
 
 #include <GLFW/glfw3.h>
 #include "Camera.h"
-#include "../Vector3f.h"
+#include "../math/Vector3f.h"
 #include "../Input.h"
 #include "../RenderingEngine.h"
 #include "../Transform.h"
+#include "../CoreEngine.h"
 
 const Vector3f Camera::yAxis = Vector3f(0.0f, 1.0f, 0.0f);
 
@@ -64,6 +65,6 @@ Matrix4f Camera::getViewProjection() const {
     return projection * cameraRotation * cameraPosition;
 }
 
-void Camera::addToRenderingEngine(RenderingEngine &renderingEngine) {
-    renderingEngine.addCamera(this);
+void Camera::addToEngine(CoreEngine *engine) {
+    engine->getRenderingEngine()->addCamera(this);
 }

@@ -3,8 +3,8 @@
 //
 
 #include "BaseLight.h"
-#include "../RenderingEngine.h"
 #include "../resource_management/ResourceManager.h"
+#include "../CoreEngine.h"
 
 const Vector3f &BaseLight::getColor() const {
     return color;
@@ -26,8 +26,8 @@ BaseLight::BaseLight(const Vector3f &color, float intensity) : color(color), int
     //shader = ResourceManager::loadShader()
 }
 
-void BaseLight::addToRenderingEngine(RenderingEngine &renderingEngine) {
-    renderingEngine.addLight(this);
+void BaseLight::addToEngine(CoreEngine *engine) {
+    engine->getRenderingEngine()->addLight(this);
 }
 
 Shader* BaseLight::getShader() {

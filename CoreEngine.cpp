@@ -13,6 +13,8 @@ CoreEngine::CoreEngine(unsigned int width, unsigned int height, unsigned int fra
                                                                                                       game(game) {
     isRunning = false;
     frameTime = 1.0 / framerate;
+
+    game->setEngine(this);
 }
 
 CoreEngine::~CoreEngine() {
@@ -86,5 +88,9 @@ void CoreEngine::run() {
         }
     }
     cleanUp();
+}
+
+RenderingEngine *CoreEngine::getRenderingEngine() {
+    return renderingEngine;
 }
 

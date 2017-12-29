@@ -54,14 +54,16 @@ void MyGame::init() {
 
 
     spotLightObject = new GameObject();
+
     SpotLight* spotLight = new SpotLight(Vector3f(0.0f, 1.0f, 0.0f), 1.0f, Vector3f(0, 0, 1), 0.7f, 0.7f);
     spotLightObject->addComponent(spotLight);
     spotLightObject->addComponent(new MeshRenderer(*cube, material));
     spotLightObject->getTransform()->setScale(0.1f, 0.1f, 0.1f);
     spotLightObject->getTransform()->setPos(0.0f, 1.0f, 0.0f);
-    spotLightObject->addChild(pointLightObject);
 
     addObject(spotLightObject);
+    spotLightObject->addChild(pointLightObject);
+
     GameObject* cameraObject = new GameObject();
     Camera* camera = new Camera(70.0f * (M_PI / 180.0f), Window::getSize().getX() / Window::getSize().getY(), 0.01f, 1000.0f);
     cameraObject->addComponent(camera);

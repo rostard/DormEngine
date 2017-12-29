@@ -8,6 +8,8 @@
 
 #include "GameObject.h"
 
+class CoreEngine;
+
 class Game {
 public:
 
@@ -21,7 +23,7 @@ public:
 
     void addObject(GameObject* gameObject);
 
-
+    void setEngine(CoreEngine* engine);
 private:
     GameObject* getRoot();
     GameObject* root;

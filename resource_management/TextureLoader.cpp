@@ -3,7 +3,7 @@
 //
 
 #include <glad/glad.h>
-#include "../stb_image.h"
+#include "../dependencies/stb_image.h"
 #include "TextureLoader.h"
 
 Texture TextureLoader::Load(const std::string &filename, bool srgb) {

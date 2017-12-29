@@ -17,6 +17,8 @@ public:
     void stop();
 
     void createWindow(const std::string& title);
+
+    RenderingEngine* getRenderingEngine();
 private:
     void cleanUp();
 

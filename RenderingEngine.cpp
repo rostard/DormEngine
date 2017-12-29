@@ -29,12 +29,9 @@ RenderingEngine::RenderingEngine() {
 void RenderingEngine::render(GameObject& object) {
     clearScreen();
 
-    lights.clear();
-    object.addToRenderingEngine(*this);
-
     Shader * ambientShader = ResourceManager::loadShader("forward-ambient_shader", "forward-ambient.vs.glsl", "forward-ambient.fs.glsl");
 
-    object.render(*ambientShader, this);
+    object.renderAll(*ambientShader, this);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE);
@@ -43,7 +40,7 @@ void RenderingEngine::render(GameObject& object) {
 
     for(auto light : lights){
         activeLight = light;
-        object.render(*light->getShader(), this);
+        object.renderAll(*light->getShader(), this);
     }
 
     glDepthFunc(GL_LESS);

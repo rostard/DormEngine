@@ -6,9 +6,9 @@
 #define DORMENGINE_TRANSFORM_H
 
 
-#include "Matrix4f.h"
+#include "math/Matrix4f.h"
 #include "components/Camera.h"
-#include "Quaternion.h"
+#include "math/Quaternion.h"
 
 class Transform {
 public:

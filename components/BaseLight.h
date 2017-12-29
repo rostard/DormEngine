@@ -7,7 +7,7 @@
 
 
 #include "GameComponent.h"
-#include "../Vector3f.h"
+#include "../math/Vector3f.h"
 #include "../Shader.h"
 
 class BaseLight : public GameComponent {
@@ -22,7 +22,7 @@ public:
 
     void setIntensity(float intensity);
 
-    void addToRenderingEngine(RenderingEngine& renderingEngine);
+    void addToEngine(CoreEngine *engine);
 
     Shader* getShader();
 

@@ -8,7 +8,7 @@
 
 #include <GLFW/glfw3.h>
 #include <string>
-#include "Vector2f.h"
+#include "math/Vector2f.h"
 
 class Window {
 public:

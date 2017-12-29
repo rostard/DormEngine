@@ -8,6 +8,7 @@
 
 class Transform;
 class Shader;
+class CoreEngine;
 class RenderingEngine;
 class GameObject;
 
@@ -16,7 +17,7 @@ public:
     virtual void input(float d_time) {}
     virtual void render(Shader& shader, RenderingEngine* renderingEngine){}
     virtual void update(float d_time){}
-    virtual void addToRenderingEngine(RenderingEngine& renderingEngine){}
+    virtual void addToEngine(CoreEngine* engine){}
 
     void setParent(GameObject *parent);
 

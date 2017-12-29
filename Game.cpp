@@ -5,16 +5,15 @@
 #include "Game.h"
 #include "RenderingEngine.h"
 void Game::input(float d_time) {
-    root->input(d_time);
+    root->inputAll(d_time);
 
 }
 
 void Game::update(float d_time) {
-    root->update(d_time);
+    root->updateAll(d_time);
 }
 
 void Game::init() {
-    root = new GameObject();
 }
 
 GameObject *Game::getRoot() {
@@ -27,4 +26,9 @@ void Game::render(RenderingEngine *renderingEngine) {
 
 void Game::addObject(GameObject *gameObject) {
     root->addChild(gameObject);
+}
+
+void Game::setEngine(CoreEngine *engine) {
+    root = new GameObject();
+    root->setEngine(engine);
 }

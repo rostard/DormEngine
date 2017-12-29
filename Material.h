@@ -8,7 +8,7 @@
 
 #include <map>
 #include "Texture.h"
-#include "Vector3f.h"
+#include "math/Vector3f.h"
 #include "utility/SID.h"
 #include "MappedValues.h"
 

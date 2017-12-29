@@ -6,7 +6,7 @@
 #define DORMENGINE_MAPPEDVALUES_H
 
 
-#include "Vector3f.h"
+#include "math/Vector3f.h"
 #include <map>
 
 class MappedValues {

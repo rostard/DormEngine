@@ -5,8 +5,8 @@
 #ifndef DORMENGINE_CAMERA_H
 #define DORMENGINE_CAMERA_H
 
-#include "../Matrix4f.h"
-#include "../Vector3f.h"
+#include "../math/Matrix4f.h"
+#include "../math/Vector3f.h"
 #include "GameComponent.h"
 
 class Camera : public GameComponent {
@@ -23,7 +23,7 @@ public:
 
     Matrix4f getViewProjection() const;
 
-    void addToRenderingEngine(RenderingEngine& renderingEngine);
+    void addToEngine(CoreEngine *engine);
 
     void input(float d_time);
 private:

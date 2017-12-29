@@ -6,6 +6,7 @@
 
 void GameObject::addChild(GameObject *child) {
     children.push_back(child);
+    child->setEngine(engine);
     child->getTransform()->setParent(&transform);
 }
 
@@ -14,13 +15,29 @@ void GameObject::addComponent(GameComponent *component) {
     component->setParent(this);
 }
 
-void GameObject::input(float d_time) {
+void GameObject::inputAll(float d_time) {
     for (auto component : components) {
         component->input(d_time);
     }
 
     for (auto child : children) {
-        child->input(d_time);
+        child->inputAll(d_time);
+    }
+}
+
+void GameObject::input(float d_time) {
+    for (auto component : components) {
+        component->input(d_time);
+    }
+}
+
+void GameObject::updateAll(float d_time) {
+    for (auto component : components) {
+        component->update(d_time);
+    }
+
+    for (auto child : children) {
+        child->updateAll(d_time);
     }
 }
 
@@ -28,19 +45,22 @@ void GameObject::update(float d_time) {
     for (auto component : components) {
         component->update(d_time);
     }
-
-    for (auto child : children) {
-        child->update(d_time);
-    }
 }
 
-void GameObject::render(Shader &shader, RenderingEngine *renderingEngine) {
+void GameObject::renderAll(Shader &shader, RenderingEngine *renderingEngine) {
     for (auto component : components) {
         component->render(shader, renderingEngine);
     }
 
     for (auto child : children) {
-        child->render(shader, renderingEngine);
+        child->renderAll(shader, renderingEngine);
+    }
+    transform.update();
+}
+
+void GameObject::render(Shader &shader, RenderingEngine *renderingEngine) {
+    for (auto component : components) {
+        component->render(shader, renderingEngine);
     }
     transform.update();
 }
@@ -49,11 +69,17 @@ Transform *GameObject::getTransform() {
     return &transform;
 }
 
-void GameObject::addToRenderingEngine(RenderingEngine &engine) {
-    for (auto component : components) {
-        component->addToRenderingEngine(engine);
+void GameObject::setEngine(CoreEngine *engine) {
+    if(!this->engine || engine != this->engine){
+        this->engine = engine;
+
+        for (auto component : components){
+            component->addToEngine(engine);
+        }
+
+        for (auto child : children){
+            child->setEngine(engine);
+        }
     }
-    for (auto child : children) {
-        child->addToRenderingEngine(engine);
-    }
+
 }

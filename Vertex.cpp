@@ -3,7 +3,7 @@
 //
 
 #include "Vertex.h"
-#include "Vector2f.h"
+#include "math/Vector2f.h"
 
 
 Vertex::Vertex(const Vector3f &position, const Vector2f &texCoord, const Vector3f &normal) : position(position), texCoord(texCoord), normal(normal) {}

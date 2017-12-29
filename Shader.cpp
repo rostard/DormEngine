@@ -215,6 +215,7 @@ void Shader::setUniformSpotLight(const uniformStruct &uniform, const SpotLight &
 
 
 void Shader::updateUniforms(Transform &transform, const Material &material, RenderingEngine* renderingEngine) {
+
     for(auto u : uniforms){
         if(u.type == "sampler2D"){
             //TODO: textureBinding

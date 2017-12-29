@@ -12,6 +12,7 @@
 class GameComponent;
 class Shader;
 class RenderingEngine;
+class CoreEngine;
 
 class GameObject {
 public:
@@ -20,18 +21,22 @@ public:
 
     void addComponent(GameComponent *component);
 
+    void inputAll(float d_time);
     void input(float d_time);
 
+    void updateAll(float d_time);
     void update(float d_time);
 
-    void render(Shader &shader, RenderingEngine* renderingEngine);
+    void renderAll(Shader &shader, RenderingEngine *renderingEngine);
+    void render(Shader &shader, RenderingEngine *renderingEngine);
 
-    void addToRenderingEngine(RenderingEngine&  engine);
+    void setEngine(CoreEngine* engine);
     Transform* getTransform();
 private:
     std::vector<GameObject*> children;
     std::vector<GameComponent*> components;
 
+    CoreEngine* engine;
     Transform transform;
 };
 
