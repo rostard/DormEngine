@@ -6,7 +6,8 @@
 #include "math/Vector2f.h"
 
 
-Vertex::Vertex(const Vector3f &position, const Vector2f &texCoord, const Vector3f &normal) : position(position), texCoord(texCoord), normal(normal) {}
+Vertex::Vertex(const Vector3f &position, const Vector2f &texCoord, const Vector3f &normal, const Vector3f &tangent)
+        : position(position), texCoord(texCoord), normal(normal), tangent(tangent) {}
 
 const Vector3f &Vertex::getPosition() const {
     return position;
@@ -31,5 +32,13 @@ const Vector3f &Vertex::getNormal() const {
 
 void Vertex::setNormal(const Vector3f &normal) {
     Vertex::normal = normal;
+}
+
+const Vector3f &Vertex::getTangent() const {
+    return tangent;
+}
+
+void Vertex::setTangent(const Vector3f &tangent) {
+    Vertex::tangent = tangent;
 }
 

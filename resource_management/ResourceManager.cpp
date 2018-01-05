@@ -6,7 +6,6 @@
 #include "../utility/SID.h"
 #include "ShaderLoader.h"
 #include "TextureLoader.h"
-#include "SimpleMeshLoader.h"
 #include "MeshLoader.h"
 
 std::map<unsigned int, Shader> ResourceManager::shaders = std::map<unsigned int, Shader>();

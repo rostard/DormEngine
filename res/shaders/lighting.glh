@@ -5,6 +5,7 @@ struct Material{
     float specularIntensity;
     sampler2D diffuse;
     sampler2D specular;
+    sampler2D normalMap;
 };
 
 uniform Material material;

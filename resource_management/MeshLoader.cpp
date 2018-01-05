@@ -35,10 +35,10 @@ Mesh MeshLoader::Load(const std::string &filename) {
             const aiVector3D* pPos      = &(paiMesh->mVertices[j]);
             const aiVector3D* pNormal   = &(paiMesh->mNormals[j]);
             const aiVector3D* pTexCoord = paiMesh->HasTextureCoords(0) ? &(paiMesh->mTextureCoords[0][j]) : &Zero3D;
+            const aiVector3D* pTangent  = paiMesh->HasTextureCoords(0) ? &(paiMesh->mTangents[j]) : &Zero3D;
 
-            Vertex v(Vector3f(pPos->x, pPos->y, pPos->z),
-                     Vector2f(pTexCoord->x, pTexCoord->y),
-                     Vector3f(pNormal->x, pNormal->y, pNormal->z));
+            Vertex v(Vector3f(pPos->x, pPos->y, pPos->z), Vector2f(pTexCoord->x, pTexCoord->y),
+                     Vector3f(pNormal->x, pNormal->y, pNormal->z), Vector3f(pTangent->x, pTangent->y, pTangent->z));
 
             vertices.push_back(v);
         }

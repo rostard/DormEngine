@@ -8,6 +8,7 @@
 
 Material::Material() {
     textures[SID("none")] = ResourceManager::loadTexture("none", "none.png");
+    textures[SID("normalMap")] = ResourceManager::loadTexture("default_normal", "default_normal.jpg");
 }
 
 void Material::addTexture(const std::string &name, Texture *texture) {
