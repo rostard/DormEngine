@@ -32,8 +32,6 @@ vec2 GetParallaxCoords(sampler2D dispMap, mat3 TBN, vec3 toEye, vec2 texCoords, 
     float weight = afterDepth / (afterDepth - beforeDepth);
     vec2 finalTexCoords = prevTexCoords * weight + currentTexCoords * (1.0 - weight);
 
-    if(finalTexCoords.x > 1.0 || finalTexCoords.y > 1.0 || finalTexCoords.x < 0.0 || finalTexCoords.y < 0.0)
-            discard;
 
     return finalTexCoords + bias;
 }
