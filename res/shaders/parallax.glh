@@ -1,5 +1,39 @@
 
 vec2 GetParallaxCoords(sampler2D dispMap, mat3 TBN, vec3 toEye, vec2 texCoords, float scale, float bias)
 {
-    return texCoords + (toEye * TBN).xy * texture(dispMap, texCoords).r * scale + bias;
+
+    const float minLayers = 8.0;
+    const float maxLayers = 32.0;
+    float numLayers = mix(maxLayers, minLayers, abs(dot(vec3(0.0, 0.0, 1.0), toEye)));
+    float layerDepth = 1.0 / numLayers;
+
+    float currentLayerDepth = 0.0;
+    vec2 p = (toEye * TBN).xy * scale;
+    vec2 deltaTexCoords = p / numLayers;
+
+    vec2 currentTexCoords = texCoords;
+    float currentDepthMapValue = texture(dispMap, currentTexCoords).r;
+
+    while(currentLayerDepth < currentDepthMapValue){
+
+        currentTexCoords += deltaTexCoords;
+        currentDepthMapValue = texture(dispMap, currentTexCoords).r;
+        currentLayerDepth += layerDepth;
+    }
+
+    // get texture coordinates before collision (reverse operations)
+    vec2 prevTexCoords = currentTexCoords - deltaTexCoords;
+
+    // get depth after and before collision for linear interpolation
+    float afterDepth  = currentDepthMapValue - currentLayerDepth;
+    float beforeDepth = texture(dispMap, prevTexCoords).r - currentLayerDepth + layerDepth;
+
+    // interpolation of texture coordinates
+    float weight = afterDepth / (afterDepth - beforeDepth);
+    vec2 finalTexCoords = prevTexCoords * weight + currentTexCoords * (1.0 - weight);
+
+    if(finalTexCoords.x > 1.0 || finalTexCoords.y > 1.0 || finalTexCoords.x < 0.0 || finalTexCoords.y < 0.0)
+            discard;
+
+    return finalTexCoords + bias;
 }

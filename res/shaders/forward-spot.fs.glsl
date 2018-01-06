@@ -3,14 +3,16 @@
 
 uniform SpotLight spotLight;
 
+#include "parallax.glh"
 
 void main() {
     vec3 totalColor = vec3(0, 0, 0);
-    vec4 color = texture(material.diffuse, texCoords0);
+    vec2 texCoords = GetParallaxCoords(material.dispMap, TBN, normalize(viewPos - worldPos0), texCoords0, material.dispMapScale, material.dispMapOffset);
+    vec4 color = texture(material.diffuse, texCoords);
 
 //    vec3 normal = normalize(normal0);
 
-    vec3 normal = normalize(texture(material.normalMap, texCoords0).rgb);
+    vec3 normal = normalize(texture(material.normalMap, texCoords).rgb);
     normal = normalize(TBN * (2.0 * normal - 1.0));
     vec3 viewDir = normalize(viewPos - worldPos0);
     totalColor += CalcSpotLight(spotLight, normal, viewDir, worldPos0);

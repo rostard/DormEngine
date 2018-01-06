@@ -25,8 +25,8 @@ void MyGame::init() {
     material.addTexture("diffuse", ResourceManager::loadTexture("bricks", "bricks2.jpg"));
     material.addTexture("normalMap", ResourceManager::loadTexture("bricks_normal", "bricks2_normal.jpg"));
     material.addTexture("dispMap", ResourceManager::loadTexture("bricks_disp", "bricks2_disp.jpg"));
-    material.addFloat("dispMapScale", 0.06f);
-//    material.addFloat("dispMapOffset", 0.015f);
+    material.addFloat("dispMapScale", 0.03f);
+//    material.addFloat("dispMapOffset", -0.015f);
     material.addFloat("shininess", 20);
     material.addFloat("specularIntensity", 1);
     plane->addComponent(new MeshRenderer(*mesh, material));
@@ -52,7 +52,7 @@ void MyGame::init() {
 
     pointLightObject = new GameObject();
     PointLight* pointLight = new PointLight(Vector3f(0.0f, 1.0f, 0.0f), 1.0f, Vector3f(0, 0, 1));
-//    pointLightObject->addComponent(pointLight);
+    pointLightObject->addComponent(pointLight);
     pointLightObject->addComponent(new MeshRenderer(*cube, cleanMaterial));
 //    pointLightObject->getTransform()->setScale(0.1f, 0.1f, 0.1f);
     pointLightObject->getTransform()->setPos(4.0f, 0.0f, 0.0f);
@@ -61,7 +61,7 @@ void MyGame::init() {
     spotLightObject = new GameObject();
 
     SpotLight* spotLight = new SpotLight(Vector3f(0.0f, 1.0f, 0.0f), 1.0f, Vector3f(0, 0, 1), 0.7f, 0.7f);
-//    spotLightObject->addComponent(spotLight);
+    spotLightObject->addComponent(spotLight);
     spotLightObject->addComponent(new MeshRenderer(*cube, cleanMaterial));
     spotLightObject->getTransform()->setScale(0.1f, 0.1f, 0.1f);
     spotLightObject->getTransform()->setPos(0.0f, 1.0f, 0.0f);
@@ -72,7 +72,7 @@ void MyGame::init() {
     GameObject* cameraObject = new GameObject();
     Camera* camera = new Camera(70.0f * (M_PI / 180.0f), Window::getSize().getX() / Window::getSize().getY(), 0.01f, 1000.0f);
     cameraObject->addComponent(camera);
-//    cameraObject->addComponent(new SpotLight(Vector3f(1.0f, 1.0f, 1.0f), 4.0f, Vector3f(1, 1, 0.5f), 0.8, 0.8));
+    cameraObject->addComponent(new SpotLight(Vector3f(1.0f, 1.0f, 1.0f), 4.0f, Vector3f(1, 1, 0.5f), 0.8, 0.8));
     addObject(cameraObject);
 }
 

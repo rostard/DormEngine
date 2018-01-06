@@ -8,8 +8,7 @@ uniform DirectionalLight dirLight;
 void main() {
     vec3 totalColor = vec3(0, 0, 0);
     vec2 texCoords = GetParallaxCoords(material.dispMap, TBN, normalize(viewPos - worldPos0), texCoords0, material.dispMapScale, material.dispMapOffset);
-    if(texCoords.x > 1.0 || texCoords.y > 1.0 || texCoords.x < 0.0 || texCoords.y < 0.0)
-            discard;
+
     vec4 color = texture(material.diffuse, texCoords);
 
 //    vec3 normal = normalize(normal0);
