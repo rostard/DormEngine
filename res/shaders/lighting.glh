@@ -6,6 +6,9 @@ struct Material{
     sampler2D diffuse;
     sampler2D specular;
     sampler2D normalMap;
+    sampler2D dispMap;
+    float dispMapScale;
+    float dispMapOffset;
 };
 
 uniform Material material;

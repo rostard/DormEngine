@@ -12,7 +12,7 @@
 
 Mesh MeshLoader::Load(const std::string &filename) {
     Assimp::Importer import;
-    const aiScene *scene = import.ReadFile("res/models/"+filename, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals | aiProcess_CalcTangentSpace);
+    const aiScene *scene = import.ReadFile("res/models/"+filename, aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_CalcTangentSpace);
 
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode){
         Log::log("ERROR::ASSIMP::" + std::string(import.GetErrorString()));
