@@ -19,7 +19,7 @@ class GameObject;
 class RenderingEngine : public MappedValues{
 public:
     RenderingEngine();
-
+    virtual ~RenderingEngine();
     void render(GameObject& object);
 
     void clearScreen();
