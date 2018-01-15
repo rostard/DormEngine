@@ -15,6 +15,8 @@ public:
 
     Camera(float fov, float aspect, float zNear, float zFar);
 
+    Camera(const Matrix4f& matrix);
+
     void move(Vector3f direction, float amt);
 
     void rotateY(float angle);

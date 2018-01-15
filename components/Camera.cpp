@@ -68,3 +68,7 @@ Matrix4f Camera::getViewProjection() const {
 void Camera::addToEngine(CoreEngine *engine) {
     engine->getRenderingEngine()->addCamera(this);
 }
+
+Camera::Camera(const Matrix4f &matrix) {
+    projection = matrix;
+}
