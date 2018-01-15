@@ -19,6 +19,8 @@ public:
     static void createWindow(const unsigned int &screen_width, const unsigned int &screen_height,
                       const std::string& title);
 
+    static void bindAsRenderTarget();
+
     static bool isShouldClose();
 
     static void render();

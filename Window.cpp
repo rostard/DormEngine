@@ -72,3 +72,9 @@ Vector2f Window::getCenter() {
     Vector2f size = getSize();
     return Vector2f(size.getX() / 2.0f, size.getY() / 2.0f);
 }
+
+void Window::bindAsRenderTarget() {
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+    Vector2f size = getSize();
+    glViewport(0, 0, size.getX(), size.getY());
+}
