@@ -9,7 +9,7 @@
 class Texture;
 class Framebuffer {
 public:
-    Framebuffer(int num_textures, int width, int height, int* filters, int *attachments);
+    Framebuffer(int num_textures, int width, int height, GLint* internalFormats, GLenum* formats, int* filters, GLenum *attachments);
     void bindAsRenderTarget();
     Texture* getTextureId(int pos);
 private:

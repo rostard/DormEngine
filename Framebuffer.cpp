@@ -9,7 +9,7 @@
 #include "Framebuffer.h"
 #include "Texture.h"
 
-Framebuffer::Framebuffer(int num_textures, int width, int height, int* filters, int *attachments): m_numTextures(num_textures), m_width(width), m_height(height) {
+Framebuffer::Framebuffer(int num_textures, int width, int height, GLint* internalFormats, GLenum* formats, int* filters, GLenum *attachments): m_numTextures(num_textures), m_width(width), m_height(height) {
     glGenFramebuffers(1, &m_framebuffer);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_framebuffer);
 
@@ -33,7 +33,7 @@ Framebuffer::Framebuffer(int num_textures, int width, int height, int* filters, 
         else
             drawBuffers[i] = attachments[i];
         glBindTexture(GL_TEXTURE_2D, ids[i]);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glTexImage2D(GL_TEXTURE_2D, 0, internalFormats[i], width, height, 0, formats[i], GL_UNSIGNED_BYTE, data);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filters[i]);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filters[i]);
 

@@ -38,12 +38,14 @@ RenderingEngine::RenderingEngine() {
     if(g_material) delete g_material;
     if(g_cameraObject) delete g_cameraObject;
 
-    int width = Window::getSize().getX() / 3;
-    int height = Window::getSize().getY() / 3;
+    int width = Window::getSize().getX();
+    int height = Window::getSize().getY();
 
     int filter = GL_LINEAR;
-    int attachment = GL_COLOR_ATTACHMENT0;
-    g_tempTarget = new Framebuffer(1, width, height, &filter, &attachment);
+    GLenum attachment = GL_COLOR_ATTACHMENT0;
+    GLenum format = GL_RGBA;
+    GLint internalFormat = GL_RGBA;
+    g_tempTarget = new Framebuffer(1, width, height, &internalFormat, &format, &filter, &attachment);
 
     std::vector<Vertex> vertices = { Vertex(Vector3f(-1,-1,-1),Vector2f(0,0)),
                           Vertex(Vector3f(-1,1,-1),Vector2f(0,1)),
