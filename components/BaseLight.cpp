@@ -22,7 +22,7 @@ void BaseLight::setIntensity(float intensity) {
     BaseLight::intensity = intensity;
 }
 
-BaseLight::BaseLight(const Vector3f &color, float intensity) : color(color), intensity(intensity) {
+BaseLight::BaseLight(const Vector3f &color, float intensity) : color(color), intensity(intensity), shadowInfo(nullptr) {
     //shader = ResourceManager::loadShader()
 }
 
@@ -37,3 +37,17 @@ Shader* BaseLight::getShader() {
 void BaseLight::setShader(Shader *shader) {
     BaseLight::shader = shader;
 }
+
+ShadowInfo *BaseLight::getShadowInfo() const {
+    return shadowInfo;
+}
+
+void BaseLight::setShadowInfo(ShadowInfo *shadowInfo) {
+    BaseLight::shadowInfo = shadowInfo;
+}
+
+const Matrix4f &ShadowInfo::getProjection() const {
+    return projection;
+}
+
+ShadowInfo::ShadowInfo(const Matrix4f &projection) : projection(projection) {}

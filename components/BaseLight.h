@@ -10,6 +10,16 @@
 #include "../math/Vector3f.h"
 #include "../Shader.h"
 
+class ShadowInfo{
+public:
+    ShadowInfo(const Matrix4f &projection);
+
+    const Matrix4f &getProjection() const;
+
+private:
+    Matrix4f projection;
+};
+
 class BaseLight : public GameComponent {
 public:
     BaseLight(const Vector3f &color, float intensity);
@@ -28,10 +38,15 @@ public:
 
     void setShader(Shader *shader);
 
+    ShadowInfo *getShadowInfo() const;
+
+    void setShadowInfo(ShadowInfo *shadowInfo);
+
 private:
     Shader* shader;
     Vector3f color;
     float intensity;
+    ShadowInfo* shadowInfo;
 };
 
 
