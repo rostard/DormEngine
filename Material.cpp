@@ -12,13 +12,3 @@ Material::Material() {
     textures[SID("dispMap")] = ResourceManager::loadTexture("default_disp", "default_disp.png");
 }
 
-void Material::addTexture(const std::string &name, Texture *texture) {
-    textures[SID(name)] = texture;
-}
-
-Texture *Material::getTexture(const std::string &name) const {
-    if(textures.find(SID(name)) != textures.end()){
-        return textures.at(SID(name));
-    }
-    else return textures.at(SID("none"));
-}

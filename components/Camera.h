@@ -28,6 +28,9 @@ public:
     void addToEngine(CoreEngine *engine);
 
     void input(float d_time);
+
+    void setProjection(const Matrix4f &projection);
+
 private:
     Matrix4f projection;
 

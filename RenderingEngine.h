@@ -10,6 +10,7 @@
 
 #include "math/Vector3f.h"
 #include "MappedValues.h"
+#include "math/Matrix4f.h"
 
 
 class BaseLight;
@@ -35,11 +36,20 @@ public:
     void addCamera(Camera* camera);
 
     unsigned int getSamplerSlot(const std::string& samplerName);
+
+    const Matrix4f &getLightMatrix() const;
+
 private:
+    static const Matrix4f biasMatrix;
+
     std::vector<BaseLight*> lights;
     BaseLight* activeLight;
     Camera* mainCamera;
     std::vector<unsigned int> samplers;
+    Matrix4f lightMatrix;
+    GameObject* m_plainObject;
+    Camera* m_altCamera;
+    Camera* m_planeCamera;
 };
 
 

@@ -15,11 +15,10 @@
 class Material : public MappedValues{
 public:
     Material();
-    void addTexture(const std::string& name,Texture* texture);
-    Texture* getTexture(const std::string& name) const;
+
 
 private:
-    std::map<unsigned int, Texture*> textures;
+
 };
 
 

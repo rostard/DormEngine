@@ -29,7 +29,7 @@ void Camera::rotateX(float angle) {
 }
 
 void Camera::input(float d_time) {
-    float movAmt = d_time * 10.0f;
+    float movAmt = d_time;// * 10.0f;
     float rotAmt = d_time;
 
     if(Input::isKeyPress(GLFW_KEY_W))
@@ -71,4 +71,8 @@ void Camera::addToEngine(CoreEngine *engine) {
 
 Camera::Camera(const Matrix4f &matrix) {
     projection = matrix;
+}
+
+void Camera::setProjection(const Matrix4f &projection) {
+    Camera::projection = projection;
 }

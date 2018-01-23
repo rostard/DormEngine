@@ -5,6 +5,8 @@
 #include "Matrix4f.h"
 #include "Vector3f.h"
 
+
+
 Matrix4f Matrix4f::initIdentity() {
     m[0][0] = 1; m[0][1] = 0; m[0][2] = 0; m[0][3] = 0;
     m[1][0] = 0; m[1][1] = 1; m[1][2] = 0; m[1][3] = 0;
@@ -58,7 +60,7 @@ Matrix4f Matrix4f::initScale(float x, float y, float z) {
 }
 
 Matrix4f Matrix4f::initPerspective(float fov, float aspectRatio, float zNear, float zFar) {
-    float tanHalfFOV = (float)tan(fov/2.0f);
+    float tanHalfFOV = tanf(fov/2.0f);
     float zRange = zNear - zFar;
 
     m[0][0] = 1.0f / (tanHalfFOV * aspectRatio);m[0][1] = 0;                    m[0][2] = 0;                        m[0][3] = 0;
@@ -68,15 +70,15 @@ Matrix4f Matrix4f::initPerspective(float fov, float aspectRatio, float zNear, fl
     return *this;
 }
 
-Matrix4f Matrix4f::initOrtographic(float left, float right, float top, float bottom, float zNear, float zFar) {
+Matrix4f Matrix4f::initOrtographic(float left, float right, float bottom, float top, float zNear, float zFar) {
     float width = right - left;
     float height = top - bottom;
     float depth = zFar - zNear;
 
     m[0][0] = 2.0f / width; m[0][1] = 0;                m[0][2] = 0;            m[0][3] = -(right + left)/width;
     m[1][0] = 0;            m[1][1] = 2.0f / height;    m[1][2] = 0;            m[1][3] = -(top + bottom)/height;
-    m[2][0] = 0;            m[2][1] = 0;                m[2][2] = -2.0f / depth;m[2][3] = -(zFar + zNear)/depth;
-    m[3][0] = 0;            m[3][1] = 0;                m[3][2] = 1;            m[3][3] = 1;
+    m[2][0] = 0;            m[2][1] = 0;                m[2][2] = 2.0f / depth;m[2][3] = -(zFar + zNear)/depth;
+    m[3][0] = 0;            m[3][1] = 0;                m[3][2] = 0;            m[3][3] = 1;
     return *this;
 }
 

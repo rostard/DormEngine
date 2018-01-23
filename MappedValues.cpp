@@ -26,3 +26,14 @@ float MappedValues::getFloat(const std::string &name) const {
     }
     else 0.0f;
 }
+
+void MappedValues::addTexture(const std::string &name, Texture *texture) {
+    textures[SID(name)] = texture;
+}
+
+Texture *MappedValues::getTexture(const std::string &name) const {
+    if(textures.find(SID(name)) != textures.end()){
+        return textures.at(SID(name));
+    }
+    else return textures.at(SID("none"));
+}

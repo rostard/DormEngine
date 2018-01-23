@@ -9,6 +9,8 @@
 #include "math/Vector3f.h"
 #include <map>
 
+class Texture;
+
 class MappedValues {
 public:
     void addVector3f(const std::string& name, Vector3f& vector);
@@ -19,9 +21,12 @@ public:
 
     float getFloat(const std::string& name) const;
 
+    void addTexture(const std::string& name,Texture* texture);
+    Texture* getTexture(const std::string& name) const;
 protected:
     std::map<unsigned int, Vector3f> vectors;
     std::map<unsigned int, float> floats;
+    std::map<unsigned int, Texture*> textures;
 };
 
 

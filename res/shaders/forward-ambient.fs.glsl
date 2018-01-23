@@ -3,7 +3,7 @@
 
 uniform vec3 ambientLight;
 
-#include "parallax.glh"
+#include "sampling.glh"
 
 void main(){
     vec2 texCoords = GetParallaxCoords(material.dispMap, TBN, normalize(viewPos - worldPos0), texCoords0, material.dispMapScale, material.dispMapOffset);

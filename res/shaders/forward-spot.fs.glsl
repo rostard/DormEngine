@@ -3,7 +3,7 @@
 
 uniform SpotLight spotLight;
 
-#include "parallax.glh"
+#include "sampling.glh"
 
 void main() {
     vec3 totalColor = vec3(0, 0, 0);

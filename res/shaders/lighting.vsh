@@ -7,15 +7,17 @@ out vec2 texCoords0;
 out vec3 normal0;
 out vec3 worldPos0;
 out mat3 TBN;
+out vec4 lightPos0;
 
 uniform mat4 worldMatrix;
 uniform mat4 MVP;
+uniform mat4 lightMatrix;
 
 void main() {
     normal0 = normalize(mat3(transpose(inverse(worldMatrix))) * normal);
     texCoords0 = texCoords;
     worldPos0 = vec3(worldMatrix * vec4(pos, 1.0));
-
+    lightPos0 = lightMatrix * vec4(pos, 1.0);
     vec3 T = normalize(vec3(worldMatrix * vec4(tangent, 0.0)));
     vec3 N = normalize(vec3(worldMatrix * vec4(normal, 0.0)));
     // re-orthogonalize T with respect to N
