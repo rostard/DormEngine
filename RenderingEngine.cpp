@@ -13,10 +13,7 @@
 #include "Framebuffer.h"
 #include "components/MeshRenderer.h"
 
-//Temp variables
-static Framebuffer* g_tempTarget = 0;
-static GameObject* m_altCameraObject = 0;
-static GameObject* m_planeCameraObject = 0;
+
 const Matrix4f RenderingEngine::biasMatrix = Matrix4f().initScale(0.5, 0.5, 0.5) * Matrix4f().initTranslation(1.0, 1.0, 1.0);
 
 RenderingEngine::RenderingEngine() {
@@ -25,18 +22,18 @@ RenderingEngine::RenderingEngine() {
     glCullFace(GL_BACK);
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
-//    glEnable(GL_DEPTH_CLAMP);
+    glEnable(GL_DEPTH_CLAMP);
     glEnable(GL_TEXTURE_2D);
+//    glEnable(GL_MULTISAMPLE);
 
     Vector3f ambientLight =  Vector3f(0.2f, 0.2f, 0.2f);
-    addVector3f("ambientLight", ambientLight);
+    setVector3f("ambientLight", ambientLight);
 
-
-    int filter = GL_NEAREST;
-    GLenum attachment = GL_DEPTH_ATTACHMENT;
-    GLenum format = GL_DEPTH_COMPONENT;
-    GLint internalFormat = GL_DEPTH_COMPONENT16;
-    g_tempTarget = new Framebuffer(1, 1024, 1024, &internalFormat, &format, &filter, &attachment);
+    int filter = GL_LINEAR;
+    GLenum attachment = GL_COLOR_ATTACHMENT0;
+    GLenum format = GL_RGBA;
+    GLint internalFormat = GL_RG32F;
+    m_shadowMapFramebuffer = new Framebuffer(1, 2048, 2048, &internalFormat, &format, &filter, &attachment);
 
     std::vector<Vertex> vertices = { Vertex(Vector3f(-1,-1,-1),Vector2f(0,0)),
                           Vertex(Vector3f(-1,1,-1),Vector2f(0,1)),
@@ -47,12 +44,12 @@ RenderingEngine::RenderingEngine() {
                                         2, 3, 0 };
 
     Material material;
-    material.addTexture("diffuse", g_tempTarget->getTextureId(0));
+    material.setTexture("diffuse", m_shadowMapFramebuffer->getTextureId(0));
 
     m_plainObject = new GameObject();
     m_plainObject->addComponent(new MeshRenderer(Mesh(vertices, indices), material));
-
-    addTexture("shadowMap", g_tempTarget->getTextureId(0));
+    setVector3f("shadowTexelSize", Vector3f(1.0f/2048.0f, 1.0f/2048.0f, 0.0f));
+    setTexture("shadowMap", m_shadowMapFramebuffer->getTextureId(0));
     m_plainObject->getTransform()->setScale(0.5f, 0.5f, 0.5f);
     m_plainObject->getTransform()->setPos(0.5f, 0.5f, 0.0f);
     m_altCamera = new Camera(Matrix4f().initIdentity());
@@ -61,7 +58,6 @@ RenderingEngine::RenderingEngine() {
     m_planeCameraObject->addComponent(m_planeCamera);
     m_altCameraObject = new GameObject();
     m_altCameraObject->addComponent(m_altCamera);
-//    m_altCamera->getTransform().rotate(Vector3f(0,1,0), 2*M_PI);//getTransform()->rotate(Vector3f(0,1,0), M_PI_2);
 }
 
 
@@ -84,8 +80,8 @@ void RenderingEngine::render(GameObject& object) {
         activeLight = light;
         ShadowInfo* shadowInfo = light->getShadowInfo();
         if(shadowInfo) {
-            g_tempTarget->bindAsRenderTarget();
-            glClear(GL_DEPTH_BUFFER_BIT);
+            m_shadowMapFramebuffer->bindAsRenderTarget();
+            glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
             Camera* temp = mainCamera;
 
             m_altCamera->setProjection(shadowInfo->getProjection());
@@ -117,7 +113,7 @@ void RenderingEngine::render(GameObject& object) {
     }
 
 
-//    //Temp Render
+//  //Temp Render
     Window::bindAsRenderTarget();
 //
     Camera* temp = mainCamera;

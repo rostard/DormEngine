@@ -4,7 +4,6 @@
 uniform DirectionalLight dirLight;
 uniform sampler2D shadowMap;
 
-#include "sampling.glh"
 
 void main() {
     vec2 texCoords = GetParallaxCoords(material.dispMap, TBN, normalize(viewPos - worldPos0), texCoords0, material.dispMapScale, material.dispMapOffset);
@@ -17,9 +16,9 @@ void main() {
     vec3 totalColor = CalcDirLight(dirLight, normal, viewDir);
 
 
-    vec3 lightPos = (lightPos0.xyz / lightPos0.w);
-    float shadow = float(texture(shadowMap, lightPos.xy).r > lightPos.z - 0.005);
-
+    vec3 lightPos = lightPos0.xyz / lightPos0.w;
+//    float shadow = sampleShadowMapPCF(shadowMap, lightPos.xy, lightPos.z, shadowTexelSize.xy);
+    float shadow = sampleVarianceShadowMap(shadowMap, lightPos.xy, lightPos.z);
     vec3 colorAmt = totalColor * shadow;
 
     gl_FragColor = vec4(colorAmt, 1.0) * color;

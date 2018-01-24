@@ -3,8 +3,6 @@
 
 uniform PointLight pointLight;
 
-#include "sampling.glh"
-
 void main() {
     vec3 totalColor = vec3(0, 0, 0);
 

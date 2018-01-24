@@ -217,20 +217,23 @@ void Shader::setUniformSpotLight(const uniformStruct &uniform, const SpotLight &
 void Shader::updateUniforms(Transform &transform, const Material &material, RenderingEngine* renderingEngine) {
 
     for(auto u : uniforms){
-        if(u.name == "lightMatrix"){
-            setMat4(u.name, renderingEngine->getLightMatrix() * transform.getTransformation());
-        }
-        else if(u.name == "shadowMap"){
+        if(u.name.substr(0, 8) == "material"){
+            std::string lastName = u.name.substr(u.name.find_last_of('.')+1);
+            if(u.type == "sampler2D"){
+                //TODO: textureBinding
+                unsigned int samplerSlot = renderingEngine->getSamplerSlot(lastName);
+                material.getTexture(lastName)->bind(samplerSlot);
+
+                setInt(u.name, samplerSlot);
+            }
+            if(u.type == "float")
+                setFloat(u.name, material.getFloat(lastName));
+            if(u.type == "vec3")
+                setVec3(u.name, material.getVector3f(lastName));
+        } else if(u.type == "sampler2D"){
+            //TODO: textureBinding
             unsigned int samplerSlot = renderingEngine->getSamplerSlot(u.name);
             renderingEngine->getTexture(u.name)->bind(samplerSlot);
-
-            setInt(u.name, samplerSlot);
-        }
-        else if(u.type == "sampler2D"){
-            //TODO: textureBinding
-            std::string lastName = u.name.substr(u.name.find_last_of('.')+1);
-            unsigned int samplerSlot = renderingEngine->getSamplerSlot(lastName);
-            material.getTexture(lastName)->bind(samplerSlot);
 
             setInt(u.name, samplerSlot);
         }
@@ -246,18 +249,12 @@ void Shader::updateUniforms(Transform &transform, const Material &material, Rend
             setMat4(u.name, transform.getProjectedTransformation(*renderingEngine->getMainCamera()));
         else if(u.name == "worldMatrix")
             setMat4(u.name, transform.getTransformation());
-        else if(u.name.substr(0, 8) == "material"){
-            std::string lastName = u.name.substr(u.name.find_last_of('.')+1);
-            if(u.type == "float")
-                setFloat(u.name, material.getFloat(lastName));
-            if(u.type == "vec3")
-                setVec3(u.name, material.getVector3f(lastName));
-        } else{
-            if(u.type == "float")
-                setFloat(u.name, renderingEngine->getFloat(u.name));
-            if(u.type == "vec3")
-                setVec3(u.name, renderingEngine->getVector3f(u.name));
-        }
+        else if(u.name == "lightMatrix")
+            setMat4(u.name, renderingEngine->getLightMatrix() * transform.getTransformation());
+        else if(u.type == "float")
+            setFloat(u.name, renderingEngine->getFloat(u.name));
+        else if(u.type == "vec3")
+            setVec3(u.name, renderingEngine->getVector3f(u.name));
     }
 
 

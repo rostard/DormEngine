@@ -5,7 +5,7 @@
 #include "MappedValues.h"
 #include "utility/SID.h"
 
-void MappedValues::addVector3f(const std::string &name, Vector3f &vector) {
+void MappedValues::setVector3f(const std::string &name, const Vector3f vector) {
     vectors[SID(name)] = vector;
 }
 
@@ -16,7 +16,7 @@ Vector3f MappedValues::getVector3f(const std::string &name) const {
     else Vector3f(0, 0, 0);
 }
 
-void MappedValues::addFloat(const std::string &name, float value) {
+void MappedValues::setFloat(const std::string &name, float value) {
     floats[SID(name)] = value;
 }
 
@@ -27,7 +27,7 @@ float MappedValues::getFloat(const std::string &name) const {
     else 0.0f;
 }
 
-void MappedValues::addTexture(const std::string &name, Texture *texture) {
+void MappedValues::setTexture(const std::string &name, Texture *texture) {
     textures[SID(name)] = texture;
 }
 

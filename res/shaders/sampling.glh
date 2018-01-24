@@ -35,3 +35,56 @@ vec2 GetParallaxCoords(sampler2D dispMap, mat3 TBN, vec3 toEye, vec2 texCoords, 
 
     return finalTexCoords + bias;
 }
+
+float sampleShadowMap(sampler2D shadowMap, vec2 coords, float compare){
+    return step(compare - 0.005, texture(shadowMap, coords).r);
+}
+
+float sampleShadowMapLinear(sampler2D shadowMap, vec2 coords, float compare, vec2 texelSize){
+    vec2 pCoords = (coords / texelSize.xy);
+    vec2 fracPart = fract(pCoords);
+    vec2 startTexel = (pCoords - fracPart) * texelSize;
+
+    float blTexel = sampleShadowMap(shadowMap, startTexel, compare);
+    float brTexel = sampleShadowMap(shadowMap, startTexel + vec2(texelSize.x, 0), compare);
+    float tlTexel = sampleShadowMap(shadowMap, startTexel + vec2(0, texelSize.y), compare);
+    float trTexel = sampleShadowMap(shadowMap, startTexel + texelSize, compare);
+
+    float mixA = mix(blTexel, tlTexel, fracPart.y);
+    float mixB = mix(brTexel, trTexel, fracPart.y);
+
+    return mix(mixA, mixB, fracPart.x);
+}
+
+float sampleShadowMapPCF(sampler2D shadowMap, vec2 coords, float compare, vec2 texelSize){
+    float MIN_SAMPLES = 2.0;
+    float START_SAMPLES = (MIN_SAMPLES - 1)/ 2.0;
+
+    float result = 0.0;
+
+    for(float i = -START_SAMPLES; i <= START_SAMPLES; i += 1.0) {
+        for(float j = -START_SAMPLES; j <= START_SAMPLES; j += 1.0) {
+            vec2 offset = vec2(i, j) * texelSize;
+            result += sampleShadowMapLinear(shadowMap, coords + offset, compare, texelSize);
+        }
+    }
+
+    return result / (MIN_SAMPLES * MIN_SAMPLES);
+}
+
+float linstep(float low, float high, float compare){
+    return clamp((compare - low) / (high - low), 0.0, 1.0);
+}
+
+float sampleVarianceShadowMap(sampler2D shadowMap, vec2 coords, float compare){
+    vec2 moments = texture(shadowMap, coords).xy;
+
+    float p = step(compare, moments.x);
+    float variance = max(moments.y - moments.x * moments.x, 0.0002);
+
+    float d = compare - moments.x;
+
+//    float pMax = clamp(variance / (variance + d*d), 0.2, 1.0) - 0.2;
+    float pMax = linstep(0.2, 1.0, variance / (variance + d*d));
+    return min(max(pMax, p), 1.0);
+}

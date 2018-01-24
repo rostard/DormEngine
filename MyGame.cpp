@@ -22,15 +22,16 @@ void MyGame::init() {
 
     texture = ResourceManager::loadTexture("test", "test.png");
     mesh = ResourceManager::loadMesh("plane", "plane/plane.obj");
+    plane->getTransform()->setPos(0, -1, 0);
     Material cleanMaterial;
     Material material;
-    material.addTexture("diffuse", ResourceManager::loadTexture("bricks", "bricks2.jpg"));
-    material.addTexture("normalMap", ResourceManager::loadTexture("bricks_normal", "bricks2_normal.jpg"));
-    material.addTexture("dispMap", ResourceManager::loadTexture("bricks_disp", "bricks2_disp.jpg"));
-    material.addFloat("dispMapScale", 0.03f);
-//    material.addFloat("dispMapOffset", -0.015f);
-    material.addFloat("shininess", 20);
-    material.addFloat("specularIntensity", 1);
+    material.setTexture("diffuse", ResourceManager::loadTexture("bricks", "bricks2.jpg"));
+    material.setTexture("normalMap", ResourceManager::loadTexture("bricks_normal", "bricks2_normal.jpg"));
+    material.setTexture("dispMap", ResourceManager::loadTexture("bricks_disp", "bricks2_disp.jpg"));
+    material.setFloat("dispMapScale", 0.03f);
+//    material.setFloat("dispMapOffset", -0.015f);
+    material.setFloat("shininess", 20);
+    material.setFloat("specularIntensity", 1);
     plane->addComponent(new MeshRenderer(*mesh, material));
 
     dirLightObject = new GameObject();

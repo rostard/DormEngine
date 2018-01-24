@@ -16,6 +16,7 @@
 class BaseLight;
 class Camera;
 class GameObject;
+class Framebuffer;
 
 class RenderingEngine : public MappedValues{
 public:
@@ -50,6 +51,9 @@ private:
     GameObject* m_plainObject;
     Camera* m_altCamera;
     Camera* m_planeCamera;
+    GameObject* m_planeCameraObject;
+    GameObject* m_altCameraObject;
+    Framebuffer* m_shadowMapFramebuffer;
 };
 
 

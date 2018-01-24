@@ -39,3 +39,12 @@ cmake-build-debug/cmake_install.cmake
 *.o
 
 cmake-build-debug/CMakeFiles/DormEngine.dir/DependInfo.cmake
+cmake-build-debug/CMakeFiles/3.9.6/CompilerIdCXX/a.out
+cmake-build-debug/CMakeFiles/3.9.6/CMakeCCompiler.cmake
+cmake-build-debug/CMakeFiles/3.9.6/CMakeCXXCompiler.cmake
+cmake-build-debug/CMakeFiles/3.9.6/CMakeDetermineCompilerABI_C.bin
+cmake-build-debug/CMakeFiles/3.9.6/CMakeDetermineCompilerABI_CXX.bin
+cmake-build-debug/CMakeFiles/3.9.6/CMakeSystem.cmake
+cmake-build-debug/CMakeFiles/3.9.6/CompilerIdC/CMakeCCompilerId.c
+cmake-build-debug/CMakeFiles/3.9.6/CompilerIdC/a.out
+cmake-build-debug/CMakeFiles/3.9.6/CompilerIdCXX/CMakeCXXCompilerId.cpp

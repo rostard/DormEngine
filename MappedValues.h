@@ -13,15 +13,15 @@ class Texture;
 
 class MappedValues {
 public:
-    void addVector3f(const std::string& name, Vector3f& vector);
+    void setVector3f(const std::string &name, Vector3f vector);
 
     Vector3f getVector3f(const std::string& name) const;
 
-    void addFloat(const std::string& name, float value);
+    void setFloat(const std::string &name, float value);
 
     float getFloat(const std::string& name) const;
 
-    void addTexture(const std::string& name,Texture* texture);
+    void setTexture(const std::string &name, Texture *texture);
     Texture* getTexture(const std::string& name) const;
 protected:
     std::map<unsigned int, Vector3f> vectors;
