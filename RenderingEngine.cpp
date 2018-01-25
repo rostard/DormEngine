@@ -11,8 +11,6 @@
 #include "resource_management/ResourceManager.h"
 #include "components/BaseLight.h"
 #include "Framebuffer.h"
-#include "components/MeshRenderer.h"
-
 
 const Matrix4f RenderingEngine::biasMatrix = Matrix4f().initScale(0.5, 0.5, 0.5) * Matrix4f().initTranslation(1.0, 1.0, 1.0);
 
@@ -34,6 +32,7 @@ RenderingEngine::RenderingEngine() {
     GLenum format = GL_RGBA;
     GLint internalFormat = GL_RG32F;
     m_shadowMapFramebuffer = new Framebuffer(1, 2048, 2048, &internalFormat, &format, &filter, &attachment);
+    m_shadowMapTempTarget = new Framebuffer(1, 2048, 2048, &internalFormat, &format, &filter, &attachment);
 
     std::vector<Vertex> vertices = { Vertex(Vector3f(-1,-1,-1),Vector2f(0,0)),
                           Vertex(Vector3f(-1,1,-1),Vector2f(0,1)),
@@ -46,18 +45,18 @@ RenderingEngine::RenderingEngine() {
     Material material;
     material.setTexture("diffuse", m_shadowMapFramebuffer->getTextureId(0));
 
-    m_plainObject = new GameObject();
-    m_plainObject->addComponent(new MeshRenderer(Mesh(vertices, indices), material));
+    m_plain = new Mesh(vertices, indices);
     setVector3f("shadowTexelSize", Vector3f(1.0f/2048.0f, 1.0f/2048.0f, 0.0f));
     setTexture("shadowMap", m_shadowMapFramebuffer->getTextureId(0));
-    m_plainObject->getTransform()->setScale(0.5f, 0.5f, 0.5f);
-    m_plainObject->getTransform()->setPos(0.5f, 0.5f, 0.0f);
+
     m_altCamera = new Camera(Matrix4f().initIdentity());
-    m_planeCamera = new Camera(Matrix4f().initIdentity());
-    m_planeCameraObject = new GameObject;
-    m_planeCameraObject->addComponent(m_planeCamera);
+    m_plainCamera = new Camera(Matrix4f().initIdentity());
+    m_plainCameraObject = new GameObject;
+    m_plainCameraObject->addComponent(m_plainCamera);
     m_altCameraObject = new GameObject();
     m_altCameraObject->addComponent(m_altCamera);
+    m_plainMaterial = new Material();
+    m_gausBlurFilter = ResourceManager::loadShader("gausBlur1x7", "filter-gausBlur1x7.vs.glsl", "filter-gausBlur1x7.fs.glsl");
 }
 
 
@@ -66,13 +65,12 @@ RenderingEngine::~RenderingEngine() {
 }
 
 void RenderingEngine::render(GameObject& object) {
-    std::cout<<mainCamera->getTransform().getPos().getY()<<std::endl;
     Window::bindAsRenderTarget();
     clearScreen();
 
-    Shader * ambientShader = ResourceManager::loadShader("forward-ambient_shader", "forward-ambient.vs.glsl", "forward-ambient.fs.glsl");
+    Shader* ambientShader = ResourceManager::loadShader("forward-ambient_shader", "forward-ambient.vs.glsl", "forward-ambient.fs.glsl");
     Shader* shadowMapGenerator = ResourceManager::loadShader("shadowMapGenerator", "shadow_map.vs.glsl", "shadow_map.fs.glsl");
-
+    Shader* defaultShader = ResourceManager::loadShader("default_shader", "default_shader.vs.glsl", "default_shader.fs.glsl");
     object.renderAll(*ambientShader, this);
 
 
@@ -96,6 +94,8 @@ void RenderingEngine::render(GameObject& object) {
             object.renderAll(*shadowMapGenerator, this);
 
             mainCamera = temp;
+
+            if(Window::getKey(GLFW_KEY_F))blurTexture7x7(m_shadowMapFramebuffer, 2.0);
         }
 
         Window::bindAsRenderTarget();
@@ -114,15 +114,7 @@ void RenderingEngine::render(GameObject& object) {
 
 
 //  //Temp Render
-    Window::bindAsRenderTarget();
-//
-    Camera* temp = mainCamera;
-    mainCamera = m_planeCamera;
-
-
-    m_plainObject->render(*ResourceManager::loadShader("default_shader", "default_shader.vs.glsl", "default_shader.fs.glsl") ,this);
-//
-    mainCamera = temp;
+//    applyFilter(m_gausBlurFilter, m_shadowMapFramebuffer->getTextureId(0), nullptr);
 
 }
 
@@ -165,6 +157,37 @@ unsigned int RenderingEngine::getSamplerSlot(const std::string &samplerName) {
 
 const Matrix4f &RenderingEngine::getLightMatrix() const {
     return lightMatrix;
+}
+
+void RenderingEngine::applyFilter(Shader *shader, Texture *source, Framebuffer *dest) {
+
+    if(dest == nullptr){
+        Window::bindAsRenderTarget();
+    } else{
+        assert(source->getId() != dest->getTextureId(0)->getId());
+        dest->bindAsRenderTarget();
+    }
+    glClear(GL_DEPTH_BUFFER_BIT);
+    m_plainMaterial->setTexture("sourceTexture", source);
+
+    Camera* temp = mainCamera;
+    mainCamera = m_plainCamera;
+
+    shader->bind();
+    Transform transform;
+    shader->updateUniforms(transform, *m_plainMaterial, this);
+    m_plain->render();
+
+    mainCamera = temp;
+
+}
+
+void RenderingEngine::blurTexture7x7(Framebuffer *framebuffer, float blurAmount) {
+    setVector3f("blurScale", Vector3f(1.0f/(framebuffer->getWidth() * blurAmount), 0.0f, 0.0f));
+    applyFilter(m_gausBlurFilter, framebuffer->getTextureId(0), m_shadowMapTempTarget);
+    setVector3f("blurScale", Vector3f(0.0f, 1.0f/(framebuffer->getWidth() * blurAmount), 0.0f));
+    applyFilter(m_gausBlurFilter, m_shadowMapTempTarget->getTextureId(0), framebuffer);
+
 }
 
 

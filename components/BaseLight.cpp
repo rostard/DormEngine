@@ -6,6 +6,36 @@
 #include "../resource_management/ResourceManager.h"
 #include "../CoreEngine.h"
 
+
+ShadowInfo::ShadowInfo(const Matrix4f &projection, bool flipFaces, float shadowSoftness, float minVariance,
+                       float lightBleedReductionAmount) : projection(projection), flipFaces(flipFaces),
+                                                          shadowSoftness(shadowSoftness), minVariance(minVariance),
+                                                          lightBleedReductionAmount(lightBleedReductionAmount) {}
+
+
+const Matrix4f &ShadowInfo::getProjection() const {
+    return projection;
+}
+
+
+bool ShadowInfo::isFlipFaces() const {
+    return flipFaces;
+}
+
+float ShadowInfo::getShadowSoftness() const {
+    return shadowSoftness;
+}
+
+float ShadowInfo::getMinVariance() const {
+    return minVariance;
+}
+
+float ShadowInfo::getLightBleedReductionAmount() const {
+    return lightBleedReductionAmount;
+}
+
+
+
 const Vector3f &BaseLight::getColor() const {
     return color;
 }
@@ -45,9 +75,3 @@ ShadowInfo *BaseLight::getShadowInfo() const {
 void BaseLight::setShadowInfo(ShadowInfo *shadowInfo) {
     BaseLight::shadowInfo = shadowInfo;
 }
-
-const Matrix4f &ShadowInfo::getProjection() const {
-    return projection;
-}
-
-ShadowInfo::ShadowInfo(const Matrix4f &projection) : projection(projection) {}

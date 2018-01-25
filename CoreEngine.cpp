@@ -7,6 +7,7 @@
 #include "CoreEngine.h"
 #include "Mesh.h"
 #include "Window.h"
+#include "utility/Log.h"
 
 CoreEngine::CoreEngine(unsigned int width, unsigned int height, unsigned int framerate, Game *game) : width(width),
                                                                                                       height(height),
@@ -75,6 +76,7 @@ void CoreEngine::run() {
 
             if (framesCounter >= 1.0) {
                 //TODO: print number of frames
+                Log::log(std::to_string(frames));
                 frames = 0;
                 framesCounter = 0;
             }

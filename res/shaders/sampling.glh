@@ -57,7 +57,7 @@ float sampleShadowMapLinear(sampler2D shadowMap, vec2 coords, float compare, vec
 }
 
 float sampleShadowMapPCF(sampler2D shadowMap, vec2 coords, float compare, vec2 texelSize){
-    float MIN_SAMPLES = 2.0;
+    float MIN_SAMPLES = 3.0;
     float START_SAMPLES = (MIN_SAMPLES - 1)/ 2.0;
 
     float result = 0.0;

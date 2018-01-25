@@ -46,12 +46,7 @@ void MyGame::init() {
     dirLightObject2->getTransform()->setRot(Quaternion(Vector3f(0,1,0), M_PI));
 //    addObject(dirLightObject2);
 
-    GameObject* wolfObject = new GameObject();
-    Mesh* wolfMesh = ResourceManager::loadMesh("wolf", "wolf/wolf.obj");
-    wolfObject->addComponent(new MeshRenderer(*wolfMesh, cleanMaterial));
-    addObject(wolfObject);
-    wolfObject->getTransform()->setPos(0, 0.8, 4);
-    wolfObject->getTransform()->setScale(0.4, 0.4, 0.4);
+
 
     Mesh * cube = ResourceManager::loadMesh("cube", "cube/cube.obj");
 
@@ -74,6 +69,31 @@ void MyGame::init() {
     addObject(spotLightObject);
     spotLightObject->addChild(pointLightObject);
 
+    GameObject* wolfObject = new GameObject();
+    Mesh* wolfMesh = ResourceManager::loadMesh("wolf", "wolf/wolf.obj");
+    wolfObject->addComponent(new MeshRenderer(*wolfMesh, cleanMaterial));
+    spotLightObject->addChild(wolfObject);
+    wolfObject->getTransform()->setPos(0, 0.8, 4);
+    wolfObject->getTransform()->setScale(0.4, 0.4, 0.4);
+
+    GameObject* wolfObject2 = new GameObject();
+    wolfObject2->addComponent(new MeshRenderer(*wolfMesh, cleanMaterial));
+    spotLightObject->addChild(wolfObject2);
+    wolfObject2->getTransform()->setPos(0, 0.8, -4);
+    wolfObject2->getTransform()->setScale(0.4, 0.4, 0.4);
+
+    GameObject* wolfObject3 = new GameObject();
+    wolfObject3->addComponent(new MeshRenderer(*wolfMesh, cleanMaterial));
+    spotLightObject->addChild(wolfObject3);
+    wolfObject3->getTransform()->setPos(4, 0.8, 0);
+    wolfObject3->getTransform()->setScale(0.4, 0.4, 0.4);
+
+    GameObject* wolfObject4 = new GameObject();
+    wolfObject4->addComponent(new MeshRenderer(*wolfMesh, cleanMaterial));
+    spotLightObject->addChild(wolfObject4);
+    wolfObject4->getTransform()->setPos(-4, 0.8, 0);
+
+
     GameObject* cameraObject = new GameObject();
     Camera* camera = new Camera(70.0f * (M_PI / 180.0f), Window::getSize().getX() / Window::getSize().getY(), 0.01f, 1000.0f);
     cameraObject->addComponent(camera);
@@ -92,7 +112,7 @@ void MyGame::update(float d_time) {
     allTime += d_time;
     Game::update(d_time);
 //    pointLightObject->getTransform()->setPos(sin(allTime) * 10.0f, 0.0f, cos(allTime) * 10.0f);
-    spotLightObject->getTransform()->setRot(Quaternion(Vector3f(1.0f, 0.0, 0.0), allTime));
+    spotLightObject->getTransform()->setRot(Quaternion(Vector3f(0.0f, 1.0, 0.0), allTime));
     dirLightObject->getTransform()->rotate(Vector3f(0.0, 1.0, 0.0), d_time/10);
 //    plane->getTransform()->setRotation(allTime * 2.0f,allTime * 20.0f,allTime * 10.0f);
 //    plane->getTransform()->setTranslation(sin(allTime),0,5.0f);

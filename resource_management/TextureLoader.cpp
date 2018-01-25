@@ -35,5 +35,5 @@ Texture TextureLoader::Load(const std::string &filename, bool srgb) {
 
     stbi_image_free(data);
 
-    return {id};
+    return Texture(id, width, height);
 }

@@ -17,6 +17,9 @@ class BaseLight;
 class Camera;
 class GameObject;
 class Framebuffer;
+class Shader;
+class Mesh;
+class Material;
 
 class RenderingEngine : public MappedValues{
 public:
@@ -40,6 +43,9 @@ public:
 
     const Matrix4f &getLightMatrix() const;
 
+    void applyFilter(Shader* shader, Texture* source, Framebuffer* dest);
+
+    void blurTexture7x7(Framebuffer* framebuffer, float blurAmount);
 private:
     static const Matrix4f biasMatrix;
 
@@ -48,12 +54,15 @@ private:
     Camera* mainCamera;
     std::vector<unsigned int> samplers;
     Matrix4f lightMatrix;
-    GameObject* m_plainObject;
+    Mesh* m_plain;
     Camera* m_altCamera;
-    Camera* m_planeCamera;
-    GameObject* m_planeCameraObject;
+    Camera* m_plainCamera;
+    GameObject* m_plainCameraObject;
     GameObject* m_altCameraObject;
     Framebuffer* m_shadowMapFramebuffer;
+    Material* m_plainMaterial;
+    Shader* m_gausBlurFilter;
+    Framebuffer* m_shadowMapTempTarget;
 };
 
 

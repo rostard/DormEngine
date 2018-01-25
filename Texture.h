@@ -8,16 +8,20 @@
 
 class Texture {
 public:
-    Texture(int id);
+    Texture(int id, int width, int height);
     Texture();
 
     void bind(unsigned int slot);
 
-    int getId(){
-        return id;
-    }
+    inline int getId() const { return id; }
+
+    inline int getWidht() const { return width; }
+
+    inline int getHeight() const { return height; }
 private:
     int id;
+    int width;
+    int height;
 };
 
 

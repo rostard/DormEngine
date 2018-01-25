@@ -12,12 +12,25 @@
 
 class ShadowInfo{
 public:
-    ShadowInfo(const Matrix4f &projection);
+    ShadowInfo(const Matrix4f &projection, bool flipFaces, float shadowSoftness = 1.0f, float lightBleedReductionAmount = 0.2f, float minVariance = 0.00002f);
 
     const Matrix4f &getProjection() const;
 
+    bool isFlipFaces() const;
+
+    float getShadowSoftness() const;
+
+    float getMinVariance() const;
+
+    float getLightBleedReductionAmount() const;
+
 private:
     Matrix4f projection;
+
+    bool flipFaces;
+    float shadowSoftness;
+    float minVariance;
+    float lightBleedReductionAmount;
 };
 
 class BaseLight : public GameComponent {
