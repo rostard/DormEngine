@@ -1,3 +1,5 @@
+uniform float minVariance;
+uniform float lightBleedReductionAmount;
 
 vec2 GetParallaxCoords(sampler2D dispMap, mat3 TBN, vec3 toEye, vec2 texCoords, float scale, float bias)
 {
@@ -80,11 +82,10 @@ float sampleVarianceShadowMap(sampler2D shadowMap, vec2 coords, float compare){
     vec2 moments = texture(shadowMap, coords).xy;
 
     float p = step(compare, moments.x);
-    float variance = max(moments.y - moments.x * moments.x, 0.0002);
+    float variance = max(moments.y - moments.x * moments.x, minVariance);
 
     float d = compare - moments.x;
 
-//    float pMax = clamp(variance / (variance + d*d), 0.2, 1.0) - 0.2;
-    float pMax = linstep(0.2, 1.0, variance / (variance + d*d));
+    float pMax = linstep(lightBleedReductionAmount, 1.0, variance / (variance + d*d));
     return min(max(pMax, p), 1.0);
 }

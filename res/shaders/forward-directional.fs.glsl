@@ -17,8 +17,8 @@ void main() {
 
 
     vec3 lightPos = lightPos0.xyz / lightPos0.w;
-    float shadow = sampleShadowMapPCF(shadowMap, lightPos.xy, lightPos.z, shadowTexelSize.xy);
-//    float shadow = sampleVarianceShadowMap(shadowMap, lightPos.xy, lightPos.z);
+//    float shadow = sampleShadowMapPCF(shadowMap, lightPos.xy, lightPos.z, shadowTexelSize.xy);
+    float shadow = sampleVarianceShadowMap(shadowMap, lightPos.xy, lightPos.z);
     vec3 colorAmt = totalColor * shadow;
 
     gl_FragColor = vec4(colorAmt, 1.0) * color;

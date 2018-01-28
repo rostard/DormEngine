@@ -11,7 +11,7 @@
 class SpotLight : public PointLight {
 
 public:
-    SpotLight(const Vector3f& color, float intensity, const Vector3f& attenuation, float cutoff, float outerCutoff);
+    SpotLight(const Vector3f& color, float intensity, const Vector3f& attenuation, float cutoff, float outerCutoff, int shadowMapResolutionAsPowerOf2 = 0, float shadowSoftness = 1.0f, float lightBleedReductionAmount = 0.2f, float minVariance = 0.00002f);
 
     float getCutoff() const;
 

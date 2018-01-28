@@ -11,12 +11,14 @@ Quaternion::Quaternion() : x(0), y(0), z(0), w(1) {}
 Quaternion::Quaternion(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
 
 Quaternion::Quaternion(const Vector3f &axis, float angle) {
+    Vector3f normalizedAxis = axis.normalized();
+
     auto sinHalfAngle = static_cast<float>(std::sin(angle / 2.0));
     auto cosHalfAngle = static_cast<float>(std::cos(angle / 2.0));
 
-    x = axis.getX() * sinHalfAngle;
-    y = axis.getY() * sinHalfAngle;
-    z = axis.getZ() * sinHalfAngle;
+    x = normalizedAxis.getX() * sinHalfAngle;
+    y = normalizedAxis.getY() * sinHalfAngle;
+    z = normalizedAxis.getZ() * sinHalfAngle;
     w = cosHalfAngle;
 }
 

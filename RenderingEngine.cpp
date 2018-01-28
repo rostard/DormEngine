@@ -31,8 +31,12 @@ RenderingEngine::RenderingEngine() {
     GLenum attachment = GL_COLOR_ATTACHMENT0;
     GLenum format = GL_RGBA;
     GLint internalFormat = GL_RG32F;
-    m_shadowMapFramebuffer = new Framebuffer(1, 2048, 2048, &internalFormat, &format, &filter, &attachment);
-    m_shadowMapTempTarget = new Framebuffer(1, 2048, 2048, &internalFormat, &format, &filter, &attachment);
+
+    for(int i = 0; i < maxResolutionOfShadowMapAsPowerOf2; i++){
+        int resolution = 1 << (i + 1);
+        m_shadowMaps[i] = new Framebuffer(1, resolution, resolution, &internalFormat, &format, &filter, &attachment);
+        m_shadowMapTempTargets[i] = new Framebuffer(1, resolution, resolution, &internalFormat, &format, &filter, &attachment);
+    }
 
     std::vector<Vertex> vertices = { Vertex(Vector3f(-1,-1,-1),Vector2f(0,0)),
                           Vertex(Vector3f(-1,1,-1),Vector2f(0,1)),
@@ -43,12 +47,8 @@ RenderingEngine::RenderingEngine() {
                                         2, 3, 0 };
 
     Material material;
-    material.setTexture("diffuse", m_shadowMapFramebuffer->getTextureId(0));
 
     m_plain = new Mesh(vertices, indices);
-    setVector3f("shadowTexelSize", Vector3f(1.0f/2048.0f, 1.0f/2048.0f, 0.0f));
-    setTexture("shadowMap", m_shadowMapFramebuffer->getTextureId(0));
-
     m_altCamera = new Camera(Matrix4f().initIdentity());
     m_plainCamera = new Camera(Matrix4f().initIdentity());
     m_plainCameraObject = new GameObject;
@@ -70,16 +70,24 @@ void RenderingEngine::render(GameObject& object) {
 
     Shader* ambientShader = ResourceManager::loadShader("forward-ambient_shader", "forward-ambient.vs.glsl", "forward-ambient.fs.glsl");
     Shader* shadowMapGenerator = ResourceManager::loadShader("shadowMapGenerator", "shadow_map.vs.glsl", "shadow_map.fs.glsl");
-    Shader* defaultShader = ResourceManager::loadShader("default_shader", "default_shader.vs.glsl", "default_shader.fs.glsl");
     object.renderAll(*ambientShader, this);
 
 
     for(auto light : lights){
         activeLight = light;
         ShadowInfo* shadowInfo = light->getShadowInfo();
+        int shadowMapIndex = 0;
         if(shadowInfo) {
-            m_shadowMapFramebuffer->bindAsRenderTarget();
-            glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+            shadowMapIndex = shadowInfo->getResolutionAsPowerOf2() - 1;
+        }
+
+        setTexture("shadowMap", m_shadowMaps[shadowMapIndex]->getTextureId(0));
+        m_shadowMaps[shadowMapIndex]->bindAsRenderTarget();
+        glClearColor(1.0f, 1.0f, 0.0, 0.0);
+        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
+        if(shadowInfo){
+
             Camera* temp = mainCamera;
 
             m_altCamera->setProjection(shadowInfo->getProjection());
@@ -91,11 +99,30 @@ void RenderingEngine::render(GameObject& object) {
 
             mainCamera = m_altCamera;
 
+            bool flipFaces = shadowInfo->getFlipFaces();
+
+            if(flipFaces){
+                glCullFace(GL_FRONT);
+            }
+
             object.renderAll(*shadowMapGenerator, this);
+
+            if(flipFaces){
+                glCullFace(GL_BACK);
+            }
 
             mainCamera = temp;
 
-            if(Window::getKey(GLFW_KEY_F))blurTexture7x7(m_shadowMapFramebuffer, 2.0);
+            setFloat("minVariance", shadowInfo->getMinVariance());
+            setFloat("lightBleedReductionAmount", shadowInfo->getLightBleedReductionAmount());
+
+            float shadowSoftness = shadowInfo->getShadowSoftness();
+            if(shadowSoftness != 0) blurShadowMap7x7(shadowMapIndex, shadowSoftness);
+        }
+        else{
+            lightMatrix = Matrix4f().initScale(0, 0, 0);
+            setFloat("minVariance", 0.0002f);
+            setFloat("lightBleedReductionAmount", 0);
         }
 
         Window::bindAsRenderTarget();
@@ -111,11 +138,6 @@ void RenderingEngine::render(GameObject& object) {
         glDepthMask(static_cast<GLboolean>(true));
         glDisable(GL_BLEND);
     }
-
-
-//  //Temp Render
-//    applyFilter(m_gausBlurFilter, m_shadowMapFramebuffer->getTextureId(0), nullptr);
-
 }
 
 void RenderingEngine::clearScreen() {
@@ -182,12 +204,15 @@ void RenderingEngine::applyFilter(Shader *shader, Texture *source, Framebuffer *
 
 }
 
-void RenderingEngine::blurTexture7x7(Framebuffer *framebuffer, float blurAmount) {
-    setVector3f("blurScale", Vector3f(1.0f/(framebuffer->getWidth() * blurAmount), 0.0f, 0.0f));
-    applyFilter(m_gausBlurFilter, framebuffer->getTextureId(0), m_shadowMapTempTarget);
-    setVector3f("blurScale", Vector3f(0.0f, 1.0f/(framebuffer->getWidth() * blurAmount), 0.0f));
-    applyFilter(m_gausBlurFilter, m_shadowMapTempTarget->getTextureId(0), framebuffer);
+void RenderingEngine::blurShadowMap7x7(int shadowMapIndex, float blurAmount)
+{
+    Framebuffer* shadowMap = m_shadowMaps[shadowMapIndex];
+    Framebuffer* shadowMapTempTarget = m_shadowMapTempTargets[shadowMapIndex];
 
+    setVector3f("blurScale", Vector3f(blurAmount / shadowMap->getWidth(), 0.0f, 0.0f));
+    applyFilter(m_gausBlurFilter, shadowMap->getTextureId(0), shadowMapTempTarget);
+    setVector3f("blurScale", Vector3f(0.0f, blurAmount / shadowMap->getHeight(), 0.0f));
+    applyFilter(m_gausBlurFilter, shadowMapTempTarget->getTextureId(0), shadowMap);
 }
 
 

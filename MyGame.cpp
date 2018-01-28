@@ -42,7 +42,7 @@ void MyGame::init() {
     dirLightObject->getTransform()->setRot(Quaternion(Vector3f(1.0f, 0.0f, 0.0f), M_PI_4));
     dirLightObject->getTransform()->setPos(0, 1, 0);
     dirLightObject2->addComponent(dirLight2);
-    addObject(dirLightObject);
+//    addObject(dirLightObject);
     dirLightObject2->getTransform()->setRot(Quaternion(Vector3f(0,1,0), M_PI));
 //    addObject(dirLightObject2);
 
@@ -60,11 +60,12 @@ void MyGame::init() {
 
     spotLightObject = new GameObject();
 
-    SpotLight* spotLight = new SpotLight(Vector3f(0.0f, 1.0f, 0.0f), 1.0f, Vector3f(0, 0, 1), 0.7f, 0.7f);
-//    spotLightObject->addComponent(spotLight);
+    SpotLight* spotLight = new SpotLight(Vector3f(1.0f, 1.0f, 1.0f), 4.0f, Vector3f(0, 0, 1), M_PI_4, M_PI_4, 7);
+    spotLightObject->addComponent(spotLight);
     spotLightObject->addComponent(new MeshRenderer(*cube, cleanMaterial));
     spotLightObject->getTransform()->setScale(0.1f, 0.1f, 0.1f);
     spotLightObject->getTransform()->setPos(0.0f, 1.0f, 0.0f);
+    spotLightObject->getTransform()->setRot(Quaternion(Vector3f(1.0, 0, 0), M_PI_2));
 
     addObject(spotLightObject);
     spotLightObject->addChild(pointLightObject);
@@ -97,7 +98,7 @@ void MyGame::init() {
     GameObject* cameraObject = new GameObject();
     Camera* camera = new Camera(70.0f * (M_PI / 180.0f), Window::getSize().getX() / Window::getSize().getY(), 0.01f, 1000.0f);
     cameraObject->addComponent(camera);
-//    cameraObject->addComponent(new SpotLight(Vector3f(1.0f, 1.0f, 1.0f), 4.0f, Vector3f(1, 1, 0.5f), 0.8, 0.8));
+    cameraObject->addComponent(new SpotLight(Vector3f(1.0f, 1.0f, 1.0f), 4.0f, Vector3f(1, 1, 0.5f), M_PI_4, M_PI_4));
     addObject(cameraObject);
 }
 
@@ -112,7 +113,7 @@ void MyGame::update(float d_time) {
     allTime += d_time;
     Game::update(d_time);
 //    pointLightObject->getTransform()->setPos(sin(allTime) * 10.0f, 0.0f, cos(allTime) * 10.0f);
-    spotLightObject->getTransform()->setRot(Quaternion(Vector3f(0.0f, 1.0, 0.0), allTime));
+    spotLightObject->getTransform()->setRot(Quaternion(Vector3f(1.0f, 0.0, 0.0), allTime));
     dirLightObject->getTransform()->rotate(Vector3f(0.0, 1.0, 0.0), d_time/10);
 //    plane->getTransform()->setRotation(allTime * 2.0f,allTime * 20.0f,allTime * 10.0f);
 //    plane->getTransform()->setTranslation(sin(allTime),0,5.0f);

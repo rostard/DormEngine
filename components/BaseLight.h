@@ -12,11 +12,11 @@
 
 class ShadowInfo{
 public:
-    ShadowInfo(const Matrix4f &projection, bool flipFaces, float shadowSoftness = 1.0f, float lightBleedReductionAmount = 0.2f, float minVariance = 0.00002f);
+    ShadowInfo(const Matrix4f &projection, bool flipFaces, int shadowMapResolutionAsPowerOf2 = 10, float shadowSoftness = 1.0f, float lightBleedReductionAmount = 0.2f, float minVariance = 0.00002f);
 
     const Matrix4f &getProjection() const;
 
-    bool isFlipFaces() const;
+    bool getFlipFaces() const;
 
     float getShadowSoftness() const;
 
@@ -24,8 +24,14 @@ public:
 
     float getLightBleedReductionAmount() const;
 
+    int getResolutionAsPowerOf2() const;
+
+    void setResolutionAsPowerOf2(int resolutionAsPowerOf2);
+
 private:
     Matrix4f projection;
+
+    int resolutionAsPowerOf2;
 
     bool flipFaces;
     float shadowSoftness;
@@ -54,6 +60,7 @@ public:
     ShadowInfo *getShadowInfo() const;
 
     void setShadowInfo(ShadowInfo *shadowInfo);
+
 
 private:
     Shader* shader;

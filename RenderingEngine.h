@@ -45,24 +45,31 @@ public:
 
     void applyFilter(Shader* shader, Texture* source, Framebuffer* dest);
 
-    void blurTexture7x7(Framebuffer* framebuffer, float blurAmount);
+    void blurShadowMap7x7(int shadowMapIndex, float blurAmount);
 private:
     static const Matrix4f biasMatrix;
+    static const int maxResolutionOfShadowMapAsPowerOf2 = 10;
 
     std::vector<BaseLight*> lights;
     BaseLight* activeLight;
-    Camera* mainCamera;
-    std::vector<unsigned int> samplers;
     Matrix4f lightMatrix;
+
+    Camera* mainCamera;
+
+    std::vector<unsigned int> samplers;
+
     Mesh* m_plain;
-    Camera* m_altCamera;
+    Material* m_plainMaterial;
     Camera* m_plainCamera;
     GameObject* m_plainCameraObject;
+
+    Camera* m_altCamera;
     GameObject* m_altCameraObject;
-    Framebuffer* m_shadowMapFramebuffer;
-    Material* m_plainMaterial;
+
     Shader* m_gausBlurFilter;
-    Framebuffer* m_shadowMapTempTarget;
+
+    Framebuffer* m_shadowMaps[maxResolutionOfShadowMapAsPowerOf2];
+    Framebuffer* m_shadowMapTempTargets[maxResolutionOfShadowMapAsPowerOf2];
 };
 
 

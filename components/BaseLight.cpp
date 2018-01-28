@@ -7,8 +7,8 @@
 #include "../CoreEngine.h"
 
 
-ShadowInfo::ShadowInfo(const Matrix4f &projection, bool flipFaces, float shadowSoftness, float minVariance,
-                       float lightBleedReductionAmount) : projection(projection), flipFaces(flipFaces),
+ShadowInfo::ShadowInfo(const Matrix4f &projection, bool flipFaces, int shadowMapResolutionAsPowerOf2, float shadowSoftness, float minVariance,
+                       float lightBleedReductionAmount) : projection(projection), flipFaces(flipFaces), resolutionAsPowerOf2(shadowMapResolutionAsPowerOf2),
                                                           shadowSoftness(shadowSoftness), minVariance(minVariance),
                                                           lightBleedReductionAmount(lightBleedReductionAmount) {}
 
@@ -18,7 +18,7 @@ const Matrix4f &ShadowInfo::getProjection() const {
 }
 
 
-bool ShadowInfo::isFlipFaces() const {
+bool ShadowInfo::getFlipFaces() const {
     return flipFaces;
 }
 
@@ -34,6 +34,13 @@ float ShadowInfo::getLightBleedReductionAmount() const {
     return lightBleedReductionAmount;
 }
 
+int ShadowInfo::getResolutionAsPowerOf2() const {
+    return resolutionAsPowerOf2;
+}
+
+void ShadowInfo::setResolutionAsPowerOf2(int resolutionAsPowerOf2) {
+    ShadowInfo::resolutionAsPowerOf2 = resolutionAsPowerOf2;
+}
 
 
 const Vector3f &BaseLight::getColor() const {
