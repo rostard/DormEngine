@@ -12,7 +12,7 @@
 
 class ShadowInfo{
 public:
-    ShadowInfo(const Matrix4f &projection, bool flipFaces, int shadowMapResolutionAsPowerOf2 = 10, float shadowSoftness = 1.0f, float lightBleedReductionAmount = 0.2f, float minVariance = 0.00002f);
+    ShadowInfo(const Matrix4f &projection, bool flipFaces, int shadowMapResolutionAsPowerOf2 = 10, float shadowSoftness = 1.0f, float lightBleedReductionAmount = 0.2f, float minVariance = 0.0002f);
 
     const Matrix4f &getProjection() const;
 

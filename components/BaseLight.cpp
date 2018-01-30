@@ -3,14 +3,14 @@
 //
 
 #include "BaseLight.h"
-#include "../resource_management/ResourceManager.h"
 #include "../CoreEngine.h"
 
 
-ShadowInfo::ShadowInfo(const Matrix4f &projection, bool flipFaces, int shadowMapResolutionAsPowerOf2, float shadowSoftness, float minVariance,
-                       float lightBleedReductionAmount) : projection(projection), flipFaces(flipFaces), resolutionAsPowerOf2(shadowMapResolutionAsPowerOf2),
-                                                          shadowSoftness(shadowSoftness), minVariance(minVariance),
-                                                          lightBleedReductionAmount(lightBleedReductionAmount) {}
+ShadowInfo::ShadowInfo(const Matrix4f &projection, bool flipFaces, int shadowMapResolutionAsPowerOf2,
+                       float shadowSoftness, float lightBleedReductionAmount, float minVariance) :
+        projection(projection), flipFaces(flipFaces), resolutionAsPowerOf2(shadowMapResolutionAsPowerOf2),
+        shadowSoftness(shadowSoftness), minVariance(minVariance),
+        lightBleedReductionAmount(lightBleedReductionAmount) {}
 
 
 const Matrix4f &ShadowInfo::getProjection() const {
@@ -67,7 +67,7 @@ void BaseLight::addToEngine(CoreEngine *engine) {
     engine->getRenderingEngine()->addLight(this);
 }
 
-Shader* BaseLight::getShader() {
+Shader *BaseLight::getShader() {
     return shader;
 }
 
