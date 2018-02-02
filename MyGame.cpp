@@ -36,7 +36,7 @@ void MyGame::init() {
 
     dirLightObject = new GameObject();
     GameObject* dirLightObject2 = new GameObject();
-    DirectionalLight* dirLight = new DirectionalLight(Vector3f(1.0f, 1.0f, 1.0f), 0.5f);
+    DirectionalLight* dirLight = new DirectionalLight(Vector3f(1.0f, 1.0f, 1.0f), 0.5f, 10, 20);
     DirectionalLight* dirLight2 = new DirectionalLight(Vector3f(0.0f, 0.0f, 1.0f), 0.5f);
     dirLightObject->addComponent(dirLight);
     dirLightObject->getTransform()->setRot(Quaternion(Vector3f(1.0f, 0.0f, 0.0f), M_PI_4));

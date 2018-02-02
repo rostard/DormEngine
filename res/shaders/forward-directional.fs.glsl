@@ -22,6 +22,6 @@ void main() {
     vec3 colorAmt = totalColor * shadow;
 
     gl_FragColor = vec4(colorAmt, 1.0) * color;
-
+//    gl_FragColor = vec4(texture(shadowMap, lightPos.xy).xy, 0.0, 1.0);
 
 }

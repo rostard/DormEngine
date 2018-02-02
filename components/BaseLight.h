@@ -10,6 +10,11 @@
 #include "../math/Vector3f.h"
 #include "../Shader.h"
 
+struct ShadowCameraTransform{
+    Vector3f pos;
+    Quaternion rot;
+};
+
 class ShadowInfo{
 public:
     ShadowInfo(const Matrix4f &projection, bool flipFaces, int shadowMapResolutionAsPowerOf2 = 10, float shadowSoftness = 1.0f, float lightBleedReductionAmount = 0.2f, float minVariance = 0.0002f);
@@ -43,6 +48,10 @@ class BaseLight : public GameComponent {
 public:
     BaseLight(const Vector3f &color, float intensity);
 
+    void addToEngine(CoreEngine *engine);
+
+    virtual ShadowCameraTransform calcShadowCameraTransform(const Vector3f& mainCameraPos, const Quaternion& mainCameraRot);
+
     const Vector3f &getColor() const;
 
     void setColor(const Vector3f &color);
@@ -51,8 +60,6 @@ public:
 
     void setIntensity(float intensity);
 
-    void addToEngine(CoreEngine *engine);
-
     Shader* getShader();
 
     void setShader(Shader *shader);
@@ -60,7 +67,6 @@ public:
     ShadowInfo *getShadowInfo() const;
 
     void setShadowInfo(ShadowInfo *shadowInfo);
-
 
 private:
     Shader* shader;

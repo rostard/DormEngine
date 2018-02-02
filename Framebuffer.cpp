@@ -38,8 +38,8 @@ Framebuffer::Framebuffer(int num_textures, int width, int height, GLint* interna
         glTexImage2D(GL_TEXTURE_2D, 0, internalFormats[i], width, height, 0, formats[i], GL_UNSIGNED_BYTE, data);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filters[i]);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filters[i]);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
         glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, attachments[i], GL_TEXTURE_2D, ids[i], 0);
         m_textures[i] = new Texture(ids[i], width, height);

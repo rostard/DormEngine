@@ -79,6 +79,8 @@ float linstep(float low, float high, float compare){
 }
 
 float sampleVarianceShadowMap(sampler2D shadowMap, vec2 coords, float compare){
+    if(compare > 1.0)
+            return 1.0;
     vec2 moments = texture(shadowMap, coords).xy;
 
     float p = step(compare, moments.x);

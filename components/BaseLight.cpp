@@ -63,6 +63,13 @@ BaseLight::BaseLight(const Vector3f &color, float intensity) : color(color), int
     //shader = ResourceManager::loadShader()
 }
 
+ShadowCameraTransform BaseLight::calcShadowCameraTransform(const Vector3f& mainCameraPos, const Quaternion& mainCameraRot) {
+    ShadowCameraTransform res;
+    res.pos = getTransform().getTransformedPos();
+    res.rot = getTransform().getTransformedRot();
+    return res;
+}
+
 void BaseLight::addToEngine(CoreEngine *engine) {
     engine->getRenderingEngine()->addLight(this);
 }

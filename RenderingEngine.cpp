@@ -35,6 +35,9 @@ RenderingEngine::RenderingEngine() {
     for(int i = 0; i < maxResolutionOfShadowMapAsPowerOf2; i++){
         int resolution = 1 << (i + 1);
         m_shadowMaps[i] = new Framebuffer(1, resolution, resolution, &internalFormat, &format, &filter, &attachment);
+        m_shadowMaps[i]->getTextureId(0)->bind(getSamplerSlot("shadowMap"));
+        float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+        glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
         m_shadowMapTempTargets[i] = new Framebuffer(1, resolution, resolution, &internalFormat, &format, &filter, &attachment);
     }
 
@@ -91,9 +94,9 @@ void RenderingEngine::render(GameObject& object) {
             Camera* temp = mainCamera;
 
             m_altCamera->setProjection(shadowInfo->getProjection());
-
-            m_altCamera->getTransform().setPos(light->getTransform().getTransformedPos());
-            m_altCamera->getTransform().setRot(light->getTransform().getTransformedRot());
+            ShadowCameraTransform shadowCameraTransform = light->calcShadowCameraTransform(mainCamera->getTransform().getTransformedPos(), mainCamera->getTransform().getTransformedRot());
+            m_altCamera->getTransform().setPos(shadowCameraTransform.pos);
+            m_altCamera->getTransform().setRot(shadowCameraTransform.rot);
 
             lightMatrix = biasMatrix * m_altCamera->getViewProjection();
 
