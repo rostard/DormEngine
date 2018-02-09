@@ -7,22 +7,30 @@
 
 
 #include <vector>
-#include "Window.h"
+class Window;
 
 class Input {
 public:
-    Input() = delete;
+    Input(Window* window);
 
-    static void update();
-    static void setWindowCapture(Window &window);
-    static bool isKeyDown(const int& key);
-    static bool isKeyPress(const int& key);
-    static bool isKeyUp(const int& key);
+    void update();
+    void setWindowCapture(Window &window);
 
-private:
+    bool getKeyDown(unsigned int keyCode) const;
+    bool getKeyUp(unsigned int keyCode) const;
+    bool getKey(unsigned int keyCode) const;
+
+    void setKeyDown(unsigned int keyCode, bool state);
+    void setKeyUp(unsigned int keyCode, bool state);
+    void setKey(unsigned int keyCode, bool state);
+
     static const unsigned int numOfKeys = 300;
-    static std::vector<int> lastKeys;
-    static Window* window;
+private:
+    bool inputs[numOfKeys];
+    bool downKeys[numOfKeys];
+    bool upKeys[numOfKeys];
+
+    Window* window;
 };
 
 

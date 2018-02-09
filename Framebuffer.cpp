@@ -15,14 +15,14 @@ Framebuffer::Framebuffer(int num_textures, int width, int height, GLint* interna
     glGenFramebuffers(1, &m_framebuffer);
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_framebuffer);
 
-    unsigned int* ids = new unsigned int[num_textures];
+    auto * ids = new unsigned int[num_textures];
     glGenTextures(num_textures, ids);
 
     GLenum drawBuffers[m_numTextures];
     bool hasDepth = false;
 
     int dataSize = width * height * 4;
-    unsigned char* data = new unsigned char[dataSize];
+    auto * data = new unsigned char[dataSize];
     memset(data, 0, dataSize);
 
 
@@ -61,6 +61,7 @@ Framebuffer::Framebuffer(int num_textures, int width, int height, GLint* interna
     }
 
     delete[] data;
+    delete[] ids;
 }
 
 

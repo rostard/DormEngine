@@ -15,7 +15,7 @@ Mesh MeshLoader::Load(const std::string &filename) {
     const aiScene *scene = import.ReadFile("res/models/"+filename, aiProcess_Triangulate | aiProcess_GenNormals | aiProcess_CalcTangentSpace);
 
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode){
-        Log::log("ERROR::ASSIMP::" + std::string(import.GetErrorString()));
+        Log::Message("ASSIMP::" + std::string(import.GetErrorString()), LOG_WARNING);
     }
 
     std::vector<Vertex> vertices;

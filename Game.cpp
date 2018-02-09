@@ -4,16 +4,15 @@
 
 #include "Game.h"
 #include "RenderingEngine.h"
-void Game::input(float d_time) {
-    root->inputAll(d_time);
-
+void Game::processInput(const Input &input, float d_time) {
+    root->processInputAll(input, d_time);
 }
 
 void Game::update(float d_time) {
     root->updateAll(d_time);
 }
 
-void Game::init() {
+void Game::init(const Window &window) {
 }
 
 GameObject *Game::getRoot() {

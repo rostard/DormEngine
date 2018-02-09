@@ -8,6 +8,8 @@
 
 #include "ProjectHeaders.h"
 
+class Window;
+
 class CoreEngine {
 public:
     CoreEngine(unsigned int width, unsigned int height, unsigned int framerate, Game *game);
@@ -20,7 +22,7 @@ public:
 
     RenderingEngine* getRenderingEngine();
 private:
-    void cleanUp();
+    Window* window;
 
     void run();
 

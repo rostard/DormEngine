@@ -8,35 +8,43 @@
 
 #include <GLFW/glfw3.h>
 #include <string>
+#include <map>
 #include "math/Vector2f.h"
+#include "Input.h"
 
 class Window {
 public:
-    Window() = delete;
+    Window(unsigned int screen_width, unsigned int screen_height, const std::string& title);
 
-    static void initGLFW();
+    virtual ~Window();
 
-    static void createWindow(const unsigned int &screen_width, const unsigned int &screen_height,
-                      const std::string& title);
+    void initGLFW();
 
-    static void bindAsRenderTarget();
+    void bindAsRenderTarget();
 
-    static bool isShouldClose();
+    bool shouldClose() const;
 
-    static void render();
+    void update();
 
-    static bool getKey(int key);
+    void swapBuffers();
 
-    static Vector2f getSize();
+    Vector2f getSize() const;
 
-    static Vector2f getCenter();
+    Vector2f getCenter() const;
 
-    static bool getMouseButton(int button);
-
-    static void dispose();
+    const Input& getInput() const;
 private:
-    static GLFWwindow* window;
-    static bool initialized;
+    static std::map<GLFWwindow*, Window*> windows;
+
+    static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+    GLFWwindow* window;
+
+    unsigned int width;
+    unsigned int height;
+    std::string title;
+    Input input;
+    bool initialized;
 };
 
 

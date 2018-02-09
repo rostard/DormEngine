@@ -8,6 +8,7 @@
 #include "../math/Matrix4f.h"
 #include "../math/Vector3f.h"
 #include "GameComponent.h"
+#include "../Input.h"
 
 class Camera : public GameComponent {
 public:
@@ -27,7 +28,7 @@ public:
 
     void addToEngine(CoreEngine *engine);
 
-    void input(float d_time);
+    void processInput(const Input &input, float d_time);
 
     void setProjection(const Matrix4f &projection);
 

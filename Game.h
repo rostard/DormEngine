@@ -7,17 +7,18 @@
 
 
 #include "GameObject.h"
+#include "Window.h"
 
 class CoreEngine;
 
 class Game {
 public:
 
-    virtual void input(float d_time);
+    virtual void processInput(const Input &input, float d_time);
 
     virtual void update(float d_time);
 
-    virtual void init();
+    virtual void init(const Window &window);
 
     void render(RenderingEngine* renderingEngine);
 

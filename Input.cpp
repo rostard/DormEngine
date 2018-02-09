@@ -6,32 +6,35 @@
 #include <iostream>
 #include "Input.h"
 
-std::vector<int> Input::lastKeys = std::vector<int>();
-Window* Input::window = nullptr;
+Input::Input(Window *window): window(window) {
 
-void Input::update() {
-    //TODO: fix jamming keys after pressing few seconds
-
-    lastKeys.clear();
-    for(unsigned int i = 0; i < numOfKeys; i++){
-        if(window->getKey(i)){
-            lastKeys.push_back(i);
-        }
-    }
 }
 
-bool Input::isKeyDown(const int &key) {
-    return window->getKey(key) && (std::find(lastKeys.begin(), lastKeys.end(), key) == lastKeys.end());
-}
-
-bool Input::isKeyPress(const int &key) {
-    return std::find(lastKeys.begin(), lastKeys.end(), key) != lastKeys.end();
-}
-
-bool Input::isKeyUp(const int &key) {
-    return !window->getKey(key) && (std::find(lastKeys.begin(), lastKeys.end(), key) != lastKeys.end());
-}
 
 void Input::setWindowCapture(Window &window) {
     Input::window = &window;
+}
+
+bool Input::getKeyDown(unsigned int keyCode) const{
+    return downKeys[keyCode];
+}
+
+bool Input::getKeyUp(unsigned int keyCode) const{
+    return upKeys[keyCode];
+}
+
+bool Input::getKey(unsigned int keyCode) const{
+    return inputs[keyCode];
+}
+
+void Input::setKeyUp(unsigned int keyCode, bool state){
+    upKeys[keyCode] = state;
+}
+
+void Input::setKeyDown(unsigned int keyCode, bool state){
+    downKeys[keyCode] = state;
+}
+
+void Input::setKey(unsigned int keyCode, bool state) {
+    inputs[keyCode] = state;
 }

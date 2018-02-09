@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "Transform.h"
+#include "Input.h"
 
 class GameComponent;
 class Shader;
@@ -21,8 +22,8 @@ public:
 
     void addComponent(GameComponent *component);
 
-    void inputAll(float d_time);
-    void input(float d_time);
+    void processInputAll(const Input &input, float d_time);
+    void processInput(const Input &input, float d_time);
 
     void updateAll(float d_time);
     void update(float d_time);

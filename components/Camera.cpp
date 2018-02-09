@@ -27,29 +27,29 @@ void Camera::rotateY(float angle) {
 void Camera::rotateX(float angle) {
     getTransform().rotate(getTransform().getRot().getRight(), angle);
 }
-
-void Camera::input(float d_time) {
-    float movAmt = d_time * 10.0f;
-    float rotAmt = d_time;
-
-    if(Input::isKeyPress(GLFW_KEY_W))
-        move(getTransform().getRot().getForward(), movAmt);
-    if(Input::isKeyPress(GLFW_KEY_S))
-        move(getTransform().getRot().getBack(), movAmt);
-    if(Input::isKeyPress(GLFW_KEY_D))
-        move(getTransform().getRot().getRight(), movAmt);
-    if(Input::isKeyPress(GLFW_KEY_A))
-        move(getTransform().getRot().getLeft(), movAmt);
-
-
-    if(Input::isKeyPress(GLFW_KEY_UP))
-        rotateX(-rotAmt);
-    if(Input::isKeyPress(GLFW_KEY_DOWN))
-        rotateX(rotAmt);
-    if(Input::isKeyPress(GLFW_KEY_RIGHT))
-        rotateY(rotAmt);
-    if(Input::isKeyPress(GLFW_KEY_LEFT))
-        rotateY(-rotAmt);
+//
+void Camera::processInput(const Input &input, float d_time) {
+//    float movAmt = d_time * 10.0f;
+//    float rotAmt = d_time;
+//
+//    if(Input::getKey(GLFW_KEY_W))
+//        move(getTransform().getRot().getForward(), movAmt);
+//    if(Input::getKey(GLFW_KEY_S))
+//        move(getTransform().getRot().getBack(), movAmt);
+//    if(Input::getKey(GLFW_KEY_D))
+//        move(getTransform().getRot().getRight(), movAmt);
+//    if(Input::getKey(GLFW_KEY_A))
+//        move(getTransform().getRot().getLeft(), movAmt);
+//
+//
+//    if(Input::getKey(GLFW_KEY_UP))
+//        rotateX(-rotAmt);
+//    if(Input::getKey(GLFW_KEY_DOWN))
+//        rotateX(rotAmt);
+//    if(Input::getKey(GLFW_KEY_RIGHT))
+//        rotateY(rotAmt);
+//    if(Input::getKey(GLFW_KEY_LEFT))
+//        rotateY(-rotAmt);
 }
 
 Camera::Camera(float fov, float aspect, float zNear, float zFar) {

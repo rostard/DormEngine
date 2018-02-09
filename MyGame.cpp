@@ -9,11 +9,12 @@
 #include "components/DirectionalLight.h"
 #include "components/PointLight.h"
 #include "components/SpotLight.h"
+#include "components/FreeMove.h"
 
 static GameObject* dirLightObject;
 
-void MyGame::init() {
-    Game::init();
+void MyGame::init(const Window &window) {
+    Game::init(window);
 //    camera = new Camera();
 
     plane = new GameObject();
@@ -96,16 +97,18 @@ void MyGame::init() {
 
 
     GameObject* cameraObject = new GameObject();
-    Camera* camera = new Camera(70.0f * (M_PI / 180.0f), Window::getSize().getX() / Window::getSize().getY(), 0.01f, 1000.0f);
+    Camera* camera = new Camera(70.0f * (M_PI / 180.0f), window.getSize().getX() / window.getSize().getY(), 0.01f, 1000.0f);
     cameraObject->addComponent(camera);
+    cameraObject->addComponent(new FreeMove());
 //    cameraObject->addComponent(new SpotLight(Vector3f(1.0f, 1.0f, 1.0f), 4.0f, Vector3f(1, 1, 0.5f), M_PI_4, M_PI_4));
     addObject(cameraObject);
 }
 
 
-void MyGame::input(float d_time) {
-    Game::input(d_time);
-    Input::update();
+void MyGame::processInput(const Input &input, float d_time) {
+    Game::processInput(input, d_time);
+//    Input::update();
+    ;
 }
 
 void MyGame::update(float d_time) {

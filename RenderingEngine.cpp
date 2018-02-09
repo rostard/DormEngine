@@ -14,7 +14,9 @@
 
 const Matrix4f RenderingEngine::biasMatrix = Matrix4f().initScale(0.5, 0.5, 0.5) * Matrix4f().initTranslation(1.0, 1.0, 1.0);
 
-RenderingEngine::RenderingEngine() {
+
+
+RenderingEngine::RenderingEngine(Window *window): window(window) {
 
     glFrontFace(GL_CW);
     glCullFace(GL_BACK);
@@ -68,7 +70,7 @@ RenderingEngine::~RenderingEngine() {
 }
 
 void RenderingEngine::render(GameObject& object) {
-    Window::bindAsRenderTarget();
+    window->bindAsRenderTarget();
     clearScreen();
 
     Shader* ambientShader = ResourceManager::loadShader("forward-ambient_shader", "forward-ambient.vs.glsl", "forward-ambient.fs.glsl");
@@ -128,7 +130,7 @@ void RenderingEngine::render(GameObject& object) {
             setFloat("lightBleedReductionAmount", 0);
         }
 
-        Window::bindAsRenderTarget();
+        window->bindAsRenderTarget();
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE);
@@ -187,7 +189,7 @@ const Matrix4f &RenderingEngine::getLightMatrix() const {
 void RenderingEngine::applyFilter(Shader *shader, Texture *source, Framebuffer *dest) {
 
     if(dest == nullptr){
-        Window::bindAsRenderTarget();
+        window->bindAsRenderTarget();
     } else{
         assert(source->getId() != dest->getTextureId(0)->getId());
         dest->bindAsRenderTarget();
@@ -217,6 +219,4 @@ void RenderingEngine::blurShadowMap7x7(int shadowMapIndex, float blurAmount)
     setVector3f("blurScale", Vector3f(0.0f, blurAmount / shadowMap->getHeight(), 0.0f));
     applyFilter(m_gausBlurFilter, shadowMapTempTarget->getTextureId(0), shadowMap);
 }
-
-
 

@@ -3,6 +3,7 @@
 //
 
 #include "GameObject.h"
+#include "Input.h"
 
 void GameObject::addChild(GameObject *child) {
     children.push_back(child);
@@ -15,19 +16,19 @@ void GameObject::addComponent(GameComponent *component) {
     component->setParent(this);
 }
 
-void GameObject::inputAll(float d_time) {
+void GameObject::processInputAll(const Input &input, float d_time) {
     for (auto component : components) {
-        component->input(d_time);
+        component->processInput(input, d_time);
     }
 
     for (auto child : children) {
-        child->inputAll(d_time);
+        child->processInputAll(input, d_time);
     }
 }
 
-void GameObject::input(float d_time) {
+void GameObject::processInput(const Input &input, float d_time) {
     for (auto component : components) {
-        component->input(d_time);
+        component->processInput(input, d_time);
     }
 }
 

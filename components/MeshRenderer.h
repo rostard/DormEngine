@@ -16,7 +16,7 @@ public:
 
     void render(Shader& shader, RenderingEngine* renderingEngine) override;
 
-    void input(float d_time) override;
+    void processInput(const Input &input, float d_time) override;
 
     void update(float d_time) override;
 

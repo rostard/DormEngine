@@ -20,10 +20,11 @@ class Framebuffer;
 class Shader;
 class Mesh;
 class Material;
+class Window;
 
 class RenderingEngine : public MappedValues{
 public:
-    RenderingEngine();
+    RenderingEngine(Window* window);
     virtual ~RenderingEngine();
     void render(GameObject& object);
 
@@ -49,6 +50,8 @@ public:
 private:
     static const Matrix4f biasMatrix;
     static const int maxResolutionOfShadowMapAsPowerOf2 = 10;
+
+    Window* window;
 
     std::vector<BaseLight*> lights;
     BaseLight* activeLight;

@@ -14,7 +14,7 @@ void MeshRenderer::render(Shader& shader, RenderingEngine* renderingEngine) {
     mesh.render();
 }
 
-void MeshRenderer::input(float d_time) {
+void MeshRenderer::processInput(const Input &input, float d_time) {
 
 }
 

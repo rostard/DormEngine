@@ -35,8 +35,8 @@ std::string ShaderLoader::ReadFile(const std::string &filename) {
     file.open("res/shaders/" + filename);
 
     if(!file.is_open()){
-        Log::log("error loading file " + filename);
-        exit(1);
+        Log::Message("error loading file " + filename, LOG_WARNING);
+        return "";
     }
     std::string res;
     while(!file.eof()){

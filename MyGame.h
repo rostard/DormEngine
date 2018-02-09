@@ -14,11 +14,11 @@
 
 class MyGame : public Game{
 public:
-    void init() override;
+    void init(const Window &window) override;
 
     void update(float d_time) override;
 
-    void input(float d_time) override;
+    void processInput(const Input &input, float d_time) override;
 
 private:
     GameObject* pointLightObject;

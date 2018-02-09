@@ -11,20 +11,17 @@
 
 CoreEngine::CoreEngine(unsigned int width, unsigned int height, unsigned int framerate, Game *game) : width(width),
                                                                                                       height(height),
-                                                                                                      game(game) {
-    isRunning = false;
-    frameTime = 1.0 / framerate;
-
+                                                                                                      game(game),
+                                                                                                      isRunning(false),
+                                                                                                      frameTime(1.0f / framerate){
     game->setEngine(this);
 }
 
 CoreEngine::~CoreEngine() {
+    delete window;
     delete renderingEngine;
 }
 
-void CoreEngine::cleanUp() {
-    Window::dispose();
-}
 
 void CoreEngine::start() {
     if (isRunning)
@@ -38,9 +35,9 @@ void CoreEngine::stop() {
 }
 
 void CoreEngine::createWindow(const std::string &title) {
-    Window::initGLFW();
-    Window::createWindow(width, height, title);
-    this->renderingEngine = new RenderingEngine();
+
+    window = new Window(width, height, title);
+    this->renderingEngine = new RenderingEngine(window);
 }
 
 void CoreEngine::run() {
@@ -53,7 +50,7 @@ void CoreEngine::run() {
     int frames = 0;
     double framesCounter = 0;
 
-    game->init();
+    game->init(*window);
 
     while (this->isRunning) {
         double curTime = glfwGetTime();
@@ -68,15 +65,15 @@ void CoreEngine::run() {
             render = true;
             passedTime -= frameTime;
 
-            glfwPollEvents();
-            if (Window::isShouldClose())this->isRunning = false;
+            window->update();
+            if (window->shouldClose())this->isRunning = false;
 
             game->update(deltaTime);
-            game->input(deltaTime);
+            game->processInput(window->getInput(), deltaTime);
 
             if (framesCounter >= 1.0) {
                 //TODO: print number of frames
-                Log::log(std::to_string(frames));
+                Log::Message(std::to_string(frames), LOG_INFO);
                 frames = 0;
                 framesCounter = 0;
             }
@@ -84,12 +81,11 @@ void CoreEngine::run() {
         if (render) {
             frames++;
             game->render(renderingEngine);
-            Window::render();
+            window->swapBuffers();
         } else {
 //                std::this_thread::sleep_for(std::chrono::seconds(1));
         }
     }
-    cleanUp();
 }
 
 RenderingEngine *CoreEngine::getRenderingEngine() {

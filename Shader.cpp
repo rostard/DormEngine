@@ -120,7 +120,7 @@ void Shader::addShader(const std::string &shaderSource, int shaderType) {
     
     if(!success){
         glGetShaderInfoLog(shader, 512, nullptr, &infoLog[0]);
-        Log::log("ERROR::"+ shaderTypeToStr(shaderType) +"::COMPILATION_FAILED\n" + std::string(infoLog));
+        Log::Message(shaderTypeToStr(shaderType) +"::COMPILATION_FAILED\n" + std::string(infoLog), LOG_ERROR);
     }
 
     glAttachShader(program, shader);
@@ -135,7 +135,7 @@ void Shader::linkProgram() {
     glGetProgramiv(program, GL_LINK_STATUS, &success);
     if(!success){
         glGetProgramInfoLog(program, 512, nullptr, infoLog);
-        Log::log("ERROR::SHADER::LINK_FAILED\n" + std::string(infoLog));
+        Log::Message("SHADER::LINK_FAILED\n" + std::string(infoLog), LOG_ERROR);
     }
 
     glValidateProgram(program);
@@ -143,7 +143,7 @@ void Shader::linkProgram() {
     glGetProgramiv(program, GL_VALIDATE_STATUS, &success);
     if(!success){
         glGetProgramInfoLog(program, 512, nullptr, infoLog);
-        Log::log("ERROR::SHADER::VALIDATION_FAILED\n" + std::string(infoLog));
+        Log::Message("ERROR::SHADER::VALIDATION_FAILED\n" + std::string(infoLog), LOG_ERROR);
     }
 }
 
