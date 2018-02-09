@@ -10,6 +10,7 @@
 #include "components/PointLight.h"
 #include "components/SpotLight.h"
 #include "components/FreeMove.h"
+#include "components/FreeLook.h"
 
 static GameObject* dirLightObject;
 
@@ -100,6 +101,7 @@ void MyGame::init(const Window &window) {
     Camera* camera = new Camera(70.0f * (M_PI / 180.0f), window.getSize().getX() / window.getSize().getY(), 0.01f, 1000.0f);
     cameraObject->addComponent(camera);
     cameraObject->addComponent(new FreeMove());
+    cameraObject->addComponent(new FreeLook(window.getCenter(), 0.2f));
 //    cameraObject->addComponent(new SpotLight(Vector3f(1.0f, 1.0f, 1.0f), 4.0f, Vector3f(1, 1, 0.5f), M_PI_4, M_PI_4));
     addObject(cameraObject);
 }
@@ -107,8 +109,6 @@ void MyGame::init(const Window &window) {
 
 void MyGame::processInput(const Input &input, float d_time) {
     Game::processInput(input, d_time);
-//    Input::update();
-    ;
 }
 
 void MyGame::update(float d_time) {

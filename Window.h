@@ -29,15 +29,18 @@ public:
     void swapBuffers();
 
     Vector2f getSize() const;
-
     Vector2f getCenter() const;
 
     const Input& getInput() const;
+
+    void setMousePos(const Vector2f& pos);
+    void setCursor(bool state);
 private:
     static std::map<GLFWwindow*, Window*> windows;
 
     static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
-
+    static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+    static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
     GLFWwindow* window;
 
     unsigned int width;

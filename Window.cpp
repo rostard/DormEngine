@@ -21,7 +21,7 @@ void Window::key_callback(GLFWwindow *window, int key, int scancode, int action,
 
         case GLFW_RELEASE:
             windows[window]->input.setKey(key, false);
-            windows[window]->input.setKeyDown(key, true);
+            windows[window]->input.setKeyUp(key, true);
             break;
 
         case GLFW_REPEAT:
@@ -31,16 +31,49 @@ void Window::key_callback(GLFWwindow *window, int key, int scancode, int action,
         default:
             Log::Message("key callback unhandled action" + std::to_string(key), LOG_WARNING);
     }
-
-
 }
+
+
+void Window::mouse_button_callback(GLFWwindow *window, int button, int action, int mods) {
+    switch(action){
+        case GLFW_PRESS:
+            windows[window]->input.setMouse(button, true);
+            windows[window]->input.setMouseDown(button, true);
+            break;
+
+        case GLFW_RELEASE:
+            windows[window]->input.setMouse(button, false);
+            windows[window]->input.setMouseUp(button, true);
+            break;
+
+        case GLFW_REPEAT:
+
+            break;
+
+        default:
+            Log::Message("key callback unhandled action" + std::to_string(button), LOG_WARNING);
+    }
+}
+
+void Window::cursor_position_callback(GLFWwindow *window, double xpos, double ypos) {
+    windows[window]->input.setMouseX(xpos);
+    windows[window]->input.setMouseY(ypos);
+}
+
 
 Window::Window(unsigned int screen_width, unsigned int screen_height, const std::string &title) : width(screen_width), height(screen_height), title(title), input(this), initialized(false) {
     initGLFW();
 
+    int a,b,c;
+    glfwGetVersion(&a, &b, &c);
+
     window = glfwCreateWindow(screen_width, screen_height, title.c_str(), nullptr, nullptr);
     windows.insert(std::make_pair(window, this));
+
     glfwSetKeyCallback(window, key_callback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
+    glfwSetCursorPosCallback(window, cursor_position_callback);
+
     glfwMakeContextCurrent(window);
 
     if (window == nullptr)
@@ -80,9 +113,14 @@ bool Window::shouldClose() const{
 
 
 void Window::update() {
-    for(int i = 0; i < Input::numOfKeys; ++i){
+    for(int i = 0; i < Input::NUM_OF_KEYS; ++i){
         input.setKeyDown(i, false);
         input.setKeyUp(i, false);
+    }
+
+    for(int i = 0; i < Input::NUM_OF_MOUSEBUTTONS; ++i){
+        input.setMouseDown(i, false);
+        input.setMouseUp(i, false);
     }
 
     glfwPollEvents();
@@ -113,3 +151,20 @@ void Window::bindAsRenderTarget() {
 const Input &Window::getInput() const {
     return input;
 }
+
+void Window::setMousePos(const Vector2f &pos) {
+    glfwSetCursorPos(window, pos.getX(), pos.getY());
+    input.setMouseX(pos.getX());
+    input.setMouseY(pos.getY());
+}
+
+void Window::setCursor(bool state) {
+    if(state){
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
+    else{
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    }
+
+}
+
