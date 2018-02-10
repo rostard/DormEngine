@@ -1,8 +1,7 @@
 //
 // Created by rostard on 17.12.17.
 //
-
-#include <glad/glad.h>
+#include <GL/glew.h>
 #include "Texture.h"
 
 Texture::Texture(int id, int width, int height) : id(id), width(width), height(height) {}

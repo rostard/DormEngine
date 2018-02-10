@@ -5,7 +5,6 @@
 #ifndef ENGINE_VERTEX_H
 #define ENGINE_VERTEX_H
 
-#include <glm/glm.hpp>
 #include "math/Vector2f.h"
 #include "math/Vector3f.h"
 

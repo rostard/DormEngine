@@ -1,7 +1,8 @@
 //
 // Created by rostard on 11.12.17.
 //
-#include <glad/glad.h>
+
+#include <GL/glew.h>
 #include <iostream>
 #include "Window.h"
 #include "utility/Log.h"
@@ -83,8 +84,9 @@ Window::Window(unsigned int screen_width, unsigned int screen_height, const std:
     }
 
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-        Log::Message("Failed to initialize GLAD", LOG_ERROR);
+    if(glewInit() != GLEW_OK) {
+        Log::Message("Failed to initialize GLEW", LOG_ERROR);
+    }
 }
 
 Window::~Window() {

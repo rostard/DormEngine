@@ -2,7 +2,6 @@
 // Created by rostard on 17.12.17.
 //
 
-#include <glad/glad.h>
 #include <algorithm>
 #include "ShaderLoader.h"
 
@@ -18,7 +17,7 @@ Shader ShaderLoader::Load(const std::string &vsFilename, const std::string &fsFi
     std::string fsSource = ReadFile(fsFilename);
     shader.addFragmentShader(fsSource);
 
-    if(gsFilename != ""){
+    if(!gsFilename.empty()){
         std::string gsSource = ReadFile(gsFilename);
         shader.addGeometryShader(gsSource);
     }
@@ -44,7 +43,8 @@ std::string ShaderLoader::ReadFile(const std::string &filename) {
         std::getline(file, string);
         if(string.empty())continue;
         if(string.substr(0, INCLUDE_DIRECTIVE.size()) == INCLUDE_DIRECTIVE){
-            string = ReadFile(string.substr(string.find_first_of("\"")+1, string.find_last_of("\"") - string.find_first_of("\"")-1));
+            string = ReadFile(string.substr(string.find_first_of('\"')+1, string.find_last_of('\"') - string.find_first_of(
+                    '\"')-1));
         }
         res += string + "\n";
     }

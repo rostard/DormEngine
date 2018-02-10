@@ -2,11 +2,10 @@
 // Created by rostard on 14.12.17.
 //
 
-#include <glad/glad.h>
+#include <GL/glew.h>
 #include <unordered_map>
 #include "Shader.h"
 #include "utility/Log.h"
-#include "Material.h"
 #include "components/DirectionalLight.h"
 #include "components/SpotLight.h"
 

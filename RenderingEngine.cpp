@@ -2,8 +2,8 @@
 // Created by rostard on 14.12.17.
 //
 
-#include <glad/glad.h>
 #include <iostream>
+#include <cassert>
 #include "RenderingEngine.h"
 #include "Window.h"
 #include "components/Camera.h"

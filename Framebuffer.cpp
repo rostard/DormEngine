@@ -2,7 +2,7 @@
 // Created by rostard on 15.01.18.
 //
 
-#include <glad/glad.h>
+#include <GL/glew.h>
 #include <cstring>
 #include <iostream>
 #include <assert.h>

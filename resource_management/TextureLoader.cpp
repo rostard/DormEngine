@@ -2,7 +2,7 @@
 // Created by rostard on 17.12.17.
 //
 
-#include <glad/glad.h>
+#include <GL/glew.h>
 #include "../dependencies/stb_image.h"
 #include "TextureLoader.h"
 
