@@ -10,7 +10,7 @@
 
 class TextureLoader {
 public:
-    static Texture Load(const std::string& filename, bool srgb = false);
+    static Texture Load(const std::string& filename, GLint filter = GL_LINEAR,  bool srgb = false);
 };
 
 

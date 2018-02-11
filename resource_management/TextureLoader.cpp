@@ -6,7 +6,7 @@
 #include "../dependencies/stb_image.h"
 #include "TextureLoader.h"
 
-Texture TextureLoader::Load(const std::string &filename, bool srgb) {
+Texture TextureLoader::Load(const std::string &filename,  GLint filter, bool srgb) {
     stbi_set_flip_vertically_on_load(true);
 
     int width, height, nrChannels;
@@ -28,8 +28,21 @@ Texture TextureLoader::Load(const std::string &filename, bool srgb) {
     glBindTexture(GL_TEXTURE_2D, id);
     glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    if(filter == GL_LINEAR_MIPMAP_LINEAR ||
+            filter == GL_LINEAR_MIPMAP_NEAREST ||
+            filter == GL_NEAREST_MIPMAP_LINEAR ||
+            filter == GL_NEAREST_MIPMAP_NEAREST){
+        glGenerateMipmap(GL_TEXTURE_2D);
+        GLfloat maxAnisotropy;
+        glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAnisotropy);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAnisotropy);
+    } else {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+    }
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 

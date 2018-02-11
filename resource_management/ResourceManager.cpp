@@ -30,12 +30,12 @@ Shader *ResourceManager::getShader(const std::string &name) {
 }
 
 
-Texture *ResourceManager::loadTexture(const std::string &name, const std::string &filename, bool srgb) {
+Texture *ResourceManager::loadTexture(const std::string &name, const std::string &filename, GLint filter, bool srgb) {
     unsigned int id = SID(name);
     if(textures.find(id) != textures.end()){
         return getTexture(name);
     }
-    textures[id] = TextureLoader::Load(filename, srgb);
+    textures[id] = TextureLoader::Load(filename, filter, srgb);
     return &textures.at(id);
 }
 

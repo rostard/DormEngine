@@ -27,7 +27,7 @@ void MyGame::init(const Window &window) {
     plane->getTransform()->setPos(0, -1, 0);
     Material cleanMaterial;
     Material material;
-    material.setTexture("diffuse", ResourceManager::loadTexture("bricks", "bricks2.jpg"));
+    material.setTexture("diffuse", ResourceManager::loadTexture("bricks", "bricks2.jpg", GL_LINEAR_MIPMAP_LINEAR));
     material.setTexture("normalMap", ResourceManager::loadTexture("bricks_normal", "bricks2_normal.jpg"));
     material.setTexture("dispMap", ResourceManager::loadTexture("bricks_disp", "bricks2_disp.jpg"));
     material.setFloat("dispMapScale", 0.03f);

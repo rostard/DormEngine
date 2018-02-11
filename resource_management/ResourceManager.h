@@ -7,16 +7,18 @@
 
 
 #include <map>
+#include <GL/gl.h>
 #include "../Shader.h"
 #include "../Texture.h"
 #include "../Mesh.h"
+
 
 class ResourceManager {
 public:
     static Shader* loadShader(const std::string& name, const std::string& vsFilename, const std::string& fsFilename, const std::string& gsFilename = "");
     static Shader* getShader(const std::string& name);
 
-    static Texture* loadTexture(const std::string& name, const std::string& filename, bool srgb = false);
+    static Texture* loadTexture(const std::string& name, const std::string& filename, GLint filter = GL_LINEAR, bool srgb = false);
     static Texture* getTexture(const std::string& name);
 
     //TODO: cubemap loader
