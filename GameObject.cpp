@@ -11,9 +11,10 @@ void GameObject::addChild(GameObject *child) {
     child->getTransform()->setParent(&transform);
 }
 
-void GameObject::addComponent(GameComponent *component) {
+GameObject * GameObject::addComponent(GameComponent *component) {
     components.push_back(component);
     component->setParent(this);
+    return this;
 }
 
 void GameObject::processInputAll(const Input &input, float d_time) {

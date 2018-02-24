@@ -70,9 +70,11 @@ private:
     GameObject* m_altCameraObject;
 
     Shader* m_gausBlurFilter;
+    Shader* m_hdrFilter;
 
     Framebuffer* m_shadowMaps[maxResolutionOfShadowMapAsPowerOf2];
     Framebuffer* m_shadowMapTempTargets[maxResolutionOfShadowMapAsPowerOf2];
+    Framebuffer* preRenderFramebuffer;
 };
 
 

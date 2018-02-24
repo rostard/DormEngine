@@ -20,7 +20,7 @@ public:
 
     void addChild(GameObject* child);
 
-    void addComponent(GameComponent *component);
+    GameObject * addComponent(GameComponent *component);
 
     void processInputAll(const Input &input, float d_time);
     void processInput(const Input &input, float d_time);

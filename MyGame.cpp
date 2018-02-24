@@ -27,7 +27,7 @@ void MyGame::init(const Window &window) {
     plane->getTransform()->setPos(0, -1, 0);
     Material cleanMaterial;
     Material material;
-    material.setTexture("diffuse", ResourceManager::loadTexture("bricks", "bricks2.jpg", GL_LINEAR_MIPMAP_LINEAR));
+    material.setTexture("diffuse", ResourceManager::loadTexture("bricks", "bricks2.jpg", GL_LINEAR_MIPMAP_LINEAR, true));
     material.setTexture("normalMap", ResourceManager::loadTexture("bricks_normal", "bricks2_normal.jpg"));
     material.setTexture("dispMap", ResourceManager::loadTexture("bricks_disp", "bricks2_disp.jpg"));
     material.setFloat("dispMapScale", 0.03f);
@@ -38,7 +38,7 @@ void MyGame::init(const Window &window) {
 
     dirLightObject = new GameObject();
     GameObject* dirLightObject2 = new GameObject();
-    DirectionalLight* dirLight = new DirectionalLight(Vector3f(1.0f, 1.0f, 1.0f), 0.5f, 10, 20);
+    DirectionalLight* dirLight = new DirectionalLight(Vector3f(1.0f, 1.0f, 1.0f), 2.5f, 10, 20);
     DirectionalLight* dirLight2 = new DirectionalLight(Vector3f(0.0f, 0.0f, 1.0f), 0.5f);
     dirLightObject->addComponent(dirLight);
     dirLightObject->getTransform()->setRot(Quaternion(Vector3f(1.0f, 0.0f, 0.0f), M_PI_4));
@@ -54,7 +54,7 @@ void MyGame::init(const Window &window) {
 
     pointLightObject = new GameObject();
     PointLight* pointLight = new PointLight(Vector3f(0.0f, 1.0f, 0.0f), 1.0f, Vector3f(0, 0, 1));
-//    pointLightObject->addComponent(pointLight);
+    pointLightObject->addComponent(pointLight);
     pointLightObject->addComponent(new MeshRenderer(*cube, cleanMaterial));
 //    pointLightObject->getTransform()->setScale(0.1f, 0.1f, 0.1f);
     pointLightObject->getTransform()->setPos(4.0f, 0.0f, 0.0f);

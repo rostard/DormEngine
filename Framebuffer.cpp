@@ -21,11 +21,6 @@ Framebuffer::Framebuffer(int num_textures, int width, int height, GLint* interna
     GLenum drawBuffers[m_numTextures];
     bool hasDepth = false;
 
-    int dataSize = width * height * 4;
-    auto * data = new unsigned char[dataSize];
-    memset(data, 0, dataSize);
-
-
     for(int i = 0; i < m_numTextures; i++){
         if(attachments[i] == GL_DEPTH_ATTACHMENT)
         {
@@ -35,7 +30,11 @@ Framebuffer::Framebuffer(int num_textures, int width, int height, GLint* interna
         else
             drawBuffers[i] = attachments[i];
         glBindTexture(GL_TEXTURE_2D, ids[i]);
-        glTexImage2D(GL_TEXTURE_2D, 0, internalFormats[i], width, height, 0, formats[i], GL_UNSIGNED_BYTE, data);
+
+        if(internalFormats[i] == GL_RGBA16F) glTexImage2D(GL_TEXTURE_2D, 0, internalFormats[i], width, height, 0, formats[i], GL_FLOAT, 0);
+        else glTexImage2D(GL_TEXTURE_2D, 0, internalFormats[i], width, height, 0, formats[i], GL_UNSIGNED_BYTE, 0);
+
+
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filters[i]);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filters[i]);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -59,8 +58,6 @@ Framebuffer::Framebuffer(int num_textures, int width, int height, GLint* interna
         std::cerr << "Framebuffer creation failed!" << std::endl;
         assert(false);
     }
-
-    delete[] data;
     delete[] ids;
 }
 

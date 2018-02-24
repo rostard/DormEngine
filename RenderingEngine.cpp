@@ -34,6 +34,7 @@ RenderingEngine::RenderingEngine(Window *window): window(window) {
     GLenum format = GL_RGBA;
     GLint internalFormat = GL_RG32F;
 
+
     for(int i = 0; i < maxResolutionOfShadowMapAsPowerOf2; i++){
         int resolution = 1 << (i + 1);
         m_shadowMaps[i] = new Framebuffer(1, resolution, resolution, &internalFormat, &format, &filter, &attachment);
@@ -62,6 +63,9 @@ RenderingEngine::RenderingEngine(Window *window): window(window) {
     m_altCameraObject->addComponent(m_altCamera);
     m_plainMaterial = new Material();
     m_gausBlurFilter = ResourceManager::loadShader("gausBlur1x7", "filter-gausBlur1x7.vs.glsl", "filter-gausBlur1x7.fs.glsl");
+    m_hdrFilter = ResourceManager::loadShader("hdr", "filter-hdr.vs.glsl", "filter-hdr.fs.glsl");
+    preRenderFramebuffer = new Framebuffer(1, window->getSize().getX(), window->getSize().getY(), new GLint(GL_RGBA16F), &format, new int(GL_NEAREST),  new GLenum(GL_COLOR_ATTACHMENT0));
+
 }
 
 
@@ -70,7 +74,8 @@ RenderingEngine::~RenderingEngine() {
 }
 
 void RenderingEngine::render(GameObject& object) {
-    window->bindAsRenderTarget();
+//    window->bindAsRenderTarget();
+    preRenderFramebuffer->bindAsRenderTarget();
     clearScreen();
 
     Shader* ambientShader = ResourceManager::loadShader("forward-ambient_shader", "forward-ambient.vs.glsl", "forward-ambient.fs.glsl");
@@ -130,7 +135,9 @@ void RenderingEngine::render(GameObject& object) {
             setFloat("lightBleedReductionAmount", 0);
         }
 
-        window->bindAsRenderTarget();
+//        window->bindAsRenderTarget();
+        setFloat("exposure", 0.5);
+        preRenderFramebuffer->bindAsRenderTarget();
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE);
@@ -138,10 +145,11 @@ void RenderingEngine::render(GameObject& object) {
         glDepthFunc(GL_EQUAL);
 
         object.renderAll(*light->getShader(), this);
-
         glDepthFunc(GL_LESS);
         glDepthMask(static_cast<GLboolean>(true));
         glDisable(GL_BLEND);
+
+        applyFilter(m_hdrFilter, preRenderFramebuffer->getTextureId(0), nullptr);
     }
 }
 
