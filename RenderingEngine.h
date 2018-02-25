@@ -11,6 +11,7 @@
 #include "math/Vector3f.h"
 #include "MappedValues.h"
 #include "math/Matrix4f.h"
+#include "Profiling.h"
 
 
 class BaseLight;
@@ -47,7 +48,12 @@ public:
     void applyFilter(Shader* shader, Texture* source, Framebuffer* dest);
 
     void blurShadowMap7x7(int shadowMapIndex, float blurAmount);
+
+    double displayRenderTime(double delimeter = 0);
+    double displayWindowSyncTime(double delimeter = 0);
 private:
+    ProfileTimer renderProfileTimer;
+    ProfileTimer windowSyncProfileTimer;
     static const Matrix4f biasMatrix;
     static const int maxResolutionOfShadowMapAsPowerOf2 = 10;
 

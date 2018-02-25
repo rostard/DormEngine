@@ -6,6 +6,8 @@
 #include <iostream>
 #include "Window.h"
 #include "utility/Log.h"
+#include "Profiling.h"
+
 std::map<GLFWwindow*, Window*> Window::windows;
 
 static void error_callback(int error, const char* description)
@@ -147,7 +149,11 @@ Vector2f Window::getCenter() const {
 void Window::bindAsRenderTarget() {
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
     Vector2f size = getSize();
+#if PROFILING_SET_1x1_VIEWPORT == 0
     glViewport(0, 0, size.getX(), size.getY());
+#else
+    glViewport(0, 0, 1, 1);
+#endif
 }
 
 const Input &Window::getInput() const {

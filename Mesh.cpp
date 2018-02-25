@@ -4,6 +4,7 @@
 
 #include "Mesh.h"
 #include <GL/glew.h>
+#include "Profiling.h"
 
 Mesh::Mesh() {
     glGenBuffers(1, &vbo);
@@ -53,7 +54,9 @@ void Mesh::render() {
     glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(8 * sizeof(float)));
     glEnableVertexAttribArray(3);
 
+#if PROFILING_DISABLE_MESH_DRAWING == 0
     glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, nullptr);
+#endif
 
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);

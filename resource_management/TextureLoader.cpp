@@ -5,12 +5,17 @@
 #include <GL/glew.h>
 #include "../dependencies/stb_image.h"
 #include "TextureLoader.h"
-
+#include "../Profiling.h"
 Texture TextureLoader::Load(const std::string &filename,  GLint filter, bool srgb) {
     stbi_set_flip_vertically_on_load(true);
 
     int width, height, nrChannels;
     unsigned char* data = stbi_load(("res/textures/" + filename).c_str(), &width, &height,&nrChannels, 0);
+
+#if PROFILING_SET_2x2_TEXTURES != 0
+    width = 2; height = 2;
+#endif
+
 
     unsigned int id;
     glGenTextures(1, &id);

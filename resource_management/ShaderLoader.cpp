@@ -9,12 +9,21 @@
 
 Shader ShaderLoader::Load(const std::string &vsFilename, const std::string &fsFilename, const std::string &gsFilename) {
 
-    Shader shader;
 
+
+    Shader shader;
+#if PROFILING_DISABLE_SHADING == 0
     std::string vsSource = ReadFile(vsFilename);
+#else
+    std::string vsSource = ReadFile("null-shader.vs.glsl");
+#endif
     shader.addVertexShader(vsSource);
 
+#if PROFILING_DISABLE_SHADING == 0
     std::string fsSource = ReadFile(fsFilename);
+#else
+    std::string fsSource = ReadFile("null-shader.fs.glsl");
+#endif
     shader.addFragmentShader(fsSource);
 
     if(!gsFilename.empty()){

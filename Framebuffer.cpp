@@ -8,6 +8,7 @@
 #include <assert.h>
 #include "Framebuffer.h"
 #include "Texture.h"
+#include "Profiling.h"
 
 Framebuffer::Framebuffer(int num_textures, int width, int height, GLint* internalFormats, GLenum* formats, int* filters, GLenum *attachments): m_numTextures(num_textures), m_width(width), m_height(height) {
     m_textures = new Texture*[num_textures];
@@ -105,7 +106,12 @@ Framebuffer::Framebuffer(int num_textures, Texture **textures, GLenum *attachmen
 
 void Framebuffer::bindAsRenderTarget() {
     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_framebuffer);
+#if PROFILING_SET_1x1_VIEWPORT == 0
     glViewport(0, 0, m_width, m_height);
+#else
+    glViewport(0, 0, 1, 1);
+#endif
+
 }
 
 Texture* Framebuffer::getTextureId(int pos) {

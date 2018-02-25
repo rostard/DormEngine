@@ -74,9 +74,12 @@ RenderingEngine::~RenderingEngine() {
 }
 
 void RenderingEngine::render(GameObject& object) {
-//    window->bindAsRenderTarget();
+    windowSyncProfileTimer.startInvocation();
     preRenderFramebuffer->bindAsRenderTarget();
     clearScreen();
+    windowSyncProfileTimer.stopInvocation();
+
+    renderProfileTimer.startInvocation();
 
     Shader* ambientShader = ResourceManager::loadShader("forward-ambient_shader", "forward-ambient.vs.glsl", "forward-ambient.fs.glsl");
     Shader* shadowMapGenerator = ResourceManager::loadShader("shadowMapGenerator", "shadow_map.vs.glsl", "shadow_map.fs.glsl");
@@ -149,8 +152,12 @@ void RenderingEngine::render(GameObject& object) {
         glDepthMask(static_cast<GLboolean>(true));
         glDisable(GL_BLEND);
 
-        applyFilter(m_hdrFilter, preRenderFramebuffer->getTextureId(0), nullptr);
+
     }
+
+    applyFilter(m_hdrFilter, preRenderFramebuffer->getTextureId(0), nullptr);
+
+    renderProfileTimer.stopInvocation();
 }
 
 void RenderingEngine::clearScreen() {
@@ -226,5 +233,13 @@ void RenderingEngine::blurShadowMap7x7(int shadowMapIndex, float blurAmount)
     applyFilter(m_gausBlurFilter, shadowMap->getTextureId(0), shadowMapTempTarget);
     setVector3f("blurScale", Vector3f(0.0f, blurAmount / shadowMap->getHeight(), 0.0f));
     applyFilter(m_gausBlurFilter, shadowMapTempTarget->getTextureId(0), shadowMap);
+}
+
+double RenderingEngine::displayRenderTime(double delimeter) {
+    return renderProfileTimer.displayAndReset("Render time: ", delimeter);
+}
+
+double RenderingEngine::displayWindowSyncTime(double delimeter) {
+    return windowSyncProfileTimer.displayAndReset("window sync time: ", delimeter);;
 }
 

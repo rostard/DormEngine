@@ -35,6 +35,8 @@ private:
     double frameTime;
 
     bool isRunning;
+    ProfileTimer swapBufferProfileTimer;
+    ProfileTimer updateProfileTimer;
 };
 
 

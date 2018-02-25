@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "Window.h"
 #include "utility/Log.h"
+#include "Time.h"
 
 CoreEngine::CoreEngine(unsigned int width, unsigned int height, unsigned int framerate, Game *game) : width(width),
                                                                                                       height(height),
@@ -42,9 +43,8 @@ void CoreEngine::createWindow(const std::string &title) {
 
 void CoreEngine::run() {
     this->isRunning = true;
-    double lastTime = glfwGetTime();
+    double lastTime = Time::GetTime();
 
-    double frameTime = 1.0 / 90.0;
     double passedTime = 0.0;
 
     int frames = 0;
@@ -53,7 +53,7 @@ void CoreEngine::run() {
     game->init(*window);
 
     while (this->isRunning) {
-        double curTime = glfwGetTime();
+        double curTime = Time::GetTime();
         double deltaTime = curTime - lastTime;
         lastTime = curTime;
         bool render = false;
@@ -61,27 +61,43 @@ void CoreEngine::run() {
         passedTime += deltaTime;
         framesCounter += deltaTime;
 
+        if (framesCounter >= 1.0) {
+            //TODO: print number of frames
+            double totalTime = ((1000.0 * framesCounter)/((double)frames));
+            double totalMeasuredTime = 0.0;
+
+            totalMeasuredTime += renderingEngine->displayRenderTime(frames);
+            totalMeasuredTime += renderingEngine->displayWindowSyncTime(frames);
+            totalMeasuredTime += updateProfileTimer.displayAndReset("Update time: ", frames);
+            totalMeasuredTime += swapBufferProfileTimer.displayAndReset("SwapBuffer time: ", frames);
+
+            Log::Message("Other time: " + std::to_string(totalTime - totalMeasuredTime), LOG_INFO);
+            Log::Message("All time: " + std::to_string(totalTime) + "ms", LOG_INFO);
+            Log::Message("FPS: " + std::to_string(frames), LOG_INFO);
+
+            frames = 0;
+            framesCounter = 0;
+        }
+
         while (passedTime > frameTime) {
             render = true;
             passedTime -= frameTime;
 
+            updateProfileTimer.startInvocation();
             window->update();
             if (window->shouldClose())this->isRunning = false;
 
-            game->update(deltaTime);
-            game->processInput(window->getInput(), deltaTime);
-
-            if (framesCounter >= 1.0) {
-                //TODO: print number of frames
-                Log::Message(std::to_string(frames), LOG_INFO);
-                frames = 0;
-                framesCounter = 0;
-            }
+            game->processInput(window->getInput(), frameTime);
+            game->update(frameTime);
+            updateProfileTimer.stopInvocation();
         }
         if (render) {
             frames++;
             game->render(renderingEngine);
+
+            swapBufferProfileTimer.startInvocation();
             window->swapBuffers();
+            swapBufferProfileTimer.stopInvocation();
         } else {
 //                std::this_thread::sleep_for(std::chrono::seconds(1));
         }
