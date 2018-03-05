@@ -53,7 +53,7 @@ void MyGame::init(const Window &window) {
     Mesh * cube = ResourceManager::loadMesh("cube", "cube/cube.obj");
 
     pointLightObject = new GameObject();
-    PointLight* pointLight = new PointLight(Vector3f(0.0f, 1.0f, 0.0f), 1.0f, Vector3f(0, 0, 1));
+    PointLight* pointLight = new PointLight(Vector3f(0.0f, 1.0f, 0.0f), 5.0f, Vector3f(0, 0, 1));
     pointLightObject->addComponent(pointLight);
     pointLightObject->addComponent(new MeshRenderer(*cube, cleanMaterial));
 //    pointLightObject->getTransform()->setScale(0.1f, 0.1f, 0.1f);

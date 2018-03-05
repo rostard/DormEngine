@@ -46,8 +46,10 @@ public:
     const Matrix4f &getLightMatrix() const;
 
     void applyFilter(Shader* shader, Texture* source, Framebuffer* dest);
+    void applyFilter(Shader* shader, Texture* source1, Texture* source2, Framebuffer* dest);
 
     void blurShadowMap7x7(int shadowMapIndex, float blurAmount);
+    void blurBloom(float blurAmount);
 
     double displayRenderTime(double delimeter = 0);
     double displayWindowSyncTime(double delimeter = 0);
@@ -80,7 +82,9 @@ private:
 
     Framebuffer* m_shadowMaps[maxResolutionOfShadowMapAsPowerOf2];
     Framebuffer* m_shadowMapTempTargets[maxResolutionOfShadowMapAsPowerOf2];
-    Framebuffer* preRenderFramebuffer;
+    Framebuffer* HDRFramebuffer;
+    Framebuffer* BloomFramebuffer;
+    Framebuffer* BloomTempFramebuffer;
 };
 
 

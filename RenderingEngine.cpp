@@ -24,6 +24,7 @@ RenderingEngine::RenderingEngine(Window *window): window(window) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_DEPTH_CLAMP);
     glEnable(GL_TEXTURE_2D);
+    glfwSwapInterval(0);
 //    glEnable(GL_MULTISAMPLE);
 
     Vector3f ambientLight =  Vector3f(0.2f, 0.2f, 0.2f);
@@ -64,8 +65,9 @@ RenderingEngine::RenderingEngine(Window *window): window(window) {
     m_plainMaterial = new Material();
     m_gausBlurFilter = ResourceManager::loadShader("gausBlur1x7", "filter-gausBlur1x7.vs.glsl", "filter-gausBlur1x7.fs.glsl");
     m_hdrFilter = ResourceManager::loadShader("hdr", "filter-hdr.vs.glsl", "filter-hdr.fs.glsl");
-    preRenderFramebuffer = new Framebuffer(1, window->getSize().getX(), window->getSize().getY(), new GLint(GL_RGBA16F), &format, new int(GL_NEAREST),  new GLenum(GL_COLOR_ATTACHMENT0));
-
+    HDRFramebuffer = new Framebuffer(1, window->getSize().getX(), window->getSize().getY(), new GLint(GL_RGBA16F), &format, new int(GL_NEAREST),  new GLenum(GL_COLOR_ATTACHMENT0));
+    BloomFramebuffer = new Framebuffer(1, window->getSize().getX(), window->getSize().getY(), new GLint(GL_RGBA16F), &format, new int(GL_NEAREST),  new GLenum(GL_COLOR_ATTACHMENT0));
+    BloomTempFramebuffer = new Framebuffer(1, window->getSize().getX(), window->getSize().getY(), new GLint(GL_RGBA16F), &format, new int(GL_NEAREST),  new GLenum(GL_COLOR_ATTACHMENT0));
 }
 
 
@@ -75,7 +77,7 @@ RenderingEngine::~RenderingEngine() {
 
 void RenderingEngine::render(GameObject& object) {
     windowSyncProfileTimer.startInvocation();
-    preRenderFramebuffer->bindAsRenderTarget();
+    HDRFramebuffer->bindAsRenderTarget();
     clearScreen();
     windowSyncProfileTimer.stopInvocation();
 
@@ -140,7 +142,7 @@ void RenderingEngine::render(GameObject& object) {
 
 //        window->bindAsRenderTarget();
         setFloat("exposure", 0.5);
-        preRenderFramebuffer->bindAsRenderTarget();
+        HDRFramebuffer->bindAsRenderTarget();
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE);
@@ -154,9 +156,12 @@ void RenderingEngine::render(GameObject& object) {
 
 
     }
-
-    applyFilter(m_hdrFilter, preRenderFramebuffer->getTextureId(0), nullptr);
-
+    applyFilter(ResourceManager::loadShader("bloom", "filter-bloom.vs.glsl", "filter-bloom.fs.glsl"), HDRFramebuffer->getTextureId(0), BloomFramebuffer);
+    blurBloom(0.75);
+    applyFilter(m_hdrFilter, BloomFramebuffer->getTextureId(0), HDRFramebuffer->getTextureId(0),
+                nullptr);
+//    applyFilter(m_hdrFilter, BloomFramebuffer->getTextureId(0), nullptr);
+//    glFinish();
     renderProfileTimer.stopInvocation();
 }
 
@@ -221,8 +226,33 @@ void RenderingEngine::applyFilter(Shader *shader, Texture *source, Framebuffer *
     m_plain->render();
 
     mainCamera = temp;
-
 }
+
+void RenderingEngine::applyFilter(Shader *shader, Texture *source1, Texture *source2, Framebuffer *dest) {
+    if(dest == nullptr){
+        window->bindAsRenderTarget();
+    } else{
+        assert(source1->getId() != dest->getTextureId(0)->getId());
+        assert(source2->getId() != dest->getTextureId(0)->getId());
+        dest->bindAsRenderTarget();
+    }
+    glClear(GL_DEPTH_BUFFER_BIT);
+
+    m_plainMaterial->setTexture("sourceTexture1", source1);
+    m_plainMaterial->setTexture("sourceTexture2", source2);
+
+    Camera* temp = mainCamera;
+    mainCamera = m_plainCamera;
+
+    shader->bind();
+    Transform transform;
+    shader->updateUniforms(transform, *m_plainMaterial, this);
+    m_plain->render();
+
+    mainCamera = temp;
+}
+
+
 
 void RenderingEngine::blurShadowMap7x7(int shadowMapIndex, float blurAmount)
 {
@@ -233,6 +263,13 @@ void RenderingEngine::blurShadowMap7x7(int shadowMapIndex, float blurAmount)
     applyFilter(m_gausBlurFilter, shadowMap->getTextureId(0), shadowMapTempTarget);
     setVector3f("blurScale", Vector3f(0.0f, blurAmount / shadowMap->getHeight(), 0.0f));
     applyFilter(m_gausBlurFilter, shadowMapTempTarget->getTextureId(0), shadowMap);
+}
+
+void RenderingEngine::blurBloom(float blurAmount) {
+    setVector3f("blurScale", Vector3f(blurAmount / BloomFramebuffer->getWidth(), 0.0f, 0.0f));
+    applyFilter(m_gausBlurFilter, BloomFramebuffer->getTextureId(0), BloomTempFramebuffer);
+    setVector3f("blurScale", Vector3f(0.0f, blurAmount / BloomFramebuffer->getHeight(), 0.0f));
+    applyFilter(m_gausBlurFilter, BloomTempFramebuffer->getTextureId(0), BloomFramebuffer);
 }
 
 double RenderingEngine::displayRenderTime(double delimeter) {
